@@ -1,0 +1,84 @@
+{
+ "ok": true,
+ "image": {
+  "w": 724,
+  "h": 1024,
+  "aspect": 0.707,
+  "preview": ""
+ },
+ "background": {
+  "hex": "#fffdf7",
+  "plain": true,
+  "texture": "none"
+ },
+ "palette": [
+  {
+   "hex": "#fffdf7",
+   "ratio": 0.8703
+  },
+  {
+   "hex": "#3a5c82",
+   "ratio": 0.0862
+  },
+  {
+   "hex": "#96c3ab",
+   "ratio": 0.0191
+  },
+  {
+   "hex": "#f6b8c8",
+   "ratio": 0.0166
+  }
+ ],
+ "whitespace": 0.871,
+ "style": {
+  "mood": "甜系",
+  "density": "极简",
+  "warmth": "中性"
+ },
+ "regions": [
+  {
+   "x": 0.0732,
+   "y": 0.0762,
+   "w": 0.3978,
+   "h": 0.2178,
+   "type": "photo",
+   "density": 1.0,
+   "fill": "#3b5d83",
+   "aspect": 1.29
+  },
+  {
+   "x": 0.5594,
+   "y": 0.127,
+   "w": 0.3798,
+   "h": 0.0449,
+   "type": "tape",
+   "density": 1.0,
+   "fill": "#f6b9c9",
+   "aspect": 5.98
+  },
+  {
+   "x": 0.1077,
+   "y": 0.6377,
+   "w": 0.1644,
+   "h": 0.1162,
+   "type": "photo",
+   "density": 1.0,
+   "fill": "#97c5ab",
+   "aspect": 1.0
+  },
+  {
+   "x": 0.7749,
+   "y": 0.8291,
+   "w": 0.0925,
+   "h": 0.0645,
+   "type": "photo",
+   "density": 0.999,
+   "fill": "#e6b55c",
+   "aspect": 1.02
+  }
+ ],
+ "suggest": {
+  "page_size": "A5",
+  "dpi": 300
+ }
+}

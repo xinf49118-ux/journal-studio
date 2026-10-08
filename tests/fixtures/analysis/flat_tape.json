@@ -1,0 +1,46 @@
+{
+ "ok": true,
+ "image": {
+  "w": 724,
+  "h": 1024,
+  "aspect": 0.707,
+  "preview": ""
+ },
+ "background": {
+  "hex": "#fffdf7",
+  "plain": true,
+  "texture": "none"
+ },
+ "palette": [
+  {
+   "hex": "#fffdf7",
+   "ratio": 0.9557
+  },
+  {
+   "hex": "#f6c4d2",
+   "ratio": 0.0416
+  }
+ ],
+ "whitespace": 0.957,
+ "style": {
+  "mood": "柔和",
+  "density": "极简",
+  "warmth": "暖调"
+ },
+ "regions": [
+  {
+   "x": 0.0635,
+   "y": 0.1914,
+   "w": 0.8398,
+   "h": 0.0518,
+   "type": "tape",
+   "density": 1.0,
+   "fill": "#f6c4d2",
+   "aspect": 11.47
+  }
+ ],
+ "suggest": {
+  "page_size": "A5",
+  "dpi": 300
+ }
+}

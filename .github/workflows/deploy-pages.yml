@@ -1,0 +1,62 @@
+name: 部署到 GitHub Pages
+
+# 静态版（在线版）部署：把 index.html、web/、assets/materials/、docs/ 打包成站点发布。
+# server/ tools/ tests/ 是本地版与开发用的，不进站点。
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 组装静态站点
+        run: |
+          set -e
+          mkdir -p _site
+          cp index.html _site/
+          cp -r web _site/web
+          cp -r assets _site/assets
+          [ -d docs ] && cp -r docs _site/docs || true
+          # 关掉 Jekyll，避免下划线开头的路径被处理
+          touch _site/.nojekyll
+          echo "== 站点内容 =="
+          du -sh _site
+          find _site -maxdepth 2 -type d | sort
+
+      - name: 检查站点完整性
+        run: |
+          set -e
+          test -f _site/index.html              || (echo "缺 index.html" && exit 1)
+          test -f _site/web/js/app.js           || (echo "缺 web/js/app.js" && exit 1)
+          test -f _site/assets/materials/manifest.json || (echo "缺素材清单" && exit 1)
+          test -f _site/.nojekyll               || (echo "缺 .nojekyll" && exit 1)
+          echo "站点文件数：$(find _site -type f | wc -l)"
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

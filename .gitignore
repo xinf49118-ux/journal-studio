@@ -1,0 +1,24 @@
+# 运行时数据（用户素材库与工程存档）
+data/
+# 测试产物
+tests/_artifacts/
+# 夹具中间产物（只保留 .rgba.gz 与 .json）
+tests/fixtures/analysis/*.rgba
+tests/fixtures/analysis/*.png
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+# 便携工具链（本地部署用，不进仓库）
+.tools/
+# 编辑器 / 系统
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+# 临时文件
+*.tmp
+*.log

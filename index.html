@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>手账工坊 Journal Studio</title>
+<link rel="stylesheet" href="web/css/app.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">✂</span>
+    <span class="brand-name">手账工坊</span>
+    <span class="brand-sub">Journal Studio</span>
+  </div>
+  <nav class="tabs" id="tabs">
+    <button class="tab-btn active" data-tab="library">素材库</button>
+    <button class="tab-btn" data-tab="recreate">复刻页面</button>
+    <button class="tab-btn" data-tab="editor">编辑器</button>
+    <button class="tab-btn" data-tab="print">打印</button>
+  </nav>
+  <div class="topbar-actions">
+    <span class="page-summary" id="page-summary">A5 · 148×210mm</span>
+    <button class="btn ghost" id="btn-undo" title="Ctrl+Z">↶ 撤销</button>
+    <button class="btn ghost" id="btn-redo" title="Ctrl+Y">↷ 重做</button>
+    <button class="btn ghost" id="btn-save-project">保存工程</button>
+  </div>
+</header>
+
+<main>
+  <!-- ================= 素材库 ================= -->
+  <section class="tab-panel active" id="tab-library">
+    <aside class="sidebar">
+      <div class="side-block">
+        <div class="side-title">素材来源</div>
+        <div class="chip-row" id="source-filter">
+          <button class="chip active" data-source="builtin">内置素材</button>
+          <button class="chip" data-source="mine">我的素材</button>
+          <button class="chip" data-source="web">联网检索</button>
+        </div>
+      </div>
+      <div class="side-block">
+        <div class="side-title">分类</div>
+        <div class="cat-list" id="cat-list"></div>
+      </div>
+      <div class="side-block">
+        <div class="side-title">导入自己的素材</div>
+        <div class="dropzone" id="dropzone">
+          <div class="dz-icon">＋</div>
+          <div>拖拽图片到这里<br><span class="muted">或点击选择文件</span></div>
+        </div>
+        <input type="file" id="file-import" accept="image/*" multiple hidden>
+      </div>
+      <div class="side-block">
+        <div class="side-title">联网检索开放图库</div>
+        <select id="web-source" class="input">
+          <option value="wikimedia">Wikimedia Commons</option>
+          <option value="artic">芝加哥艺术博物馆 CC0（仅可检索）</option>
+          <option value="met">大都会博物馆 CC0</option>
+          <option value="openverse">Openverse</option>
+        </select>
+        <div class="row gap6 mt6">
+          <input type="text" id="web-query" class="input" placeholder="例如：和纸胶带 / botanical">
+          <button class="btn primary" id="btn-web-search">搜索</button>
+        </div>
+        <div class="muted small mt6" id="web-status">仅收录开放许可素材，下载时会带上作者与许可信息。</div>
+      </div>
+    </aside>
+
+    <div class="content">
+      <div class="toolbar">
+        <input type="text" id="mat-search" class="input grow" placeholder="搜索素材：胶带 / 花朵 / 蓝色 / 方格 …">
+        <span class="muted small" id="mat-count"></span>
+      </div>
+      <div class="material-grid" id="material-grid"></div>
+      <div class="empty-hint" id="material-empty" hidden>没有匹配的素材</div>
+    </div>
+  </section>
+
+  <!-- ================= 复刻页面 ================= -->
+  <section class="tab-panel" id="tab-recreate">
+    <div class="split">
+      <div class="pane">
+        <h2 class="pane-title">1 · 放入一张别人的手账页面</h2>
+        <div class="dropzone big" id="recreate-drop">
+          <div class="dz-icon">🖼</div>
+          <div>拖拽图片到这里，或点击选择<br>
+            <span class="muted">支持 PNG / JPG，A5、A6、A4 都能识别</span>
+          </div>
+        </div>
+        <input type="file" id="recreate-file" accept="image/*" hidden>
+
+        <div id="analysis-box" hidden>
+          <h3 class="pane-subtitle">2 · 识别结果</h3>
+          <div class="analysis-grid">
+            <div class="info-card">
+              <div class="info-label">背景色</div>
+              <div class="row gap6"><span class="swatch" id="an-bg"></span><span id="an-bg-hex" class="mono"></span></div>
+              <div class="muted small" id="an-bg-desc"></div>
+            </div>
+            <div class="info-card">
+              <div class="info-label">整体风格</div>
+              <div id="an-style" class="strong"></div>
+              <div class="muted small" id="an-stats"></div>
+            </div>
+          </div>
+          <div class="info-label mt10">主配色</div>
+          <div class="palette-row" id="an-palette"></div>
+          <div class="info-label mt10">版面区块 <span class="muted small" id="an-region-count"></span></div>
+          <div class="region-list" id="an-regions"></div>
+        </div>
+
+        <div class="recreate-actions" id="recreate-actions" hidden>
+          <h3 class="pane-subtitle">3 · 生成</h3>
+          <button class="btn primary block" id="btn-recreate-layout">生成同款页面（提取版式 + 素材重排）</button>
+          <button class="btn ghost block mt6" id="btn-recreate-underlay">直接用原图当底图打印</button>
+          <div class="muted small mt6" id="recreate-note"></div>
+        </div>
+      </div>
+
+      <div class="pane">
+        <h2 class="pane-title">预览</h2>
+        <div class="preview-wrap" id="recreate-preview">
+          <div class="preview-empty">还没有图片</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 编辑器 ================= -->
+  <section class="tab-panel" id="tab-editor">
+    <div class="editor-layout">
+      <aside class="sidebar">
+        <div class="side-block">
+          <div class="side-title">页面</div>
+          <select id="page-size" class="input">
+            <option value="A5">A5 · 148×210mm</option>
+            <option value="A6">A6 · 105×148mm</option>
+            <option value="A4">A4 · 210×297mm</option>
+            <option value="B5">B5 · 176×250mm</option>
+          </select>
+          <div class="row gap6 mt6">
+            <button class="btn ghost grow" id="btn-orient">竖版</button>
+            <label class="check"><input type="checkbox" id="chk-grid" checked> 网格</label>
+          </div>
+          <div class="info-label mt10">背景</div>
+          <div class="row gap6">
+            <input type="color" id="bg-color" class="color" value="#fffdf7">
+            <select id="bg-paper" class="input grow"><option value="">用纯色</option></select>
+          </div>
+        </div>
+
+        <div class="side-block">
+          <div class="side-title">图层 <span class="muted small" id="layer-count"></span></div>
+          <div class="layer-list" id="layer-list"></div>
+          <div class="row gap6 mt6">
+            <button class="btn ghost grow" id="btn-add-text">＋ 文字</button>
+            <button class="btn ghost grow" id="btn-add-rect">＋ 色块</button>
+          </div>
+        </div>
+
+        <div class="side-block">
+          <div class="side-title">选中图层</div>
+          <div id="props" class="props"><div class="muted small">未选中任何图层</div></div>
+        </div>
+      </aside>
+
+      <div class="stage-area">
+        <div class="stage-toolbar">
+          <button class="btn ghost" id="btn-zoom-out">－</button>
+          <span class="mono" id="zoom-label">缩放 100%</span>
+          <button class="btn ghost" id="btn-zoom-in">＋</button>
+          <button class="btn ghost" id="btn-zoom-fit">适应窗口</button>
+          <span class="muted small" id="stage-hint">拖动移动 · 角点缩放 · 上方圆点旋转 · Delete 删除</span>
+        </div>
+        <div class="stage-viewport" id="stage-viewport">
+          <div class="stage-scaler" id="stage-scaler"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 打印 ================= -->
+  <section class="tab-panel" id="tab-print">
+    <div class="split">
+      <div class="pane">
+        <h2 class="pane-title">打印设置</h2>
+        <div class="form-row">
+          <label>纸张</label>
+          <select id="print-size" class="input">
+            <option value="A5">A5 · 148×210mm</option>
+            <option value="A6">A6 · 105×148mm</option>
+            <option value="A4">A4 · 210×297mm（可裁成两张A5）</option>
+            <option value="B5">B5 · 176×250mm</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label>出血</label>
+          <select id="print-bleed" class="input">
+            <option value="0">无出血（省纸）</option>
+            <option value="3" selected>3mm 标准出血</option>
+            <option value="5">5mm 出血</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label>裁切标记</label>
+          <label class="check"><input type="checkbox" id="print-crop" checked> 打印角线</label>
+        </div>
+        <div class="form-row">
+          <label>输出精度</label>
+          <select id="print-dpi" class="input">
+            <option value="150">150dpi（省墨草稿）</option>
+            <option value="300" selected>300dpi（推荐，印刷级）</option>
+            <option value="600">600dpi（超精细，文件较大）</option>
+          </select>
+        </div>
+        <div class="print-actions">
+          <button class="btn primary block" id="btn-print">🖨 打印（浏览器打印对话框）</button>
+          <button class="btn ghost block mt6" id="btn-export-png">导出 PNG（按所选 dpi）</button>
+          <button class="btn ghost block mt6" id="btn-export-pdf">导出 PDF</button>
+        </div>
+        <div class="muted small mt10" id="print-note"></div>
+      </div>
+      <div class="pane">
+        <h2 class="pane-title">打印预览</h2>
+        <div class="print-preview-wrap" id="print-preview"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="toast-wrap"></div>
+<div id="modal-wrap" hidden></div>
+<!-- 打印输出容器：平时隐藏，window.print() 时才显示真实毫米尺寸的舞台 -->
+<div id="print-root"></div>
+
+<script type="module" src="web/js/app.js"></script>
+</body>
+</html>
