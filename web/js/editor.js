@@ -3,7 +3,7 @@
 import {
   state, pageDims, layerLabel, materialById, makeTextLayer, makeShapeLayer,
   makeMaterialLayer, makeImageLayer, pushHistory, undo, redo, canUndo, canRedo,
-  clamp, round, materialUrl, naturalMm, emit, on,
+  clamp, round, materialThumbUrl, naturalMm, emit, on,
 } from './core.js';
 import { buildStage, elementSizeMm, div, transformOf, PX_PER_MM, measureTextMm, cssFontFamily, TEXT_LINE_HEIGHT } from './stage.js';
 import { $, el, ok, err, toast } from './ui.js';
@@ -426,7 +426,8 @@ function renderLayerList() {
   for (let i = state.layers.length - 1; i >= 0; i -= 1) {
     const layer = state.layers[i];
     const row = el('div', { class: `layer-item${layer.id === state.selection ? ' active' : ''}` });
-    const url = layer.kind === 'material' && materialById(layer.ref) ? materialUrl(materialById(layer.ref)) : null;
+    // 图层列表里只要 24px 的小图，用缩略图，别拉原图
+    const url = layer.kind === 'material' && materialById(layer.ref) ? materialThumbUrl(materialById(layer.ref)) : null;
     if (url) row.appendChild(el('img', { class: 'li-thumb', src: url, alt: '' }));
     else {
       const icon = layer.kind === 'text' ? 'T' : (layer.kind === 'image' ? '🖼' : '▢');

@@ -96,6 +96,11 @@ export function materialUrl(item) {
   return new URL(`assets/materials/${item.file}`, APP_ROOT).href;
 }
 
+/** 素材缩略图地址。列表里一定要用它，绝不能拿原图当缩略图（181 张原图能把连接池堵死）。 */
+export function materialThumbUrl(item) {
+  return new URL(`assets/materials/${item.thumb || item.file}`, APP_ROOT).href;
+}
+
 /** 素材的自然尺寸（毫米） */
 export function naturalMm(item, cat) {
   const dpi = CAT_REF_DPI[cat || item.cat] || 300;

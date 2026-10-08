@@ -1,6 +1,6 @@
 /* 素材库：内置素材 / 我的素材 / 联网检索，导入与入库 */
 
-import { state, emit, materialUrl, libraryUrl, naturalMm, CAT_NAMES, makeMaterialLayer, pageDims } from './core.js';
+import { state, emit, materialUrl, materialThumbUrl, libraryUrl, naturalMm, CAT_NAMES, makeMaterialLayer, pageDims } from './core.js';
 import { api, downloadBlob } from './api.js';
 import { $, el, ok, err, toast, busy, shrinkImage } from './ui.js';
 import { addMaterial, addLibraryImage, addLayer } from './editor.js';
@@ -100,7 +100,7 @@ export function renderGrid() {
 }
 
 function thumbUrl(item) {
-  if (item._src === 'builtin') return materialUrl(item);
+  if (item._src === 'builtin') return materialThumbUrl(item);
   if (item._src === 'mine') return libraryUrl(item);
   return item.thumb || item.full;
 }

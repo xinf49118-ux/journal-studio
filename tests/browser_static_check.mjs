@@ -132,13 +132,25 @@ async function main() {
     const mi = JSON.parse(mat);
     check('素材清单加载成功', mi.items === 181, `${mi.items} 件 / ${mi.cats} 类`);
     const grid = await cdp.eval(`(async () => {
-      await new Promise(r => setTimeout(r, 1200));
-      const cards = document.querySelectorAll('#material-grid .mat-card').length;
-      const img = document.querySelector('#material-grid .mat-card img');
-      return JSON.stringify({ cards, imgOk: img ? (img.complete && img.naturalWidth > 0) : false });
+      // 等第一张缩略图真的加载出来（慢网络下要给足时间）
+      const t0 = Date.now();
+      let imgs = [];
+      while (Date.now() - t0 < 30000) {
+        imgs = [...document.querySelectorAll('#material-grid .mat-card img')];
+        if (imgs.length && imgs.some(i => i.complete && i.naturalWidth > 0)) break;
+        await new Promise(r => setTimeout(r, 400));
+      }
+      const loaded = imgs.filter(i => i.complete && i.naturalWidth > 0).length;
+      const allThumbs = imgs.length > 0 && imgs.every(i => i.currentSrc.includes('/thumbs/'));
+      const sample = imgs.slice(0, 3).map(i => i.currentSrc.split('/').slice(-2).join('/'));
+      return JSON.stringify({ cards: document.querySelectorAll('#material-grid .mat-card').length,
+                              imgs: imgs.length, loaded, allThumbs, sample });
     })()`);
     const gi = JSON.parse(grid);
-    check('素材网格渲染且缩略图真实加载', gi.cards > 0 && gi.imgOk === true, `${gi.cards} 张卡片, 图片加载=${gi.imgOk}`);
+    check('素材网格渲染', gi.cards > 0, `${gi.cards} 张卡片`);
+    check('缩略图真实加载成功', gi.loaded > 0, `已加载 ${gi.loaded}/${gi.imgs}，示例 ${gi.sample.join(', ')}`);
+    // 这条是回归测试：曾经错把原图当缩略图，181 张原图会把连接池堵死
+    check('网格加载的是缩略图而不是原图', gi.allThumbs === true, gi.allThumbs ? '全部走 /thumbs/' : `示例 ${gi.sample.join(', ')}`);
 
     console.log('\n[3] 页面分析（浏览器内完成，不走服务器）');
     const sampleB64 = readFileSync(join(HERE, 'fixtures', 'sample-page.png')).toString('base64');
