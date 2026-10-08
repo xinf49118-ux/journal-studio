@@ -41,6 +41,17 @@ ID_RE = re.compile(r"^[a-z0-9_]+$")
 ALPHA_MODES = ("RGBA", "LA", "PA")
 
 
+def has_alpha_channel(im):
+    """判断一张图是否带真实 alpha。
+
+    为了压体积，PNG 素材会量化成调色板图（模式 P）+ transparency，
+    它和 RGBA 一样有逐像素透明度，浏览器与 Pillow 都能正确还原。
+    """
+    if im.mode in ALPHA_MODES:
+        return True
+    return im.mode == "P" and "transparency" in im.info
+
+
 def load_manifest():
     with open(MANIFEST, "r", encoding="utf-8") as f:
         return json.load(f)
@@ -112,7 +123,7 @@ class TestMaterials(unittest.TestCase):
             with Image.open(p) as im:
                 self.assertLessEqual(max(im.size), 240, it["id"])
                 if it["alpha"]:
-                    self.assertIn(im.mode, ALPHA_MODES, "%s 缩略图丢了 alpha" % it["id"])
+                    self.assertTrue(has_alpha_channel(im), "%s 缩略图丢了 alpha（模式 %s）" % (it["id"], im.mode))
 
     # ---- ④ 实际宽高与 manifest 一致 ------------------------------------- #
     def test_dimensions_match_manifest(self):
@@ -138,7 +149,7 @@ class TestMaterials(unittest.TestCase):
                 continue
             p = os.path.join(MATERIALS, it["file"].replace("/", os.sep))
             with Image.open(p) as im:
-                if im.mode not in ALPHA_MODES:
+                if not has_alpha_channel(im):
                     bad.append("%s 模式为 %s" % (it["id"], im.mode))
                     continue
                 alpha = im.convert("RGBA").getchannel("A")

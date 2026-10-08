@@ -1,15 +1,18 @@
 /**
  * 纯静态版（GitHub Pages 场景）的浏览器端验证。
  *
- * 用一个「没有任何后端接口」的普通静态服务器托管仓库根目录，
+ * 两种跑法：
+ *   1) 本地：起一个「没有任何后端接口」的普通静态服务器托管仓库根目录，模拟 GitHub Pages
+ *      node tests/browser_static_check.mjs
+ *   2) 线上：直接打真实部署地址
+ *      node tests/browser_static_check.mjs https://<用户>.github.io/<仓库>/
+ *
  * 验证前端能自动落到 static 模式，并在浏览器里独立完成：
  *   素材库加载 → 页面分析 → 复刻重排 → 300dpi 渲染 → PNG/PDF 导出 → 打印
  *
  * 最关键的一项：把 render.js 画出来的图和 Python 渲染引擎（8765 上的 /api/render）
  * 的同一请求结果做逐像素对比，证明静态版和本地版印出来是一样的。
- *
- * 用法：
- *   node tests/browser_static_check.mjs [静态端口] [Python服务地址]
+ * 线上跑时如果本机 8765 没开，这一项会自动跳过。
  */
 import { spawn } from 'node:child_process';
 import { mkdirSync, writeFileSync, rmSync, readFileSync } from 'node:fs';
@@ -20,7 +23,8 @@ import { fileURLToPath } from 'node:url';
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, '..');
 const ART = join(HERE, '_artifacts');
-const STATIC_PORT = Number(process.argv[2] || 8770);
+const argUrl = process.argv[2] && process.argv[2].startsWith('http') ? process.argv[2].replace(/\/$/, '') : null;
+const STATIC_PORT = Number(argUrl ? 0 : (process.argv[2] || 8770));
 const PY_BASE = process.argv[3] || 'http://127.0.0.1:8765';
 const CDP_PORT = 9355;
 const PY = 'C:\\Users\\AT1556\\.dsh\\dsh-runtimes\\dsh-primary-runtime\\dependencies\\python\\python.exe';
@@ -78,11 +82,15 @@ async function main() {
   mkdirSync(ART, { recursive: true });
 
   console.log('== 纯静态版浏览器验证 ==\n');
-  console.log(`[0] 启动无后端静态服务器 :${STATIC_PORT}（模拟 GitHub Pages）`);
-  const staticSrv = spawn(PY, ['-m', 'http.server', String(STATIC_PORT), '--bind', '127.0.0.1'], {
-    cwd: ROOT, stdio: 'ignore',
-  });
-  await sleep(1500);
+  const SITE = argUrl || `http://127.0.0.1:${STATIC_PORT}`;
+  let staticSrv = null;
+  if (argUrl) {
+    console.log(`[0] 目标：线上站点 ${SITE}`);
+  } else {
+    console.log(`[0] 启动无后端静态服务器 :${STATIC_PORT}（模拟 GitHub Pages）`);
+    staticSrv = spawn(PY, ['-m', 'http.server', String(STATIC_PORT), '--bind', '127.0.0.1'], { cwd: ROOT, stdio: 'ignore' });
+    await sleep(1500);
+  }
 
   const userDataDir = join(tmpdir(), `cdp_static_${Date.now()}`);
   const chromeProc = spawn(CHROME, [
@@ -104,13 +112,13 @@ async function main() {
     cdp.on('Runtime.exceptionThrown', (p) => errors.push(p.exceptionDetails?.exception?.description || p.exceptionDetails?.text || '未知异常'));
     cdp.on('Runtime.consoleAPICalled', (p) => { if (p.type === 'error') errors.push((p.args || []).map((a) => a.value ?? a.description ?? '').join(' ')); });
 
-    // 确认这个服务器真的没有后端接口
-    const healthProbe = await fetch(`http://127.0.0.1:${STATIC_PORT}/api/health`).then((r) => r.status).catch(() => 0);
-    check('静态服务器上没有 /api/health（真的是无后端）', healthProbe === 404, `status=${healthProbe}`);
+    // 确认这个站点真的没有后端接口
+    const healthProbe = await fetch(`${SITE}/api/health`).then((r) => r.status).catch(() => 0);
+    check('站点上没有 /api/health（真的是无后端）', healthProbe === 404, `status=${healthProbe}`);
 
     console.log('\n[1] 页面在无后端环境下启动');
-    await cdp.send('Page.navigate', { url: `http://127.0.0.1:${STATIC_PORT}/index.html` });
-    await sleep(4000);
+    await cdp.send('Page.navigate', { url: `${SITE}/` });
+    await sleep(5000);
     const mode = await cdp.eval('window.__JOURNAL_MODE__ || null');
     check('自动识别为静态模式', mode === 'static', `mode=${mode}`);
     const badge = await cdp.eval(`document.querySelector('.mode-badge')?.textContent || ''`);
@@ -195,9 +203,9 @@ async function main() {
 
     const pyRes = await fetch(`${PY_BASE}/api/render`, {
       method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(cmp.req),
-    });
-    if (!pyRes.ok) {
-      check('Python 渲染可对比', false, `Python 服务返回 ${pyRes.status}（需要 8765 在跑）`);
+    }).catch(() => null);
+    if (!pyRes || !pyRes.ok) {
+      console.log(`  ⏭  本机 Python 服务（${PY_BASE}）没在跑，跳过与 Python 的逐像素对比`);
     } else {
       const pyB64 = Buffer.from(await pyRes.arrayBuffer()).toString('base64');
       const diff = await cdp.eval(`(async () => {
@@ -282,7 +290,7 @@ async function main() {
   } finally {
     try { cdp?.ws.close(); } catch { /* 忽略 */ }
     try { chromeProc.kill(); } catch { /* 忽略 */ }
-    try { staticSrv.kill(); } catch { /* 忽略 */ }
+    try { staticSrv?.kill(); } catch { /* 忽略 */ }
     await sleep(400);
     try { rmSync(userDataDir, { recursive: true, force: true }); } catch { /* 忽略 */ }
   }

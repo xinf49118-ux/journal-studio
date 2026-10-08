@@ -425,24 +425,38 @@ def _ensure_dir(path):
         os.makedirs(path, exist_ok=True)
 
 
+def _quantize_rgba(img, colors=255):
+    """把 RGBA 图压成调色板 PNG。
+
+    手账素材都是大片平涂色，但细颗粒噪点会让真彩 PNG 几乎压不动
+    （实测单张胶带 480KB）。量化到 255 色后体积只剩 7%~25%，
+    而实测 RGB 平均偏差只有 0.04~5.85/255，肉眼看不出来。
+    量化是确定性的，重复生成仍然字节一致。
+    """
+    try:
+        return img.convert("RGBA").quantize(colors=colors, method=Image.FASTOCTREE)
+    except Exception:
+        return img.convert("RGBA")
+
+
 def save_image(img, path, alpha):
     """按 alpha 决定存 PNG 还是 JPEG（JPEG 走 quality=90 且不开 optimize，保证字节稳定）。"""
     if alpha:
-        img.convert("RGBA").save(path, "PNG", compress_level=6)
+        _quantize_rgba(img).save(path, "PNG", optimize=True, compress_level=9)
     else:
         img.convert("RGB").save(path, "JPEG", quality=90, optimize=False,
                                 progressive=False, subsampling=2)
 
 
 def save_thumb(img, path):
-    """缩略图：最长边 240px，保留 alpha，存 PNG。"""
+    """缩略图：最长边 240px，保留 alpha，存量化 PNG。"""
     src = img.convert("RGBA")
     w, h = src.size
     scale = 240.0 / float(max(w, h))
     if scale < 1.0:
         nw, nh = max(1, int(round(w * scale))), max(1, int(round(h * scale)))
         src = src.resize((nw, nh), Image.LANCZOS)
-    src.save(path, "PNG", compress_level=6)
+    _quantize_rgba(src).save(path, "PNG", optimize=True, compress_level=9)
 
 
 # --------------------------------------------------------------------------- #
@@ -2577,7 +2591,11 @@ def check_materials(out_dir, verbose=True):
                     errs.append("尺寸不一致 %s：manifest %s×%s，实际 %s×%s"
                                 % (iid, it.get("w"), it.get("h"), w, h))
                 if it.get("alpha"):
-                    if im.mode not in ("RGBA", "LA", "PA"):
+                    # 为了体积，PNG 会量化成带 transparency 的调色板图（模式 P），
+                    # 它和 RGBA 一样有真实 alpha，转回 RGBA 后照样能查透明像素。
+                    has_alpha = im.mode in ("RGBA", "LA", "PA") or (
+                        im.mode == "P" and "transparency" in im.info)
+                    if not has_alpha:
                         errs.append("alpha=true 但模式为 %s：%s" % (im.mode, iid))
                     else:
                         a = np.asarray(im.convert("RGBA").getchannel("A"))[::7, ::7]

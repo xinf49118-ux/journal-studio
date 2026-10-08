@@ -1,12 +1,13 @@
 /**
  * 把整个项目发布到 GitHub（不依赖 git，纯 GitHub REST API）。
  *
- * 做五件事：
+ * 做这些事：
  *   1. 校验 token、取登录名
  *   2. 创建公开仓库（已存在则复用）
- *   3. 空仓库先做一次初始化提交（Git Data API 在空仓库上会 409）
- *   4. 一次提交推送全部文件（blobs → tree → commit → ref）
- *   5. 打开 GitHub Pages，构建源设为 GitHub Actions（仓库里的 workflow 随后自动部署）
+ *   3. 空仓库先做一次初始化提交（Git Data API 在空仓库上会返回 409）
+ *   4. 本地算 git blob 哈希，只上传内容变了的文件（二次发布很快且不触发限流）
+ *   5. 一次提交推送全部文件（blobs → tree → commit → ref），树是完整快照
+ *   6. 打开 GitHub Pages，构建源设为 GitHub Actions
  *
  * 用法：
  *   node tools/deploy-github.mjs --token-file <路径> [--repo journal-studio] [--dry-run]
@@ -16,6 +17,7 @@ import { readFileSync, statSync } from 'node:fs';
 import { readdir } from 'node:fs/promises';
 import { join, relative, dirname, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createHash } from 'node:crypto';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const API = 'https://api.github.com';
@@ -24,6 +26,8 @@ const UA = 'JournalStudio-Deployer/1.0';
 /* 不推送的路径（与 .gitignore 保持一致） */
 const EXCLUDE_DIRS = new Set(['.git', '.tools', 'data', '__pycache__', '_artifacts', 'node_modules', '.venv', 'venv', '.idea', '.vscode']);
 const EXCLUDE_FILES = new Set(['.DS_Store', 'Thumbs.db', 'desktop.ini']);
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 function arg(name, fallback = null) {
   const i = process.argv.indexOf(`--${name}`);
@@ -47,8 +51,8 @@ if (!token) {
 
 async function gh(path, { method = 'GET', body = null } = {}) {
   let lastErr;
-  for (let attempt = 0; attempt < 4; attempt += 1) {
-    if (attempt) await new Promise((r) => setTimeout(r, 600 * 2 ** (attempt - 1)));
+  for (let attempt = 0; attempt < 7; attempt += 1) {
+    if (attempt) await sleep(Math.min(90000, 4000 * 2 ** (attempt - 1)));
     let res;
     try {
       res = await fetch(API + path, {
@@ -63,7 +67,7 @@ async function gh(path, { method = 'GET', body = null } = {}) {
         body: body ? JSON.stringify(body) : undefined,
       });
     } catch (e) {
-      // 网络层的瞬时故障（连接被重置、DNS 抖动）重试；HTTP 状态错误不重试
+      // 网络层的瞬时故障（连接被重置、DNS 抖动）重试；HTTP 状态错误走下面的分支
       lastErr = new Error(`${method} ${path} → 网络错误: ${e.cause?.code || e.message}`);
       continue;
     }
@@ -71,17 +75,33 @@ async function gh(path, { method = 'GET', body = null } = {}) {
     let data = null;
     try { data = text ? JSON.parse(text) : null; } catch { data = text; }
     if (res.ok) return data;
-    // 429 / 5xx 也值得重试
-    if ((res.status === 429 || res.status >= 500) && attempt < 3) {
+
+    const msg = (data && data.message) || '';
+    // GitHub 的「二级限流」是突发请求太多触发，等一会儿就能继续；必须退避重试
+    if (res.status === 403 && /secondary rate limit|abuse/i.test(msg)) {
+      const retryAfter = Number(res.headers.get('retry-after')) || 0;
+      const wait = Math.max(retryAfter * 1000, 15000 * (attempt + 1));
+      console.log(`\n    ⏳ 触发 GitHub 二级限流，等待 ${Math.round(wait / 1000)}s 后继续…`);
+      lastErr = new Error(`${method} ${path} → 403 二级限流（已重试 ${attempt + 1} 次）`);
+      await sleep(wait);
+      continue;
+    }
+    if ((res.status === 429 || res.status >= 500) && attempt < 6) {
       lastErr = new Error(`${method} ${path} → ${res.status}`);
       continue;
     }
-    const err = new Error(`${method} ${path} → ${res.status}: ${(data && data.message) || text.slice(0, 200)}`);
+    const err = new Error(`${method} ${path} → ${res.status}: ${msg || text.slice(0, 200)}`);
     err.status = res.status;
     err.data = data;
     throw err;
   }
   throw lastErr;
+}
+
+/** 本地计算 git blob 的 SHA-1，用来和仓库里已有的文件比对，跳过没变的内容 */
+function gitBlobSha(buf) {
+  const header = Buffer.from(`blob ${buf.length}\u0000`, 'utf8');
+  return createHash('sha1').update(header).update(buf).digest('hex');
 }
 
 /** 递归收集要推送的文件 */
@@ -191,36 +211,59 @@ async function main() {
     console.log('[4] 空仓库已初始化');
   }
 
-  // --- 上传 blobs（并发 8）---
-  process.stdout.write(`[5] 上传 ${files.length} 个文件 `);
+  // --- 比对已有内容，只上传变了的 ---
+  const existing = new Map();
+  if (baseTree) {
+    try {
+      const full = await gh(`/repos/${owner}/${REPO}/git/trees/${baseTree}?recursive=1`);
+      for (const e of full.tree || []) if (e.type === 'blob') existing.set(e.path, e.sha);
+    } catch (e) { /* 拿不到就当作全部要上传 */ }
+  }
+  const plan = files.map((f) => {
+    const buf = readFileSync(f.full);
+    const sha = gitBlobSha(buf);
+    return { rel: f.rel, buf, sha, changed: existing.get(f.rel) !== sha };
+  });
+  const toUpload = plan.filter((p) => p.changed);
+  console.log(`[5] 需要上传 ${toUpload.length} 个文件${plan.length - toUpload.length ? `（${plan.length - toUpload.length} 个内容未变，复用仓库里已有的）` : ''}`);
+
+  // --- 上传 blobs：并发压到 3 并留间隔，避免触发 GitHub 二级限流 ---
+  process.stdout.write('[6] 上传中 ');
   let done = 0;
-  const blobs = await pool(files, 8, async (f) => {
+  const uploaded = await pool(toUpload, 3, async (f) => {
     const blob = await gh(`/repos/${owner}/${REPO}/git/blobs`, {
       method: 'POST',
-      body: { content: readFileSync(f.full).toString('base64'), encoding: 'base64' },
+      body: { content: f.buf.toString('base64'), encoding: 'base64' },
     });
     done += 1;
-    if (done % 25 === 0 || done === files.length) process.stdout.write(`.${done}`);
-    return { path: f.rel, mode: '100644', type: 'blob', sha: blob.sha };
+    if (done % 10 === 0 || done === toUpload.length) process.stdout.write(`.${done}`);
+    await sleep(120);
+    return { path: f.rel, sha: blob.sha };
   });
   process.stdout.write('\n');
 
+  const shaByPath = new Map(existing);
+  for (const u of uploaded) shaByPath.set(u.path, u.sha);
+  const blobs = plan.map((p) => ({ path: p.rel, mode: '100644', type: 'blob', sha: shaByPath.get(p.rel) }));
+
   // --- tree + commit ---
+  // 故意不传 base_tree：新提交是一份**完整快照**，本地删掉的文件在仓库里也会被删掉，
+  // 不会出现「增量合并」留下的孤儿文件。
   const tree = await gh(`/repos/${owner}/${REPO}/git/trees`, {
     method: 'POST',
-    body: baseTree ? { base_tree: baseTree, tree: blobs } : { tree: blobs },
+    body: { tree: blobs },
   });
-  console.log(`[6] 已创建目录树（${blobs.length} 项）`);
+  console.log(`[7] 已创建目录树（${blobs.length} 项，完整快照）`);
 
   const commit = await gh(`/repos/${owner}/${REPO}/git/commits`, {
     method: 'POST',
     body: {
       message: '手账工坊 Journal Studio：本地版 + 在线版\n\n'
-        + '- 181 件程序生成的原创素材（8 类，CC0）\n'
+        + '- 181 件程序生成的原创素材（8 类，CC0，PNG 量化后整包仅 7.9MB）\n'
         + '- 上传别人的手账页 → 自动识别配色与版式 → 素材重排同款\n'
         + '- A5/A6/A4/B5 一键打印，300dpi，含出血与裁切角线\n'
         + '- 同一套前端代码：本机跑 Python 后端，线上纯浏览器运行\n'
-        + '- 279 项自动化检查（含真 Chrome 驱动的前端测试）',
+        + '- 278 项自动化检查（含真 Chrome 驱动的前端测试）',
       tree: tree.sha,
       parents,
     },
@@ -239,7 +282,7 @@ async function main() {
       });
     } else throw e;
   }
-  console.log(`[7] 已提交并推送（${commit.sha.slice(0, 8)}）`);
+  console.log(`[8] 已提交并推送（${commit.sha.slice(0, 8)}）`);
 
   // --- 打开 Pages ---
   let pagesOk = false;
@@ -252,9 +295,9 @@ async function main() {
       } else throw e;
     }
     pagesOk = true;
-    console.log('[8] 已开启 GitHub Pages（构建源：GitHub Actions）');
+    console.log('[9] 已开启 GitHub Pages（构建源：GitHub Actions）');
   } catch (e) {
-    console.log(`[8] 开启 Pages 失败：${e.message}`);
+    console.log(`[9] 开启 Pages 失败：${e.message}`);
     console.log('    手动开启：仓库 → Settings → Pages → Source 选 "GitHub Actions"');
   }
 
@@ -262,7 +305,7 @@ async function main() {
   console.log(`仓库地址：https://github.com/${owner}/${REPO}`);
   if (pagesOk) {
     console.log(`在线版地址：https://${owner}.github.io/${REPO}/`);
-    console.log('首次部署要等 Actions 跑完，约 1–2 分钟；之后每次 push 自动更新。');
+    console.log('首次部署要等 Actions 跑完，约 1–2 分钟；之后每次推送自动更新。');
   }
   console.log('='.repeat(56));
   return 0;
@@ -270,12 +313,8 @@ async function main() {
 
 main().catch((e) => {
   console.error('\n失败：' + e.message);
-  if (e.cause) {
-    // undici 的 fetch failed 会把真正原因藏在 cause 里
-    console.error(`底层原因：${e.cause.code || ''} ${e.cause.message || ''}`.trim());
-    if (e.cause.cause) console.error(`更深一层：${e.cause.cause.code || ''} ${e.cause.cause.message || ''}`.trim());
-  }
+  if (e.cause) console.error(`底层原因：${e.cause.code || ''} ${e.cause.message || ''}`.trim());
   if (e.status === 401) console.error('token 无效或已过期。');
-  if (e.status === 403) console.error('权限不足：token 需要 public_repo 与 workflow 范围。');
+  if (e.status === 403) console.error('若是二级限流，等几分钟重跑即可；若是权限问题，token 需要 public_repo 与 workflow 范围。');
   process.exit(1);
 });
