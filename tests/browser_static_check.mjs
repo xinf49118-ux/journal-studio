@@ -141,16 +141,21 @@ async function main() {
         await new Promise(r => setTimeout(r, 400));
       }
       const loaded = imgs.filter(i => i.complete && i.naturalWidth > 0).length;
-      const allThumbs = imgs.length > 0 && imgs.every(i => i.currentSrc.includes('/thumbs/'));
-      const sample = imgs.slice(0, 3).map(i => i.currentSrc.split('/').slice(-2).join('/'));
+      // 注意：还没开始懒加载的 <img> 的 currentSrc 是空串，只能拿 src 属性判断
+      const withSrc = imgs.filter(i => i.getAttribute('src'));
+      const allThumbs = withSrc.length > 0 && withSrc.every(i => i.getAttribute('src').includes('/thumbs/'));
+      const offenders = withSrc.filter(i => !i.getAttribute('src').includes('/thumbs/'))
+        .slice(0, 3).map(i => i.getAttribute('src').split('/').slice(-2).join('/'));
+      const sample = withSrc.slice(0, 3).map(i => i.getAttribute('src').split('/').slice(-2).join('/'));
       return JSON.stringify({ cards: document.querySelectorAll('#material-grid .mat-card').length,
-                              imgs: imgs.length, loaded, allThumbs, sample });
+                              imgs: imgs.length, withSrc: withSrc.length, loaded, allThumbs, sample, offenders });
     })()`);
     const gi = JSON.parse(grid);
     check('素材网格渲染', gi.cards > 0, `${gi.cards} 张卡片`);
-    check('缩略图真实加载成功', gi.loaded > 0, `已加载 ${gi.loaded}/${gi.imgs}，示例 ${gi.sample.join(', ')}`);
+    check('缩略图真实加载成功', gi.loaded > 0, `已加载 ${gi.loaded}/${gi.withSrc}（在视口内的），示例 ${gi.sample.join(', ')}`);
     // 这条是回归测试：曾经错把原图当缩略图，181 张原图会把连接池堵死
-    check('网格加载的是缩略图而不是原图', gi.allThumbs === true, gi.allThumbs ? '全部走 /thumbs/' : `示例 ${gi.sample.join(', ')}`);
+    check('网格加载的是缩略图而不是原图', gi.allThumbs === true,
+      gi.allThumbs ? `全部走 /thumbs/（已排队 ${gi.withSrc} 张）` : `混进了原图：${gi.offenders.join(', ')}`);
 
     console.log('\n[3] 页面分析（浏览器内完成，不走服务器）');
     const sampleB64 = readFileSync(join(HERE, 'fixtures', 'sample-page.png')).toString('base64');
