@@ -40,7 +40,7 @@
           <p class="eyebrow">01 / 这一页，用来做什么</p>
           <div class="planner-discovery"><label>按用途找<select id="planner-group" class="input"><option value="">全部用途</option></select></label><label>关键词<input id="planner-search" class="input" type="search" placeholder="例如：备考 / 时间 / 阅读"></label></div>
           <label for="planner-layout">页面用途</label><select id="planner-layout" class="input"></select>
-          <p id="planner-description" class="muted"></p>
+          <p id="planner-description" class="muted"></p><button id="planner-companion" type="button" class="btn ghost" hidden>预览配套的另一页 ↔</button>
           <div class="planner-dates">
             <label id="planner-year-field" hidden>计划年份<input id="planner-year" type="number" min="1900" max="2199" step="1" class="input"></label>
             <label id="planner-month-field">计划月份<input id="planner-month" type="month" min="1900-01" max="2199-12" class="input"></label>
@@ -64,9 +64,9 @@
   </section>
   <section class="tab-panel" id="tab-reference">
     <div class="works-page reference-page">
-      <p class="eyebrow">KOKUYO / 手账研究</p><h1>从一本手账，找到适合自己的记录方式。</h1>
+      <p class="eyebrow">JOURNAL REFERENCES / 手账研究</p><h1>从一本手账，找到适合自己的记录方式。</h1>
       <p id="reference-summary" class="muted"></p><p id="reference-limit" class="muted small"></p>
-      <div class="reference-tools"><label>系列分类<select id="reference-family" class="input"><option value="">全部系列</option></select></label><label>搜索系列或用途<input id="reference-search" type="search" class="input" placeholder="例如：LIFE / 学习 / 纪念日"></label><a class="btn" href="docs/kokuyo-guide.html" target="_blank" rel="noopener">打开完整整理 ↗</a></div>
+      <div class="reference-tools"><label>品牌<select id="reference-brand" class="input"><option value="">全部品牌</option></select></label><label>系列分类<select id="reference-family" class="input"><option value="">全部系列</option></select></label><label>搜索系列或用途<input id="reference-search" type="search" class="input" placeholder="例如：LIFE / 学习 / 纪念日"></label><a class="btn" href="docs/brands-guide.html" target="_blank" rel="noopener">打开完整整理 ↗</a></div>
       <p id="reference-count" class="muted small" role="status"></p><p id="reference-adaptation" class="muted small"></p>
       <div id="reference-grid" class="reference-grid"></div>
     </div>
@@ -111,10 +111,10 @@
     </aside>
 
     <div class="content">
-      <div class="library-intro"><div><p class="eyebrow">小小素材，大大灵感</p><h2>今天，想贴一点什么？</h2><p>469 件素材 · 六套主题，新增 192 件日期、天气、心情与打卡贴纸。</p></div><button class="btn primary" id="browse-templates">用模板开始 →</button></div>
+      <div class="library-intro"><div><p class="eyebrow">小小素材，大大灵感</p><h2>今天，想贴一点什么？</h2><p>565 件素材 · 六套主题，新增 96 件日记、旅行票根、相框与收藏标签。</p></div><button class="btn primary" id="browse-templates">用模板开始 →</button></div>
       <div class="toolbar">
         <select id="collection-filter" class="input" aria-label="按主题筛选"><option value="">全部主题</option></select>
-        <select id="usage-filter" class="input" aria-label="按用途筛选"><option value="">全部用途</option><option value="functional">功能贴纸</option><option value="decorative">装饰素材</option></select>
+        <select id="usage-filter" class="input" aria-label="按用途筛选"><option value="">全部用途</option><option value="functional">功能贴纸</option><option value="story">日记与旅行</option><option value="decorative">装饰素材</option></select>
         <button class="btn ghost" id="favorites-filter" aria-pressed="false">♡ 我的收藏</button>
         <input type="text" id="mat-search" class="input grow" placeholder="搜索素材：胶带 / 花朵 / 蓝色 / 方格 …">
         <span class="muted small" id="mat-count"></span>

@@ -3,7 +3,9 @@ import {api,downloadBlob} from './api.js';
 import {makeBundle,restoreBundle,validateBundle,shelf} from './backup.js';
 import {templates,templateProject} from './templates.js';
 import {plannerLayouts,plannerProject,todayString} from './planner.js';
-import {plannerGroups,kokuyoSeries,researchScope} from './planner-catalog.js';
+import {plannerGroups,kokuyoSeries} from './planner-catalog.js';
+import {otherSeries,brandScope as researchScope} from './brand-catalog.js';
+const referenceSeries=[...kokuyoSeries.map(s=>({...s,brand:'KOKUYO'})),...otherSeries];
 import {loadLibrary} from './library.js';
 import {renderToPngBlob} from './render.js';
 import {$,el,ok,err} from './ui.js';
@@ -98,14 +100,16 @@ function initPlanner() {
  async function refresh() {
   const ticket=++revision,o=options(),layout=plannerLayouts.find(l=>l.id===o.layout);
   apply.disabled=true;preview.hidden=true;
-  if(!layout){status.textContent='没有匹配的内页，试试其他关键词';$('#planner-description').textContent='';return;}
+  if(!layout){$('#planner-companion').hidden=true;status.textContent='没有匹配的内页，试试其他关键词';$('#planner-description').textContent='';return;}
   $('#planner-month-field').hidden=layout.period!=='month';$('#planner-date-field').hidden=!['week','day'].includes(layout.period);$('#planner-year-field').hidden=layout.period!=='year';
   $('#planner-week-field').hidden=!(layout.period==='week'||['monthly','monthly_grid','monthly_log','annual_calendar'].includes(o.layout));
   $('#planner-undated-choice').hidden=layout.period==='none';
   $('#planner-month').disabled=o.undated;$('#planner-date').disabled=o.undated;$('#planner-year').disabled=o.undated;
   $('#planner-date-label').textContent=layout.period==='week'?'起始周中的任意一天':'记录日期';
   apply.disabled=true;preview.hidden=true;status.textContent='正在排好这一页…';
-  $('#planner-description').textContent=plannerLayouts.find(l=>l.id===o.layout).subtitle;
+  $('#planner-description').textContent=layout.subtitle;
+  const companion=$('#planner-companion');companion.hidden=!layout.companion;
+  companion.onclick=()=>choose(layout.companion);
   try {
    const p=plannerProject(o,state.materials.items);
    const blob=await renderToPngBlob({...p,page:{...p.page,dpi:100}});
@@ -132,11 +136,11 @@ function initPlanner() {
   activeWork=null;emit('changed');await renderWorks();document.querySelector('[data-tab="editor"]').click();
   ok('内页已创建，可以改字、添加贴纸或导出打印');
  }).finally(()=>{apply.disabled=preview.hidden;});
- refresh();
  const choose=id=>{
   $('#planner-group').value='';$('#planner-search').value='';fillLayouts(id);refresh();
   document.querySelector('[data-tab="works"]').click();$('#tab-works').scrollTo({top:0});
  };
+ refresh();
  initReference(choose);
  const requested=new URLSearchParams(location.search).get('layout');
  if(plannerLayouts.some(l=>l.id===requested))choose(requested);
@@ -144,22 +148,25 @@ function initPlanner() {
 }
 function initReference(choose) {
  $('#reference-summary').textContent=researchScope.summary;$('#reference-limit').textContent=researchScope.limit;$('#reference-adaptation').textContent=researchScope.adaptation;
- for(const family of [...new Set(kokuyoSeries.map(s=>s.family))])$('#reference-family').append(el('option',{value:family,text:family}));
+ for(const brand of [...new Set(referenceSeries.map(s=>s.brand))])$('#reference-brand').append(el('option',{value:brand,text:brand}));
+ for(const family of [...new Set(referenceSeries.map(s=>s.family))])$('#reference-family').append(el('option',{value:family,text:family}));
  function render(){
   const q=$('#reference-search').value.trim().toLowerCase(),family=$('#reference-family').value;
-  const items=kokuyoSeries.filter(s=>(!family||s.family===family)&&`${s.name} ${s.description} ${s.status} ${s.layouts.map(id=>plannerLayouts.find(l=>l.id===id)?.name).join(' ')}`.toLowerCase().includes(q));
-  const box=$('#reference-grid');box.replaceChildren();$('#reference-count').textContent=`显示 ${items.length} / ${kokuyoSeries.length} 个系列与分支 · 核实于 ${researchScope.checked}`;
+  const brand=$('#reference-brand').value;
+  const items=referenceSeries.filter(s=>(!brand||s.brand===brand)&&(!family||s.family===family)&&`${s.name} ${s.description} ${s.status} ${s.layouts.map(id=>plannerLayouts.find(l=>l.id===id)?.name).join(' ')}`.toLowerCase().includes(q));
+  const box=$('#reference-grid');box.replaceChildren();$('#reference-count').textContent=`显示 ${items.length} / ${referenceSeries.length} 项参考 · 核实于 ${researchScope.checked}`;
   for(const s of items){
    const card=el('article',{class:'reference-card'});
    card.append(el('p',{class:'eyebrow',text:`${s.family} / ${s.status}`}),el('h2',{text:s.name}),el('p',{text:s.description}),el('p',{class:'muted small',text:s.variants}));
    const links=el('div',{class:'reference-links'});links.append(el('a',{href:s.url,target:'_blank',rel:'noopener noreferrer',text:'查看来源 ↗'}));
-   if(s.extraUrl)links.append(el('a',{href:s.extraUrl,target:'_blank',rel:'noopener noreferrer',text:'历史款补充 ↗'}));card.append(links);
+   if(s.extraUrl)links.append(el('a',{href:s.extraUrl,target:'_blank',rel:'noopener noreferrer',text:'补充来源 ↗'}));card.append(links);
    const choices=el('div',{class:'reference-layouts'});
    for(const id of s.layouts){const l=plannerLayouts.find(l=>l.id===id);choices.append(el('button',{class:'btn ghost',text:l.name,onclick:()=>choose(id)}));}
    card.append(choices);box.append(card);
   }
   if(!items.length)box.append(el('p',{class:'muted',text:'没有找到对应系列，试试清空关键词或切换分类。'}));
  }
+ $('#reference-brand').addEventListener('change',()=>{$('#reference-family').value='';render();});
  $('#reference-search').addEventListener('input',render);$('#reference-family').addEventListener('change',render);render();
 }
 export function initWorkspace(flushDraft) {

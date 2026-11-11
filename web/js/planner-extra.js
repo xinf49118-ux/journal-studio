@@ -45,7 +45,57 @@ export function expandedPlannerProject(o,materials,t,layout,dates) {
  if(layout.id==='study_2weeks'&&!undated)dateLabel=`${week()[0].toISOString().slice(0,10)} — ${new Date(week()[0].getTime()+13*86400000).toISOString().slice(0,10)}`;
  text(dateLabel,12,39,2.7,soft);
  const id=layout.id;
- if(id==='annual_calendar') {
+ if(id==='daily_story') {
+  section('今天的关键词',12,51,124);line(12,67,124);
+  box(12,77,55,53);text('贴一张照片 / 画一幅画',16,99,2.8,soft);
+  section('今天的片刻',77,77,59);rule(77,93,59,5,8);
+  section('想写下的故事',12,143,124);rule(12,159,124,6,8);
+ } else if(id==='week_scrap') {
+  for(let i=0;i<7;i++){const y=51+i*19;box(12,y,51,6);text(labels[i]+(undated?'':' '+short(week()[i])),14,y+1,2.7);line(12,y+15,51);}
+  text('这一周，想留下',73,51,3);grid(73,63,63,119,5);text('照片 / 票根 / 画画 / 随手写',74,188,2.7,soft);
+ } else if(id==='five_year') {
+  if(!undated&&year>2195)throw new Error('五年记录的起始年份需不晚于2195年');
+  for(let i=0;i<5;i++){
+   const y=51+i*29,yy=year+i;box(12,y,124,6);
+   const leap=monthN===2&&focus.getUTCDate()===29&&new Date(Date.UTC(yy,2,0)).getUTCDate()!==29;
+   text(undated?`第 ${i+1} 年：________`:`${yy} 年${leap?' · 本年无2月29日，可留空':''}`,14,y+1,2.8);
+   rule(12,y+15,124,2,8);
+  }
+ } else if(id==='life_left') {
+  text('今日行程',12,51,3);text('今日重点 / 待办',73,51,3);
+  for(let i=0;i<24;i++){const y=62+i*5.7;text(`${String(i).padStart(2,'0')}:00`,12,y,2.4,soft);line(25,y+4,38);}
+  for(let i=0;i<5;i++){checkbox(73,64+i*13);line(80,68+i*13,56);}
+  section('三餐与休息',73,135,63);rule(73,152,63,4,9);text('回忆写在配套页 →',73,195,2.7,soft);
+ } else if(id==='life_right') {
+  box(12,51,124,56);text('贴上今天的画面',49,76,3,soft);
+  section('心情 / 天气',12,118,124);line(12,134,124);
+  section('今天的故事与感受',12,144,124);rule(12,160,124,5,9);
+ } else if(id==='gratitude') {
+  ['让我开心的一件小事','想感谢的人或事','今天也做得不错的地方'].forEach((s,i)=>{const y=51+i*40;box(12,y,8,8);text(String(i+1),14.5,y+1.5,3);section(s,26,y,110);rule(26,y+17,110,2,9);});
+  section('留给明天的一句话',12,179,124);line(12,198,124);
+ } else if(id==='photo_story') {
+  [[12,51,58,62],[78,51,58,62],[12,125,58,62]].forEach(([x,y,w,h],i)=>{box(x,y,w,h);box(x+3,y+3,w-6,h-14,'#FFFFFF');text(`画面 ${i+1}`,x+18,y+h-8,2.7);});
+  section('这一天的故事',78,125,58);rule(78,143,58,6,8);text('人物 / 地点：',12,196,2.7);line(38,201,98);
+ } else if(id==='trip_plan') {
+  section('目的地 / 日期 / 同行的人',12,51,124);line(12,68,124);
+  table(['日期','路线 / 交通','住宿 / 预约'],[23,51,50],{y:77,rows:4,rh:11});
+  section('装进行李',12,141,58);section('出发前确认',78,141,58);
+  for(let i=0;i<4;i++)for(const x of [12,78]){checkbox(x,157+i*12);line(x+7,161+i*12,51);}
+ } else if(id==='trip_log') {
+  section('今天走过的路线',12,51,124);line(12,68,124);
+  box(12,78,70,65);text('风景 / 照片 / 手绘地图',18,106,2.8,soft);
+  section('旅途花费',92,78,44);rule(92,96,44,5,9);
+  section('遇见的人、吃过的味道与意外惊喜',12,156,124);rule(12,173,124,4,8);
+ } else if(id==='tickets') {
+  for(let i=0;i<3;i++){const y=51+i*49;box(12,y,76,39);box(13,y+1,74,37,'#FFFFFF');text(`票根 ${i+1}`,41,y+16,3,soft);section('日期 / 地点',98,y,38);rule(98,y+16,38,3,8);}
+ } else if(id==='stamp_walk') {
+  for(let i=0;i<6;i++){const x=12+i%2*65,y=51+Math.floor(i/2)*49;box(x,y,59,33);box(x+1,y+1,57,31,'#FFFFFF');text(`集章 ${i+1}`,x+20,y+14,3,soft);text('地点 / 日期：',x,y+36,2.5);line(x+23,y+42,36);}
+ } else if(id==='cafe_visit') {
+  section('店名 / 日期 / 地址',12,51,124);line(12,68,124);
+  box(12,78,58,65);text('店铺一角 / 饮品照片',16,106,2.7,soft);
+  ['点了什么','风味与口感','氛围与音乐'].forEach((s,i)=>{section(s,80,78+i*23,56);line(80,94+i*23,56);});
+  section('想记住的细节 / 下次想尝试',12,158,124);rule(12,176,124,3,10);
+ } else if(id==='annual_calendar') {
   for(let m=1;m<=12;m++)miniCalendar(`${year}-${String(m).padStart(2,'0')}`,12+((m-1)%3)*43,51+Math.floor((m-1)/3)*37,38,33,undated);
  } else if(['annual_plan','anniversaries'].includes(id)) {
   for(let i=0;i<12;i++){

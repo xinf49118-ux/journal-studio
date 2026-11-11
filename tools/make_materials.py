@@ -2666,6 +2666,8 @@ def main(argv=None):
         expand_collections(out_dir)
         from planner_materials import main as expand_planner
         expand_planner(out_dir)
+        from story_materials import main as expand_story
+        expand_story(out_dir)
     errs, total = check_materials(out_dir)
     return 1 if errs else 0
 

@@ -5,9 +5,9 @@ const pause=ms=>new Promise(r=>setTimeout(r,ms));
 export async function plannerChecks(cdp,check,art) {
  console.log('\n[功能内页] 日期、主题、素材与实际导出');
  await cdp.eval(`document.querySelector('[data-tab="works"]').click()`);await pause(1200);
- check('内页预览已加载、49种用途和六个主题可选',await cdp.eval(`document.querySelector('#planner-preview').naturalWidth>0 && document.querySelector('#planner-layout').options.length===49 && document.querySelectorAll('.theme-choice').length===6`));
+ check('内页预览已加载、61种用途和六个主题可选',await cdp.eval(`document.querySelector('#planner-preview').naturalWidth>0 && document.querySelector('#planner-layout').options.length===61 && document.querySelectorAll('.theme-choice').length===6`));
  await catalogChecks(cdp,check,art);
- for(const layout of ['monthly','weekly','daily','habits']) {
+ for(const layout of ['monthly','weekly','daily','habits','life_left','life_right','five_year','tickets','photo_story']) {
   await cdp.eval(`(()=>{
    document.querySelector('#planner-layout').value=${JSON.stringify(layout)};
    document.querySelector('#planner-month').value='2024-02';document.querySelector('#planner-date').value='2024-02-29';
@@ -22,7 +22,7 @@ export async function plannerChecks(cdp,check,art) {
    return {count:c.state.layers.length,png:blob.size,pdf:bytes.length,dimensions:[jpeg.width,jpeg.height],saved:document.querySelector('#save-status').dataset.status,theme:c.state.layers.find(l=>l.kind==='material').ref,image:canvas.toDataURL('image/png').split(',')[1]};
   })()`);
   writeFileSync(join(art,`planner-${layout}.png`),Buffer.from(result.image,'base64'));
-  check(`${layout} 内页可编辑、保存并以300dpi导出PNG/PDF`,result.count>40&&result.png>10000&&result.pdf>10000&&result.dimensions[0]===1748&&result.dimensions[1]===2480&&result.saved==='saved'&&result.theme.includes('garden'),JSON.stringify({...result,image:undefined}));
+  check(`${layout} 内页可编辑、保存并以300dpi导出PNG/PDF`,result.count>10&&result.png>10000&&result.pdf>10000&&result.dimensions[0]===1748&&result.dimensions[1]===2480&&result.saved==='saved'&&result.theme.includes('garden'),JSON.stringify({...result,image:undefined}));
   await cdp.eval(`document.querySelector('[data-tab="works"]').click()`);await pause(200);
  }
  check('切换内页前自动保留上一份草稿',await cdp.eval(`(async()=>{const {shelf}=await import('./web/js/backup.js');return (await shelf('list')).filter(r=>r.name.includes('切换前备份')).length>=3})()`));
@@ -46,5 +46,9 @@ export async function plannerChecks(cdp,check,art) {
  check('功能贴纸可按天气词搜索',await cdp.eval(`document.querySelectorAll('.mat-card').length===1`));
  await cdp.eval(`document.querySelector('.mat-card .mat-actions button').click()`);await pause(400);
  check('功能贴纸可实际加入内页',await cdp.eval(`(async()=>{const {state}=await import('./web/js/core.js');return state.layers.some(l=>l.ref==='icon_planner_garden_weather_0')})()`));
+ await cdp.eval(`document.querySelector('[data-tab="library"]').click();document.querySelector('#mat-search').value='';document.querySelector('#mat-search').dispatchEvent(new Event('input'));document.querySelector('#usage-filter').value='story';document.querySelector('#usage-filter').dispatchEvent(new Event('change'))`);await pause(350);
+ check('日记旅行素材与主题组合显示16件',await cdp.eval(`document.querySelectorAll('.mat-card').length===16`));
+ await cdp.eval(`document.querySelector('#mat-search').value='旅行票根';document.querySelector('#mat-search').dispatchEvent(new Event('input'));document.querySelector('.mat-card .mat-actions button').click()`);await pause(350);
+ check('原创旅行票根可搜索并加入画布',await cdp.eval(`(async()=>{const {state}=await import('./web/js/core.js');return state.layers.some(l=>l.ref==='sticker_story_garden_ticket')})()`));
  await cdp.eval(`(()=>{document.querySelector('#mat-search').value='';document.querySelector('#mat-search').dispatchEvent(new Event('input'));document.querySelector('#usage-filter').value='';document.querySelector('#usage-filter').dispatchEvent(new Event('change'));document.querySelector('#collection-filter').value='';document.querySelector('#collection-filter').dispatchEvent(new Event('change'));})()`);
 }

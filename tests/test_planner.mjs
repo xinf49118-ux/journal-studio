@@ -5,6 +5,7 @@ import {plannerProject,plannerLayouts,monthCells,weekDates,parseDate,todayString
 import {templates} from '../web/js/templates.js';
 import {validateBundle,restoreBundle} from '../web/js/backup.js';
 import {kokuyoSeries,plannerGroups} from '../web/js/planner-catalog.js';
+import {storyLayouts,otherSeries} from '../web/js/brand-catalog.js';
 const manifest=JSON.parse(readFileSync(new URL('../assets/materials/manifest.json',import.meta.url),'utf8'));
 const ids=new Set(manifest.items.map(m=>m.id));
 test('calendar handles leap centuries, 4/5/6-row months and both week starts',()=>{
@@ -51,10 +52,10 @@ test('habit page excludes nonexistent days and undated calendar has blank cells'
  assert.ok(!text(plannerProject({layout:'monthly',undated:true})).some(s=>/^\d+$/.test(s)));
 });
 test('every research entry resolves to usable layouts; metadata and ids stay unambiguous',()=>{
- assert.equal(plannerLayouts.length,49);assert.equal(kokuyoSeries.length,21);
- assert.equal(new Set(plannerLayouts.map(l=>l.id)).size,49);
+ assert.equal(plannerLayouts.length,61);assert.equal(kokuyoSeries.length,21);
+ assert.equal(new Set(plannerLayouts.map(l=>l.id)).size,61);
  for(const l of plannerLayouts){assert.ok(plannerGroups.includes(l.group));assert.ok(['none','year','month','week','day'].includes(l.period));}
- for(const s of kokuyoSeries){assert.match(s.url,/^https:\/\//);assert.ok(s.status&&s.variants);for(const id of s.layouts)assert.ok(plannerLayouts.some(l=>l.id===id));}
+ for(const s of [...kokuyoSeries,...otherSeries]){assert.match(s.url,/^https:\/\//);assert.ok(s.status&&s.variants);for(const id of s.layouts)assert.ok(plannerLayouts.some(l=>l.id===id));}
 });
 test('two-week dates cross year correctly; yearly controls reject invalid years',()=>{
  const text=p=>p.layers.filter(l=>l.kind==='text').map(l=>l.text);
@@ -70,4 +71,15 @@ test('timelines include all 24 hours and wish list contains 100 distinct entries
   const values=text(plannerProject({layout:id}));for(let h=0;h<24;h++)assert.ok(values.includes(String(h).padStart(2,'0')));
  }
  const values=text(plannerProject({layout:'wishlist100'}));for(let i=1;i<=100;i++)assert.ok(values.includes(String(i).padStart(3,'0')));
+});
+test('paired diary pages are reciprocal and five-year entries preserve leap-day meaning',()=>{
+ for(const l of storyLayouts.filter(l=>l.companion))assert.equal(storyLayouts.find(x=>x.id===l.companion).companion,l.id);
+ const text=p=>p.layers.filter(l=>l.kind==='text').map(l=>l.text);
+ const dated=text(plannerProject({layout:'five_year',date:'2024-02-29'}));
+ assert.ok(dated.includes('2024 年')&&dated.includes('2028 年'));
+ assert.equal(dated.filter(s=>s.includes('本年无2月29日')).length,3);
+ assert.throws(()=>plannerProject({layout:'five_year',date:'2196-01-01'}));
+ assert.ok(text(plannerProject({layout:'five_year',date:'',undated:true})).includes('第 5 年：________'));
+ const hours=text(plannerProject({layout:'life_left',date:'2024-02-29'}));
+ for(let i=0;i<24;i++)assert.ok(hours.includes(String(i).padStart(2,'0')+':00'));
 });

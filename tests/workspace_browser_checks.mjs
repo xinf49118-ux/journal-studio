@@ -12,7 +12,7 @@ export async function workspaceChecks(cdp,check,art){
    const preview=document.querySelector('#material-preview').open;document.querySelector('#close-preview').click();
    return JSON.stringify({count:cards.length,height:document.querySelector('.mat-card').getBoundingClientRect().height,preview,favorites:JSON.parse(localStorage.getItem('journal-studio:favorites')).length});
  })()`));
- check('主题筛选48件、卡片不压扁、收藏与大图预览',library.count===48&&library.height>200&&library.preview&&library.favorites===1,JSON.stringify(library));
+ check('主题筛选64件、卡片不压扁、收藏与大图预览',library.count===64&&library.height>200&&library.preview&&library.favorites===1,JSON.stringify(library));
  await plannerChecks(cdp,check,art);
  await cdp.eval(`document.querySelector('[data-tab="works"]').click()`);await pause(1500);
  check('六套模板预览真实加载',await cdp.eval(`document.querySelectorAll('.template-card img').length===6 && [...document.querySelectorAll('.template-card img')].every(i=>i.naturalWidth>0)`));
