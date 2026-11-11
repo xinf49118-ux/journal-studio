@@ -5,7 +5,7 @@ import { api, downloadBlob } from './api.js';
 import { $, el, ok, err, toast, busy, shrinkImage } from './ui.js';
 import { addMaterial, addLibraryImage, addLayer } from './editor.js';
 
-const view = { collection: '', favoritesOnly: false, source: 'builtin', cat: 'all', q: '', webResults: [], webQuery: '', webSource: 'wikimedia' };
+const view = { usage:'', collection: '', favoritesOnly: false, source: 'builtin', cat: 'all', q: '', webResults: [], webQuery: '', webSource: 'wikimedia' };
 
 let favorites = new Set();
 try { favorites = new Set(JSON.parse(localStorage.getItem('journal-studio:favorites') || '[]')); } catch {}
@@ -95,6 +95,8 @@ export function renderGrid() {
   items = items.filter((it) => {
     if (!matchQuery(it)) return false;
     if (view.collection && it.collection !== view.collection) return false;
+    if (view.usage==='functional' && it.usage!=='functional') return false;
+    if (view.usage==='decorative' && it.usage==='functional') return false;
     if (view.favoritesOnly && !favorites.has(it.id)) return false;
     if (view.source === 'web' || view.cat === 'all') return true;
     return (it.cat || 'imported') === view.cat;
@@ -269,6 +271,7 @@ async function doWebSearch() {
 /* ---------------------------------------------------------------- 初始化 */
 
 export function initLibrary() {
+  $('#usage-filter').onchange=e=>{view.usage=e.target.value;renderGrid();};
   $('#collection-filter').onchange=e=>{view.collection=e.target.value;renderGrid();};
   $('#favorites-filter').onclick=e=>{view.favoritesOnly=!view.favoritesOnly;e.currentTarget.setAttribute('aria-pressed',String(view.favoritesOnly));renderGrid();};
   $('#browse-templates').onclick=()=>document.querySelector('[data-tab="works"]').click();
@@ -277,6 +280,7 @@ export function initLibrary() {
     chip.addEventListener('click', () => {
       view.source = chip.dataset.source;
       view.collection='';$('#collection-filter').value='';
+      view.usage='';$('#usage-filter').value='';
       view.cat = 'all';
       syncSourceChips();
       renderCatList();

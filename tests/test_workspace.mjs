@@ -35,7 +35,7 @@ test('portable import remaps image references, preserves original and empty proj
  const p=await restoreBundle(b,async()=> 'new',materials);assert.equal(p.layers[0].ref,'new');assert.equal(b.project.layers[0].ref,'old');
  const empty=bundle();empty.project.layers=[];assert.equal((await restoreBundle(empty,()=>{},materials)).layers.length,0);
 });
-test('collections contain 16 unique files each with correct ids and real full-size files',()=>{
- assert.equal(manifest.items.length,277);
- for(const c of manifest.collections){const items=manifest.items.filter(m=>m.collection===c.id);assert.equal(items.length,16);assert.equal(new Set(items.map(m=>m.file)).size,16);for(const m of items)assert.ok(m.id.startsWith(m.cat+'_'));}
+test('collections retain decorative art plus 32 functional stickers in each theme',()=>{
+ assert.equal(manifest.items.length,469);
+ for(const c of manifest.collections){const items=manifest.items.filter(m=>m.collection===c.id);assert.equal(items.length,48);assert.equal(items.filter(m=>m.usage==='functional').length,32);assert.equal(new Set(items.map(m=>m.file)).size,48);for(const m of items)assert.ok(m.id.startsWith(m.cat+'_'));}
 });

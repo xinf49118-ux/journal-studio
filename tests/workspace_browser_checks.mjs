@@ -1,5 +1,6 @@
 import {writeFileSync} from 'node:fs';
 import {join} from 'node:path';
+import {plannerChecks} from './planner_browser_checks.mjs';
 const pause=ms=>new Promise(r=>setTimeout(r,ms));
 export async function workspaceChecks(cdp,check,art){
  console.log('\n[新增功能] 主题素材、模板、作品备份与保存失败');
@@ -11,11 +12,12 @@ export async function workspaceChecks(cdp,check,art){
    const preview=document.querySelector('#material-preview').open;document.querySelector('#close-preview').click();
    return JSON.stringify({count:cards.length,height:document.querySelector('.mat-card').getBoundingClientRect().height,preview,favorites:JSON.parse(localStorage.getItem('journal-studio:favorites')).length});
  })()`));
- check('主题筛选16件、卡片不压扁、收藏与大图预览',library.count===16&&library.height>200&&library.preview&&library.favorites===1,JSON.stringify(library));
+ check('主题筛选48件、卡片不压扁、收藏与大图预览',library.count===48&&library.height>200&&library.preview&&library.favorites===1,JSON.stringify(library));
+ await plannerChecks(cdp,check,art);
  await cdp.eval(`document.querySelector('[data-tab="works"]').click()`);await pause(1500);
  check('六套模板预览真实加载',await cdp.eval(`document.querySelectorAll('.template-card img').length===6 && [...document.querySelectorAll('.template-card img')].every(i=>i.naturalWidth>0)`));
  writeFileSync(join(art,'templates-desktop.png'),Buffer.from((await cdp.send('Page.captureScreenshot',{format:'png'})).data,'base64'));
- await cdp.eval(`document.querySelector('.template-card button').click()`);await pause(1800);
+ await cdp.eval(`document.querySelector('.collage-templates').open=true;document.querySelector('.template-card button').click()`);await pause(1800);
  check('点击模板生成可编辑图层并自动保存',await cdp.eval(`(async()=>{const {state}=await import('./web/js/core.js');return state.layers.length>8 && document.querySelector('#save-status').dataset.status==='saved';})()`));
  // Include a real raster user image in the portable backup.
  await cdp.eval(`(async()=>{

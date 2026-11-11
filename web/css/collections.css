@@ -1,5 +1,26 @@
 /* Roomy browsing and portable work library. Print rules remain in app.css. */
+[hidden] {display:none!important}
 @media screen {
+ .planner-builder {display:grid;grid-template-columns:minmax(290px,1fr) minmax(280px,1fr);background:#f5efe6;border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-bottom:28px}
+ .planner-options {padding:30px;max-width:520px}
+ .planner-options>label,.planner-dates label {display:block;font-size:13px;color:var(--ink-soft)}
+ .planner-options .input {width:100%;margin-top:8px;min-width:0}
+ .planner-options>p {line-height:1.7}
+ .planner-dates {display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0 14px}
+ .planner-checkbox {display:flex!important;align-items:center;gap:8px;margin-bottom:28px}
+ .planner-checkbox input {accent-color:var(--accent-deep)}
+ .planner-themes {display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0 26px}
+ .theme-choice {display:flex;align-items:center;justify-content:center;gap:6px;border:1px solid #d8cbbd;background:#fffdf8;border-radius:8px;padding:10px 4px;font-size:12px;color:var(--ink);cursor:pointer}
+ .theme-choice::before {content:'';width:12px;height:12px;border-radius:50%;background:var(--theme-color);flex-shrink:0}
+ .theme-choice[aria-pressed="true"] {border-color:#8a6b56;box-shadow:0 0 0 1px #8a6b56;background:#fffaf2}
+ #apply-planner {width:100%;padding:13px}
+ .planner-preview-wrap {background:#e9e2d8;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:26px;min-height:500px}
+ #planner-preview {width:auto;max-width:100%;height:auto;max-height:500px;box-shadow:0 6px 24px #5b4a3f22}
+ #planner-status {text-align:center;line-height:1.6;margin-bottom:0}
+ .collage-templates {margin:24px 0 36px}
+ .collage-templates summary {cursor:pointer;font-size:16px;padding:12px 0;color:var(--ink-soft)}
+ .collage-templates .template-grid {margin:12px 0 24px}
+ #usage-filter {width:130px}
  .topbar {height:auto;min-height:64px;flex-wrap:wrap;padding:10px 18px;gap:10px}
  .topbar .tabs {flex-wrap:wrap}
  .topbar-actions {margin-left:auto;flex-wrap:wrap}
@@ -58,6 +79,10 @@
  main {height:calc(100dvh - 112px)}
 }
 @media screen and (max-width:650px) {
+ .planner-builder {grid-template-columns:1fr}
+ .planner-options {padding:20px;max-width:none;min-width:0}
+ .planner-preview-wrap {padding:22px;min-height:0}
+ #planner-preview {width:100%;max-width:290px;max-height:none}
  html,body {height:auto;min-height:100%}
  .topbar {position:relative;padding:12px;gap:8px}
  .brand {width:100%}

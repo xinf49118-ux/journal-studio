@@ -2664,6 +2664,8 @@ def main(argv=None):
     if not args.only:
         from expand_materials import main as expand_collections
         expand_collections(out_dir)
+        from planner_materials import main as expand_planner
+        expand_planner(out_dir)
     errs, total = check_materials(out_dir)
     return 1 if errs else 0
 

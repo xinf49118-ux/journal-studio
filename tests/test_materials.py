@@ -209,6 +209,11 @@ class TestMaterials(unittest.TestCase):
             for it in self.by_cat.get(cat, []):
                 w, h = it["w"], it["h"]
                 long_side, short_side = max(w, h), min(w, h)
+                if it.get('usage') == 'functional':
+                    # Compact planner labels at 300dpi: 50.8mm strips,
+                    # 30.48mm status stickers, and 60.96mm writing cards.
+                    self.assertEqual((w, h), {'title': (600, 180), 'icon': (360, 360), 'sticker': (720, 420)}[cat], it['id'])
+                    continue
                 if cat == "tape":
                     self.assertGreaterEqual(long_side, 1200, it["id"])
                     self.assertTrue(120 <= short_side <= 420, "%s 短边 %d" % (it["id"], short_side))

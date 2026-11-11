@@ -33,8 +33,26 @@
 <main>
   <section class="tab-panel" id="tab-works">
     <div class="works-page">
-      <div class="works-heading"><div><p class="eyebrow">JOURNAL STUDIO · 贴纸小屋</p><h1>把喜欢的日子，贴进生活里。</h1><p class="muted">选一套模板开始，或打开你收藏的作品。每张贴纸、每行文字都能自由修改。</p></div><span class="collection-mark">六套主题<br>96 件新素材</span></div>
-      <h2>从一页灵感开始</h2><div id="template-grid" class="template-grid"></div>
+      <div class="works-heading"><div><p class="eyebrow">JOURNAL STUDIO · 贴纸小屋</p><h1>把喜欢的日子，贴进生活里。</h1><p class="muted">先选这一页的用途，再搭配喜欢的主题。让计划、记录和装饰各有位置。</p></div><span class="collection-mark">四种内页<br>六套配色</span></div>
+      <div class="planner-builder">
+        <form id="planner-options" class="planner-options">
+          <p class="eyebrow">01 / 这一页，用来做什么</p>
+          <label for="planner-layout">页面用途</label><select id="planner-layout" class="input"></select>
+          <p id="planner-description" class="muted"></p>
+          <div class="planner-dates">
+            <label id="planner-month-field">计划月份<input id="planner-month" type="month" min="1900-01" max="2199-12" class="input"></label>
+            <label id="planner-date-field" hidden><span id="planner-date-label">记录日期</span><input id="planner-date" type="date" min="1900-01-01" max="2199-12-31" class="input"></label>
+            <label id="planner-week-field">每周开始于<select id="planner-week-start" class="input"><option value="1">星期一</option><option value="0">星期日</option></select></label>
+          </div>
+          <label class="planner-checkbox"><input id="planner-undated" type="checkbox"> 无日期版，随时开始写</label>
+          <p class="eyebrow">02 / 选一个今天的心情</p>
+          <div id="planner-themes" class="planner-themes" role="group" aria-label="装饰主题"></div>
+          <button id="apply-planner" type="button" class="btn primary" disabled>用这一页开始 →</button>
+          <p class="muted small">当前草稿会先存进作品库。主题只影响配色与角落装饰，保留充足的书写空间。</p>
+        </form>
+        <div class="planner-preview-wrap"><img id="planner-preview" width="148" height="210" alt="内页预览" hidden><p id="planner-status" class="muted small" role="status" aria-live="polite"></p></div>
+      </div>
+      <details class="collage-templates"><summary>也想自由拼贴？看看六套灵感模板</summary><div id="template-grid" class="template-grid"></div></details>
       <div class="works-heading"><h2>我的作品</h2><span class="muted small">保存在当前浏览器 · 换设备前请导出备份</span></div>
       <div class="work-tools"><label for="work-name">作品名称</label><input id="work-name" class="input" value="未命名作品" maxlength="60"><button id="save-new-work" class="btn primary">存为新作品</button><button id="update-work" class="btn">更新已打开作品</button><button id="export-backup" class="btn">导出当前作品备份</button><button id="import-backup" class="btn">导入备份</button><input id="backup-file" type="file" accept=".json,.journal.json" hidden></div>
       <p class="muted small">备份文件包含作品使用的图片；切换模板或打开作品前，会自动保留当前草稿。</p>
@@ -81,9 +99,10 @@
     </aside>
 
     <div class="content">
-      <div class="library-intro"><div><p class="eyebrow">小小素材，大大灵感</p><h2>今天，想贴一点什么？</h2><p>六套新主题：咖啡、花园、旅行、猫咪、星空、节庆。</p></div><button class="btn primary" id="browse-templates">用模板开始 →</button></div>
+      <div class="library-intro"><div><p class="eyebrow">小小素材，大大灵感</p><h2>今天，想贴一点什么？</h2><p>469 件素材 · 六套主题，新增 192 件日期、天气、心情与打卡贴纸。</p></div><button class="btn primary" id="browse-templates">用模板开始 →</button></div>
       <div class="toolbar">
         <select id="collection-filter" class="input" aria-label="按主题筛选"><option value="">全部主题</option></select>
+        <select id="usage-filter" class="input" aria-label="按用途筛选"><option value="">全部用途</option><option value="functional">功能贴纸</option><option value="decorative">装饰素材</option></select>
         <button class="btn ghost" id="favorites-filter" aria-pressed="false">♡ 我的收藏</button>
         <input type="text" id="mat-search" class="input grow" placeholder="搜索素材：胶带 / 花朵 / 蓝色 / 方格 …">
         <span class="muted small" id="mat-count"></span>

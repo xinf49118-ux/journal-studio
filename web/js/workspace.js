@@ -2,6 +2,7 @@ import {state,serializeProject,loadProject,emit,libraryUrl} from './core.js';
 import {api,downloadBlob} from './api.js';
 import {makeBundle,restoreBundle,validateBundle,shelf} from './backup.js';
 import {templates,templateProject} from './templates.js';
+import {plannerLayouts,plannerProject,todayString} from './planner.js';
 import {loadLibrary} from './library.js';
 import {renderToPngBlob} from './render.js';
 import {$,el,ok,err} from './ui.js';
@@ -12,8 +13,8 @@ let activeWork=null;
 const name=()=>$('#work-name').value.trim().slice(0,60)||'未命名作品';
 async function run(fn) {
  if(working)return;
- working=true;const buttons=[...document.querySelectorAll('#tab-works button')];buttons.forEach(b=>b.disabled=true);
- try{await fn();}catch(e){err(e.message);}finally{working=false;buttons.forEach(b=>b.disabled=false);}
+ working=true;const buttons=[...document.querySelectorAll('#tab-works button')].map(b=>[b,b.disabled]);buttons.forEach(([b])=>b.disabled=true);
+ try{await fn();}catch(e){err(e.message);}finally{working=false;buttons.forEach(([b,disabled])=>b.disabled=disabled);}
 }
 const make=()=>makeBundle(serializeProject(),state.library,async item=>{
  const res=await fetch(libraryUrl(item));if(!res.ok)throw new Error('图片读取失败，备份未完成');return res.blob();
@@ -76,6 +77,46 @@ async function renderTemplates(){
   try{const blob=await renderToPngBlob({...p,page:{...p.page,dpi:45,bleed_mm:0,crop_marks:false}});img.src=URL.createObjectURL(blob);}catch(e){img.alt='预览暂不可用 · 点击使用模板';}
  }
 }
+function initPlanner() {
+ const form=$('#planner-options'),preview=$('#planner-preview'),status=$('#planner-status'),apply=$('#apply-planner');
+ let theme=templates[0].id,revision=0,previewUrl=null;
+ const date=todayString();$('#planner-month').value=date.slice(0,7);$('#planner-date').value=date;
+ for(const layout of plannerLayouts)$('#planner-layout').append(el('option',{value:layout.id,text:layout.name}));
+ const options=()=>({layout:$('#planner-layout').value,theme,month:$('#planner-month').value,date:$('#planner-date').value,weekStart:$('#planner-week-start').value,undated:$('#planner-undated').checked});
+ async function refresh() {
+  const ticket=++revision,o=options(),monthly=['monthly','habits'].includes(o.layout);
+  $('#planner-month-field').hidden=!monthly;$('#planner-date-field').hidden=monthly;
+  $('#planner-week-field').hidden=!['monthly','weekly'].includes(o.layout);
+  $('#planner-month').disabled=o.undated;$('#planner-date').disabled=o.undated;
+  $('#planner-date-label').textContent=o.layout==='weekly'?'这一周中的任意一天':'记录日期';
+  apply.disabled=true;preview.hidden=true;status.textContent='正在排好这一页…';
+  $('#planner-description').textContent=plannerLayouts.find(l=>l.id===o.layout).subtitle;
+  try {
+   const p=plannerProject(o,state.materials.items);
+   const blob=await renderToPngBlob({...p,page:{...p.page,dpi:100}});
+   if(ticket!==revision)return;
+   const url=URL.createObjectURL(blob);if(previewUrl)URL.revokeObjectURL(previewUrl);previewUrl=url;
+   preview.src=url;preview.hidden=false;preview.alt=`${templates.find(t=>t.id===theme).name} · ${plannerLayouts.find(l=>l.id===o.layout).name}内页预览`;
+   status.textContent='A5 · 白底省墨 · 文字与格线均可编辑';apply.disabled=working;
+  } catch(e) {if(ticket===revision){status.textContent=e.message;apply.disabled=true;}}
+ }
+ for(const t of templates){
+  const button=el('button',{type:'button',class:'theme-choice',text:t.name,'aria-pressed':String(t.id===theme),onclick:()=>{
+   theme=t.id;for(const b of $('#planner-themes').children)b.setAttribute('aria-pressed',String(b===button));refresh();
+  }});button.style.setProperty('--theme-color',t.accent);$('#planner-themes').append(button);
+ }
+ form.addEventListener('submit',e=>e.preventDefault());form.addEventListener('change',refresh);
+ apply.onclick=()=>run(async()=>{
+  // Capture the exact selected page before saving the previous draft.
+  const o=options(),project=plannerProject(o,state.materials.items);
+  await protectDraft();loadProject(project);
+  const layout=plannerLayouts.find(l=>l.id===o.layout).name;
+  $('#work-name').value=`${templates.find(t=>t.id===o.theme).name} · ${layout}${o.undated?' · 无日期':' · '+(['monthly','habits'].includes(o.layout)?o.month:o.date)}`;
+  activeWork=null;emit('changed');await renderWorks();document.querySelector('[data-tab="editor"]').click();
+  ok('内页已创建，可以改字、添加贴纸或导出打印');
+ }).finally(()=>{apply.disabled=preview.hidden;});
+ refresh();
+}
 export function initWorkspace(flushDraft) {
  flush=flushDraft;
  $('#save-new-work').onclick=()=>run(async()=>{await flush();const r=await archive();activeWork=r.id;await renderWorks();ok('已存为独立作品，图片也已一起保存');});
@@ -90,5 +131,5 @@ export function initWorkspace(flushDraft) {
   await run(async()=>{if(file.size>100_000_000)throw new Error('备份超过 100MB，请拆分作品');const b=JSON.parse(await file.text());await openBundle(b,b.name);await renderWorks();});
  };
  document.querySelector('[data-tab="works"]').addEventListener('click',()=>renderWorks().catch(e=>err(e.message)));
- renderTemplates();renderWorks().catch(e=>err(e.message));
+ initPlanner();renderTemplates();renderWorks().catch(e=>err(e.message));
 }

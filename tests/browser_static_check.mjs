@@ -131,7 +131,7 @@ async function main() {
       return JSON.stringify({ items: core.state.materials.items.length, cats: core.state.materials.categories.length });
     })()`);
     const mi = JSON.parse(mat);
-    check('素材清单加载成功', mi.items === 277, `${mi.items} 件 / ${mi.cats} 类`);
+    check('素材清单加载成功', mi.items === 469, `${mi.items} 件 / ${mi.cats} 类`);
     const grid = await cdp.eval(`(async () => {
       // 等第一张缩略图真的加载出来（慢网络下要给足时间）
       const t0 = Date.now();
