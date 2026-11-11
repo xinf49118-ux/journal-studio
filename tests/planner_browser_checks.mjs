@@ -5,9 +5,9 @@ const pause=ms=>new Promise(r=>setTimeout(r,ms));
 export async function plannerChecks(cdp,check,art) {
  console.log('\n[功能内页] 日期、主题、素材与实际导出');
  await cdp.eval(`document.querySelector('[data-tab="works"]').click()`);await pause(1200);
- check('内页预览已加载、61种用途和六个主题可选',await cdp.eval(`document.querySelector('#planner-preview').naturalWidth>0 && document.querySelector('#planner-layout').options.length===61 && document.querySelectorAll('.theme-choice').length===6`));
+ check('内页预览已加载、69种用途和六个主题可选',await cdp.eval(`document.querySelector('#planner-preview').naturalWidth>0 && document.querySelector('#planner-layout').options.length===69 && document.querySelectorAll('.theme-choice').length===6`));
  await catalogChecks(cdp,check,art);
- for(const layout of ['monthly','weekly','daily','habits','life_left','life_right','five_year','tickets','photo_story']) {
+ for(const layout of ['monthly','weekly','daily','habits','life_left','life_right','five_year','tickets','photo_story','plant_observation','goal_steps','scene_collage']) {
   await cdp.eval(`(()=>{
    document.querySelector('#planner-layout').value=${JSON.stringify(layout)};
    document.querySelector('#planner-month').value='2024-02';document.querySelector('#planner-date').value='2024-02-29';
@@ -50,5 +50,11 @@ export async function plannerChecks(cdp,check,art) {
  check('日记旅行素材与主题组合显示16件',await cdp.eval(`document.querySelectorAll('.mat-card').length===16`));
  await cdp.eval(`document.querySelector('#mat-search').value='旅行票根';document.querySelector('#mat-search').dispatchEvent(new Event('input'));document.querySelector('.mat-card .mat-actions button').click()`);await pause(350);
  check('原创旅行票根可搜索并加入画布',await cdp.eval(`(async()=>{const {state}=await import('./web/js/core.js');return state.layers.some(l=>l.ref==='sticker_story_garden_ticket')})()`));
+ await cdp.eval(`document.querySelector('[data-tab="library"]').click();document.querySelector('#mat-search').value='';document.querySelector('#mat-search').dispatchEvent(new Event('input'));document.querySelector('#collection-filter').value='';document.querySelector('#collection-filter').dispatchEvent(new Event('change'));document.querySelector('#usage-filter').value='cn';document.querySelector('#usage-filter').dispatchEvent(new Event('change'))`);await pause(350);
+ check('中文与自然筛选显示48件新设计',await cdp.eval(`document.querySelectorAll('.mat-card').length===48`));
+ await cdp.eval(`document.querySelector('#collection-filter').value='cn_botanical';document.querySelector('#collection-filter').dispatchEvent(new Event('change'))`);
+ check('新素材主题可独立筛选为16件',await cdp.eval(`document.querySelectorAll('.mat-card').length===16`));
+ await cdp.eval(`document.querySelector('#mat-search').value='蕨叶';document.querySelector('#mat-search').dispatchEvent(new Event('input'));document.querySelector('.mat-card .mat-actions button').click()`);await pause(350);
+ check('原创植物素材可搜索并加入画布',await cdp.eval(`(async()=>{const {state}=await import('./web/js/core.js');return state.layers.some(l=>l.ref==='sticker_cn_botanical_fern')})()`));
  await cdp.eval(`(()=>{document.querySelector('#mat-search').value='';document.querySelector('#mat-search').dispatchEvent(new Event('input'));document.querySelector('#usage-filter').value='';document.querySelector('#usage-filter').dispatchEvent(new Event('change'));document.querySelector('#collection-filter').value='';document.querySelector('#collection-filter').dispatchEvent(new Event('change'));})()`);
 }

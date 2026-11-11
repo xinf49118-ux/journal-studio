@@ -36,6 +36,14 @@ test('portable import remaps image references, preserves original and empty proj
  const empty=bundle();empty.project.layers=[];assert.equal((await restoreBundle(empty,()=>{},materials)).layers.length,0);
 });
 test('collections retain decorative art plus 32 functional stickers in each theme',()=>{
- assert.equal(manifest.items.length,565);
- for(const c of manifest.collections){const items=manifest.items.filter(m=>m.collection===c.id);assert.equal(items.length,64);assert.equal(items.filter(m=>m.usage==='functional').length,32);assert.equal(items.filter(m=>m.pack==='story-travel').length,16);assert.equal(new Set(items.map(m=>m.file)).size,64);for(const m of items)assert.ok(m.id.startsWith(m.cat+'_'));}
+ assert.equal(manifest.items.length,613);
+ for(const c of manifest.collections.filter(c=>!c.id.startsWith('cn_'))){const items=manifest.items.filter(m=>m.collection===c.id);assert.equal(items.length,64);assert.equal(items.filter(m=>m.usage==='functional').length,32);assert.equal(items.filter(m=>m.pack==='story-travel').length,16);assert.equal(new Set(items.map(m=>m.file)).size,64);for(const m of items)assert.ok(m.id.startsWith(m.cat+'_'));}
+});
+test('Chinese original pack adds three complete collections without replacing older assets',()=>{
+ const fresh=manifest.items.filter(m=>m.pack==='chinese-original');assert.equal(fresh.length,48);
+ assert.equal(manifest.collections.length,9);assert.equal(new Set(manifest.items.map(m=>m.id)).size,613);
+ for(const id of ['cn_botanical','cn_scene','cn_action']){
+  assert.equal(fresh.filter(m=>m.collection===id).length,16);assert.equal(manifest.collections.find(c=>c.id===id).count,16);
+ }
+ for(const id of ['sticker_cn_scene_arch_window','sticker_cn_scene_desk','sticker_cn_scene_lamp'])assert.ok(fresh.some(m=>m.id===id));
 });

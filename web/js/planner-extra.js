@@ -45,7 +45,42 @@ export function expandedPlannerProject(o,materials,t,layout,dates) {
  if(layout.id==='study_2weeks'&&!undated)dateLabel=`${week()[0].toISOString().slice(0,10)} — ${new Date(week()[0].getTime()+13*86400000).toISOString().slice(0,10)}`;
  text(dateLabel,12,39,2.7,soft);
  const id=layout.id;
- if(id==='daily_story') {
+ if(id==='goal_steps') {
+  section('我想实现的一个愿望',12,51,124);line(12,68,124);
+  section('为什么值得做 / 怎样算完成',12,78,124);rule(12,94,124,2,8);
+  table(['行动步骤','完成期限','检查结果'],[72,26,26],{y:113,rows:3,rh:16,prefill:[['01'],['02'],['03']]});
+  section('今天就能开始的一小步',12,180,124);line(12,199,124);
+ } else if(id==='weekly_review') {
+  const titles=['本周真正推进的事','卡在哪里 / 可以求助谁','时间花在哪里','有效的方法 / 下周继续'];
+  titles.forEach((s,i)=>{const x=12+i%2*65,y=51+Math.floor(i/2)*52;section(s,x,y,59);rule(x,y+17,59,4,8);});
+  section('下周最重要的三件事',12,159,124);for(let i=0;i<3;i++){checkbox(12,175+i*11);line(20,179+i*11,116);}
+ } else if(id==='reading_extract') {
+  section('书名 / 作者 / 页码',12,51,124);line(12,68,124);
+  section('原文摘录',12,79,124);rule(12,95,124,5,8);
+  section('我的理解 / 联想到的事',12,143,124);rule(12,159,124,6,8);
+ } else if(id==='plant_observation') {
+  section('名称 / 观察地点 / 天气',12,51,124);line(12,67,124);
+  box(12,77,67,68);text('照片 / 手绘 / 叶片拓印',17,108,2.8,soft);
+  ['叶片与形态','花果与气味','生长环境'].forEach((s,i)=>{section(s,89,77+i*24,47);line(89,94+i*24,47);});
+  section('今天发现的变化 / 下次想观察',12,159,124);rule(12,176,124,4,8);
+ } else if(id==='season_notes') {
+  ['春 · 萌发','夏 · 生长','秋 · 收获','冬 · 收藏'].forEach((s,i)=>{const x=12+i%2*65,y=51+Math.floor(i/2)*68;box(x,y,59,8);text(s,x+3,y+2,3);text('日期 / 地点 / 看到的变化',x,y+14,2.5,soft);rule(x,y+28,59,4,9);});
+  section('这一年，最想留下的自然记忆',12,191,124);
+ } else if(id==='museum_notes') {
+  section('展览 / 场馆 / 作品名称',12,51,124);line(12,68,124);
+  box(12,78,60,65);text('作品速写 / 票根 / 照片',16,107,2.6,soft);
+  ['作者 / 年代','材质 / 展签信息','吸引我的细节'].forEach((s,i)=>{section(s,82,78+i*24,54);line(82,94+i*24,54);});
+  section('我的感受 / 想继续了解的问题',12,158,124);rule(12,175,124,4,8);
+ } else if(id==='scene_collage') {
+  box(12,51,124,89,'#F7F1E7');line(12,140,124);
+  for(const [key,x,y,w,h] of [['arch_window',20,57,46,58],['desk',73,93,57,41],['lamp',105,82,27,31]]){
+   const m=materials.find(m=>m.id===`sticker_cn_scene_${key}`);if(m)layers.push(makeMaterialLayer(m,{x_mm:x,y_mm:y,w_mm:w,h_mm:h}));
+  }
+  section('窗边的一段时光',12,153,124);rule(12,170,124,4,9);
+ } else if(id==='letter_page') {
+  text('亲爱的：________________',12,53,3.5);rule(12,76,124,12,8);
+  text('此刻的我：____________',72,184,2.9);text('希望在这一天打开：____________',54,198,2.7,soft);
+ } else if(id==='daily_story') {
   section('今天的关键词',12,51,124);line(12,67,124);
   box(12,77,55,53);text('贴一张照片 / 画一幅画',16,99,2.8,soft);
   section('今天的片刻',77,77,59);rule(77,93,59,5,8);

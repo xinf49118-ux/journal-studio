@@ -1,7 +1,8 @@
 import {writeFileSync} from 'node:fs';
 import {plannerLayouts as allLayouts} from '../web/js/planner.js';
 import {storyLayouts} from '../web/js/brand-catalog.js';
-const plannerLayouts=allLayouts.filter(l=>!storyLayouts.some(s=>s.id===l.id));
+import {chinaLayouts} from '../web/js/china-catalog.js';
+const plannerLayouts=allLayouts.filter(l=>![...storyLayouts,...chinaLayouts].some(s=>s.id===l.id));
 import {kokuyoSeries,researchScope,plannerGroups} from '../web/js/planner-catalog.js';
 const escape=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const use=id=>`https://xinf49118-ux.github.io/journal-studio/?layout=${encodeURIComponent(id)}`;

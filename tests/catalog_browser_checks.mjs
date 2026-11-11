@@ -5,7 +5,8 @@ export async function catalogChecks(cdp,check,art){
  console.log('\n[系列参考] 完整目录与扩展内页');
  const before=await cdp.eval(`(async()=>JSON.stringify((await import('./web/js/core.js')).serializeProject()))()`);
  await cdp.eval(`document.querySelector('[data-tab="reference"]').click()`);await pause(250);
- check('32项系列参考有来源链接和可用内页入口',await cdp.eval(`document.querySelectorAll('.reference-card').length===32 && [...document.querySelectorAll('.reference-card')].every(c=>c.querySelector('a[href^="https://"]')&&c.querySelector('button'))`));
+ check('37项系列参考有来源链接和可用内页入口',await cdp.eval(`document.querySelectorAll('.reference-card').length===37 && [...document.querySelectorAll('.reference-card')].every(c=>c.querySelector('a[href^="https://"]')&&c.querySelector('button'))`));
+ check('五个国产品牌可分别筛选，历史资料和店铺限制清楚标明',await cdp.eval(`(()=>{const s=document.querySelector('#reference-brand');const names=['kinbor','九口山','趁早','MOODTAPE','陌墨 MO.CARD'];return names.every(n=>{s.value=n;s.dispatchEvent(new Event('change'));const c=document.querySelectorAll('.reference-card');return c.length===1 && (n!=='九口山'||c[0].textContent.includes('2021')) && (n!=='陌墨 MO.CARD'||c[0].textContent.includes('未展示商品'));})})()`));
  await cdp.eval(`document.querySelector('#reference-brand').value='MIDORI';document.querySelector('#reference-brand').dispatchEvent(new Event('change'))`);
  check('品牌筛选显示MIDORI的三个系列',await cdp.eval(`document.querySelectorAll('.reference-card').length===3 && [...document.querySelectorAll('.reference-card')].every(c=>c.textContent.includes('MIDORI'))`));
  await cdp.eval(`document.querySelector('.reference-card button').click();document.querySelector('#planner-date').value='2024-02-29';document.querySelector('#planner-date').dispatchEvent(new Event('change',{bubbles:true}))`);await pause(500);
@@ -37,7 +38,7 @@ export async function catalogChecks(cdp,check,art){
   })()`);
   writeFileSync(join(art,'catalog-'+layout.id+'.png'),Buffer.from(r.image,'base64'));delete r.image;results.push(r);
  }
- check('61种内页全部实际渲染，文字未超出纸张安全区',results.every(r=>r.bytes>3000&&r.layers<1000&&r.overflow.length===0),JSON.stringify(results.filter(r=>r.overflow.length)));
+ check('69种内页全部实际渲染，文字未超出纸张安全区',results.every(r=>r.bytes>3000&&r.layers<1000&&r.overflow.length===0),JSON.stringify(results.filter(r=>r.overflow.length)));
  writeFileSync(join(art,'catalog-render-results.json'),JSON.stringify(results,null,2));
  // Render contact sheets from the actual exported pages for visual review.
  for(const group of [...new Set(catalog.map(l=>l.group))]){
@@ -63,6 +64,7 @@ export async function catalogChecks(cdp,check,art){
  check('年度内页使用独立年份控件',await cdp.eval(`!document.querySelector('#planner-year-field').hidden && document.querySelector('#planner-date-field').hidden && !document.querySelector('#apply-planner').disabled`));
  const guide=await cdp.eval(`(async()=>{const text=await(await fetch('./docs/kokuyo-guide.html')).text();return text.includes('49种')&&text.includes('21项')&&text.includes('?layout=study_2weeks')&&text.includes('2026规格表');})()`);
  check('完整整理包含系列、49种内页及可点击入口',guide);
- check('多品牌整理包含61种内页与三个新增品牌',await cdp.eval(`(async()=>{const t=await(await fetch('./docs/brands-guide.html')).text();return t.includes('61种')&&t.includes('Hobonichi')&&t.includes('MIDORI')&&t.includes('TRAVELER')&&t.includes('?layout=tickets');})()`));
+ check('多品牌整理包含69种内页与日系品牌',await cdp.eval(`(async()=>{const t=await(await fetch('./docs/brands-guide.html')).text();return t.includes('69种')&&t.includes('Hobonichi')&&t.includes('MIDORI')&&t.includes('TRAVELER')&&t.includes('?layout=tickets');})()`));
+ check('完整整理包含国产品牌与新内页入口',await cdp.eval(`(async()=>{const t=await(await fetch('./docs/brands-guide.html')).text();return ['kinbor','九口山','趁早','MOODTAPE','陌墨','?layout=plant_observation','?layout=goal_steps','613 件素材'].every(s=>t.includes(s));})()`));
  await cdp.eval(`history.replaceState(null,'',location.pathname);document.querySelector('#planner-layout').value='monthly';document.querySelector('#planner-layout').dispatchEvent(new Event('change',{bubbles:true}))`);await pause(250);
 }

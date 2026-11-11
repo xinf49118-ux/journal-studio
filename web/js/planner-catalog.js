@@ -1,5 +1,5 @@
 // Research checked 2026-11-11. Product families and independently drawn page functions.
-export const plannerGroups=['日程安排','学习计划','清单与回顾','长期记录','自由笔记','日记拼贴','旅行收藏'];
+export const plannerGroups=['日程安排','学习计划','清单与回顾','长期记录','自由笔记','日记拼贴','旅行收藏','自然观察'];
 const item=(id,name,group,period,subtitle)=>({id,name,group,period,subtitle});
 export const extraLayouts=[
  item('annual_calendar','全年日历','日程安排','year','十二个月放在一页，快速查找日期'),

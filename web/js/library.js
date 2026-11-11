@@ -97,6 +97,7 @@ export function renderGrid() {
     if (view.collection && it.collection !== view.collection) return false;
     if (view.usage==='functional' && it.usage!=='functional') return false;
     if (view.usage==='story' && it.pack!=='story-travel') return false;
+    if (view.usage==='cn' && it.pack!=='chinese-original') return false;
     if (view.usage==='decorative' && it.usage==='functional') return false;
     if (view.favoritesOnly && !favorites.has(it.id)) return false;
     if (view.source === 'web' || view.cat === 'all') return true;

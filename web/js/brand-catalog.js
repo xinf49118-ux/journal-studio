@@ -30,6 +30,6 @@ export const otherSeries=[
  {id:'tn-accordion',brand:'TRAVELER’S COMPANY',family:'TRAVELER’S COMPANY · TN',name:'TN 032 Accordion Fold Paper',status:'官网折页替芯',description:'官网目录列有风琴折页纸替芯，为连续画面和自由记录提供另一种纸本形式。',variants:'工坊提供照片故事与旅途日记；未实现实体折页结构。',url:T,layouts:['photo_story','trip_log']},
 ];
 export const brandScope={checked:'2026-11-11',title:'手账品牌与内页参考目录',
- summary:'国誉、Hobonichi、MIDORI、TRAVELER’S COMPANY 的代表系列与记录方式，按品牌、用途查找，直接进入对应内页预览。',
- limit:'这是已核实的代表系列整理，不是各品牌全球历年所有商品。国誉目录保留原有年份与历史款标注；新增三个品牌的来源与改编范围逐项注明。',
+ summary:'国誉、Hobonichi、MIDORI、TN，以及 kinbor、九口山、趁早、MOODTAPE、陌墨的代表资料与记录方式，按品牌、用途查找，直接进入对应内页预览。',
+ limit:'这是已核实的代表系列整理，不是各品牌全球历年所有商品。国誉目录保留原有年份与历史款标注；各品牌的来源、历史资料和改编范围逐项注明；资料未覆盖之处不推定在售。',
  adaptation:'工坊内页与贴纸为独立绘制的中文版本，默认 A5，可编辑和打印。品牌用于说明参考来源；无品牌原图或官方联名关系。'};

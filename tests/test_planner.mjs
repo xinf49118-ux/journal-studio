@@ -5,6 +5,7 @@ import {plannerProject,plannerLayouts,monthCells,weekDates,parseDate,todayString
 import {templates} from '../web/js/templates.js';
 import {validateBundle,restoreBundle} from '../web/js/backup.js';
 import {kokuyoSeries,plannerGroups} from '../web/js/planner-catalog.js';
+import {chinaLayouts,chinaSeries} from '../web/js/china-catalog.js';
 import {storyLayouts,otherSeries} from '../web/js/brand-catalog.js';
 const manifest=JSON.parse(readFileSync(new URL('../assets/materials/manifest.json',import.meta.url),'utf8'));
 const ids=new Set(manifest.items.map(m=>m.id));
@@ -33,7 +34,7 @@ test('all layout/theme/date-mode combinations fit A5 and survive portable backup
  for(const l of plannerLayouts)for(const t of templates)for(const undated of [false,true]){
   const p=plannerProject({layout:l.id,theme:t.id,month:'2024-02',date:'2024-02-29',undated},manifest.items);
   validateBundle({format:'journal-studio-backup',version:1,project:p,assets:[]},ids);
-  assert.equal(p.layers.filter(l=>l.kind==='material').length,1);
+  assert.equal(p.layers.filter(x=>x.kind==='material').length,l.id==='scene_collage'?4:1);
   for(const layer of p.layers){
    assert.ok(layer.x_mm>=10&&layer.y_mm>=8);
    if(layer.kind!=='text'){assert.ok(layer.x_mm+layer.w_mm<=138.3);assert.ok(layer.y_mm+layer.h_mm<=202);}
@@ -52,10 +53,10 @@ test('habit page excludes nonexistent days and undated calendar has blank cells'
  assert.ok(!text(plannerProject({layout:'monthly',undated:true})).some(s=>/^\d+$/.test(s)));
 });
 test('every research entry resolves to usable layouts; metadata and ids stay unambiguous',()=>{
- assert.equal(plannerLayouts.length,61);assert.equal(kokuyoSeries.length,21);
- assert.equal(new Set(plannerLayouts.map(l=>l.id)).size,61);
+ assert.equal(plannerLayouts.length,69);assert.equal(kokuyoSeries.length,21);
+ assert.equal(new Set(plannerLayouts.map(l=>l.id)).size,69);
  for(const l of plannerLayouts){assert.ok(plannerGroups.includes(l.group));assert.ok(['none','year','month','week','day'].includes(l.period));}
- for(const s of [...kokuyoSeries,...otherSeries]){assert.match(s.url,/^https:\/\//);assert.ok(s.status&&s.variants);for(const id of s.layouts)assert.ok(plannerLayouts.some(l=>l.id===id));}
+ for(const s of [...kokuyoSeries,...otherSeries,...chinaSeries]){assert.match(s.url,/^https:\/\//);assert.ok(s.status&&s.variants);for(const id of s.layouts)assert.ok(plannerLayouts.some(l=>l.id===id));}
 });
 test('two-week dates cross year correctly; yearly controls reject invalid years',()=>{
  const text=p=>p.layers.filter(l=>l.kind==='text').map(l=>l.text);
