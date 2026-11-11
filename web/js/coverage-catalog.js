@@ -3,12 +3,12 @@ export const coverageChecked='2026-11-11';
 export const coverageStatuses={ready:'功能已加入',partial:'部分覆盖',missing:'待补充',unknown:'资料不足',reference:'仅资料收录'};
 export const coverageScope='核查项包含系列、具体格式、配件与待核实线索，不是商品总数。功能已加入仅指工坊的原创中文页面；部分覆盖不等于整本复刻。未获得全球历年完整 SKU 清单，无法计算全品牌覆盖率。';
 export const brandCoverage=[
- ['KOKUYO','已核对 Jibun、Campus、学习计划及历史资料。MO 01—07 未逐款核实；年份附页、地区款与历史联名尚无全量清单。'],
+ ['KOKUYO','已核对 Jibun、Campus、学习计划及历史资料。MO 02／03／05／07 已找到逐款官方商品页；01／04／06 的官方规格仍待补。年份附页与历史联名尚无全量清单。'],
  ['Hobonichi','拆分 2027 官网的主要本体格式。封面、联名、语言与每个年度附页未逐 SKU 收录。'],
  ['MIDORI','核对 2027 八个日程系列、hibino、Yuru Log、多年 Gate。纸张、插画及实体装订不计作已实现。'],
  ['MD PRODUCT','作为关联的独立品牌单列，核对 2027 四类日程产品；套装、封套与全尺寸版本未穷举。'],
  ['TRAVELER’S COMPANY','按官网常规与护照替芯目录逐号列出，另列年度款。实体配件和纸张属性仅收录资料；不是全部地区限定版。'],
- ['kinbor','拆分官网原创和联名目录；大部分页面只说明主题与产品类别，尚不足以确认各款内页。'],
+ ['kinbor','新增认证品牌账号的 2027 全年本、B6 周计划与周计划套装内页清单；其他主题、联名和版本仍需逐款确认。'],
  ['九口山','馆方历史合作可核实；另收录 AM 文创文章的转载线索，尚未获得品牌全量目录与内页规格。'],
  ['趁早','认证账号确认基础内页和大学生版；厚本、薄本、口袋本与年度特别版仍需逐款规格。'],
  ['MOODTAPE','官方海外店、单品页和官方账号可核实部分胶带与印章；店铺显示的总商品数不等于已逐项核实。'],
@@ -22,12 +22,22 @@ const J='https://www.kokuyo.com/stationery/series/jibun-techo/';
 for(const s of kokuyoSeries.filter(s=>s.id!=='extras')){
  const status=s.id==='mo'?'unknown':s.id==='goods'?'reference':'partial';
  add('k-'+s.id,'KOKUYO',s.name,'系列',status,s.status,s.url,status==='unknown'||status==='reference'?[]:s.layouts,
-  s.id==='mo'?s.variants:s.id==='goods'?'实体配件与品牌图案未加入。':s.id==='appendix'?'地图、交通线路、时差及年龄速查尚未实现。':'仅覆盖所列通用功能，原版尺寸、整册组合与品牌图案未实现。',s.description);
+  s.id==='mo'?'本体原页面仍有描述冲突；已另找到02／03／05／07逐款替芯规格，见对应核查项。':s.id==='goods'?'实体配件与品牌图案未加入。':s.id==='appendix'?'年龄速查已补；地图、交通线路与时差专页尚未实现。':'仅覆盖所列通用功能，原版尺寸、整册组合与品牌图案未实现。',s.description);
 }
 for(const [name,id] of [['24小时周轴','weekly_vertical'],['月计划与习惯','monthly_log'],['一日双区记录','day_split'],['月度项目表','monthly_project'],['人生阶段计划','life_plan'],['100项愿望','wishlist100'],['纪念日','anniversaries'],['家庭关系','family'],['资产记录','assets'],['阅读记录','reading'],['观影记录','movies'],['年度回顾','year_review']])
  add('k-function-'+id,'KOKUYO',name,'功能', 'ready','官网规格表',J+'spec/',[id],'独立中文功能页，非原版印刷样式。');
-for(const n of ['01','02','03','04','05','06','07'])add('k-mo-'+n,'KOKUYO','MO 替芯 '+n,'待核实款','unknown','地区商品页存在描述冲突','https://vipssl.ey100.com/Goods/ItemDetail_9200-0118_1.htm',[],'尚未取得此编号的可靠内页规格，不能从同系列推断。');
-for(const [id,name] of [['age','年龄速查表'],['map','日本／世界地图记录页'],['timezone','交通线路与时差信息页']])add('k-gap-'+id,'KOKUYO',name,'功能','missing','官网规格表',J+'spec/',[],'尚无对应专用页面；旅行清单或个人资料页不能替代。');
+const moVerified={
+ '02':['时间轴周计划','weekly_vertical','2023-7581_2'],
+ '03':['时间轴每日计划','life_left','9200-0122_1'],
+ '05':['4mm方格','grid','9200-0124_1'],
+ '07':['空白','blank','9200-0126_1']
+};
+for(const n of ['01','02','03','04','05','06','07']){
+ const v=moVerified[n];
+ add('k-mo-'+n,'KOKUYO','MO 替芯 '+n+(v?' · '+v[0]:''),v?'替芯':'待核实款',v?'partial':'unknown',v?'国誉易优百逐款商品页':'官方完整规格待补',v?`https://vipssl.ey100.com/Goods/ItemDetail_${v[2]}.htm`:'https://vipssl.ey100.com/Goods/ItemDetail_9200-0118_1.htm',v?[v[1]]:[],v?'用途已核实；原品180×125mm、18孔，页面显示不再销售。工坊为A5通用页，无打孔／原材质。':'01横向周、04月计划有京东目录线索；06仍缺可靠逐款规格。尚不以通用模板代替核实。');
+}
+add('k-gap-age','KOKUYO','年龄速查表','功能','ready','官网规格表',J+'spec/',['age_lookup'],'按所选年份计算0—99周岁；生日未到时减1，非原书附页复刻。');
+for(const [id,name] of [['map','日本／世界地图记录页'],['timezone','交通线路与时差信息页']])add('k-gap-'+id,'KOKUYO',name,'功能','missing','官网规格表',J+'spec/',[],'尚无对应专用页面；旅行清单或个人资料页不能替代。');
 
 const H='https://www.1101.com/store/techo/en/2027/pc/';
 for(const [key,name,ids] of [
@@ -53,7 +63,7 @@ md('gradation','Gradation Diary',['weekly_vertical'],'24 小时记录可用；�
 md('hibino','hibino',['life_left','life_right','monthly','annual_plan'],'两张独立页面；没有自动整本排版和连续双页导出。',M+'hibino/');
 md('hibino-free','hibino Free Diary',['life_left','life_right'],'可选无日期；配套两页分别保存和打印。',M+'hibino/');
 for(const [n,id] of [[3,'three_year'],[5,'five_year'],[10,'ten_year']])md('gate-'+n,`Gate ${n} 年日记`,[id],'同日跨年功能已加入；原版季节图案、附页及册装未实现。',M+'multi-year-diary-gate/');
-add('m-gate12','MIDORI','Gate 12-Month Diary','系列','unknown','官网列有商品',M+'multi-year-diary-gate/',[],'已确认产品名称；不能仅凭名称推断具体逐日格式。');
+add('m-gate12','MIDORI','Gate 12-Month Diary','系列','partial','官网明确说明每月同日对照',M+'multi-year-diary-gate/',['same_day_months'],'工坊将每月同日放在A5单页；原书双页展开、季节插画和问答附页未实现。');
 md('yuru-note','Yuru Log 笔记本',['dot','daily_story'],'仅提供通用书写与日记功能，品牌原插画未加入。',M+'yurulog/');
 for(const n of ['贴纸','印章'])add('m-yuru-'+n,'MIDORI','Yuru Log '+n,'配件／图案','reference','官网产品目录',M+'yurulog/',[],'工坊原创相框与标签不计作品牌原品已加入。');
 for(const [id,name] of [['sleep_log','整月睡眠时段'],['fortnight_diary','两周日记'],['weekly_dual','每天左右分栏'],['dual_month','同月双日程']])add('m-function-'+id,'MIDORI',name,'功能','ready','官网格式说明',M+'diary/',[id],'独立中文功能实现，非原版等比复刻。');
@@ -71,13 +81,23 @@ const passport=[
 ];
 for(const [size,list] of [['regular',regular],['passport',passport]])for(const [num,name,id] of list){
  const fold=name==='风琴折页';
- add(`t-${size}-${num}`,'TRAVELER’S COMPANY',`${size==='regular'?'常规':'护照'} ${num} · ${name}`,id?'替芯':'配件／图案',fold?'missing':id?'partial':'reference','官网替芯目录',T+'refill-'+size,id?[id]:[],fold?'尚无连续风琴折页与拼接打印。':id?'仅对应记录用途，TN 实际尺寸、材质与装订未实现。':'实体配件或特殊纸张，目录收录不等于数字实现。');
+ add(`t-${size}-${num}`,'TRAVELER’S COMPANY',`${size==='regular'?'常规':'护照'} ${num} · ${name}`,id||fold?'替芯':'配件／图案',fold?'partial':id?'partial':'reference',fold?'制造商官方规格 · 2023':'官网替芯目录',fold?'https://www.designphil.co.jp/presspdf/230309_tr_EN.pdf':T+'refill-'+size,id?[id]:[],fold?'已提供实际尺寸A4拼接折页PDF，含裁切线、交替折线和接贴区；原厂纸张、原版13页与装订未实现。':id?'仅对应记录用途，TN 实际尺寸、材质与装订未实现。':'实体配件或特殊纸张，目录收录不等于数字实现。');
+ if(fold)rows.at(-1).tool='fold';
 }
 add('t-discontinued','TRAVELER’S COMPANY','常规 006 Pocket Sticker L','配件／图案','reference','官网标注停产',T+'refill-regular',[],'历史条目，不推定当前在售。');
 for(const [key,name,ids] of [['r-month','常规年度月历',['monthly']],['r-vertical','常规年度纵向周计划',['weekly_vertical']],['r-week','常规年度周记＋笔记',['weekly_notes']],['p-month','护照年度月历',['monthly']],['p-week','护照年度周记',['weekly']]])add('t-2027-'+key,'TRAVELER’S COMPANY','2027 '+name,'系列','partial','官网年度目录',T+'2027-diary',ids,'按需生成日期；年度整套替芯、尺寸及专用附页未实现。');
 add('t-2027-goods','TRAVELER’S COMPANY','2027 限定文件夹／贴纸等','配件／图案','reference','官网年度目录',T+'2027-diary',[],'年度图案和实体配件仅收录来源。');
 
 const K='https://www.kinbor.net/';
+const K27='https://www.sina.cn/news/detail/5328251473101434.html';
+const KW='https://www.sina.cn/news/detail/5328976378855866.html';
+for(const [id,name,source,layouts,note] of [
+ ['year','2027 全年本 A5／A6',K27,['annual_calendar','habits','monthly','annual_plan','life_left','gifts','challenge21'],'品牌列日程与21天等内页；部分附页仍需逐页规格。'],
+ ['half','2027 上下分册 · 飞鸟与海',K27,['daily_story','monthly','challenge21'],'分册属于版本；不重复计算为新格式，原版分册页序未实现。'],
+ ['b6','2027 B6 周计划',KW,['annual_calendar','monthly','weekly','gifts','year_review','personal'],'品牌给出年历、月／周计划、清单与回顾等，原版周格式细节未全部核实。'],
+ ['set','2027 周计划套装',KW,['monthly','weekly','gifts','challenge21'],'原套装另有贴纸和月历卡，未将这些品牌原图加入。']])add('kin-2027-'+id,'kinbor',name,'系列','partial','认证品牌账号 · 2026',source,layouts,note);
+add('kin-challenge','kinbor','21天行动计划','功能','ready','认证品牌账号列有21天计划',K27,['challenge21'],'连续21天日期和完成框是工坊独立设计，不是原版等比图。');
+for(const [i,n] of ['2027 时间轴系列','2027 八分格系列','2027 效率本系列'].entries())add('kin-2027-ref-'+i,'kinbor',n,'系列','reference','认证品牌账号列出产品线',K27,[],'产品线名称已核实，完整规格仍待补；名称不能证明全册已实现。');
 for(const [key,name,note] of [['new','畅销新品','页面介绍布面／刺绣与自填式内页，未给出逐页清单。'],['space','宇宙','主题含手账、套装、周边与胶带。'],['mimo','MIMO','原创角色主题，目录列手账及周边。'],['sakura','樱花','主题含手账套装、周边与胶带。']])add('kin-'+key,'kinbor',name,'系列','unknown','官网原创目录',K+'original.html',[],'系列已核实，具体内页与各商品尚未逐款确认。',note);
 for(const [i,name] of ['盗墓笔记','龙族','三丽鸥','Brunch Brother','白日提灯','迪士尼','阴阳师','知否知否应是绿肥红瘦','重启之极海听雷','博物馆合作','艺术家合作','双品牌联名'].entries())add('kin-cross-'+i,'kinbor',name,'配件／图案','reference','官网跨界合作目录',K+'cooper.html',[],'仅确认合作分类；各联名商品与内页未逐款列全，品牌角色未加入素材库。');
 
@@ -85,9 +105,9 @@ add('jiu-pixel','九口山','世界像素 · 博氪球合作','系列','referenc
 for(const [i,name] of ['大闹天宫（绘画本／缝线本／明信片）','小动物商店街','闪闪发光（周历／口袋本）','四字箴言','fiesta 嘉年华','井田志半年本','生活百科全书','小材有大用'].entries())add('jiu-lead-'+i,'九口山',name,'待核实款','unknown','AM 文创文章转载 · 2025','https://www.sohu.com/a/914867667_121124800',[],'找到具体系列线索；转载账号不是品牌官方，尚待核对内页原始资料。');
 
 const CZ='https://www.sina.cn/news/detail/5334715154303627.html';
-add('cz-student','趁早','2027 效率手册 · 大学生版','系列','partial','品牌认证账号 · 2026',CZ,['life_plan','annual_plan','wishlist100','reading','movies','monthly_dimensions','wellbeing_day','semester_review'],'已覆盖公开列明的主要用途；学年跨年整册、身体坐标轴原格式未完整实现。');
+add('cz-student','趁早','2027 效率手册 · 大学生版','系列','partial','品牌认证账号 · 2026',CZ,['life_plan','annual_plan','wishlist100','reading','movies','monthly_dimensions','wellbeing_day','semester_review','body_track'],'已覆盖公开列明的主要用途；学年跨年整册、身体坐标轴原格式未完整实现。');
 for(const [id,name] of [['life_plan','一生的计划'],['wishlist100','愿望清单'],['reading','读书清单'],['movies','观影清单'],['monthly_dimensions','七维月计划'],['wellbeing_day','每日24小时与生活记录'],['semester_review','学期总结']])add('cz-function-'+id,'趁早',name,'功能','ready','品牌认证账号',CZ,[id],'为对应用途独立设计，非原书逐页复刻。');
-add('cz-body','趁早','身体管理坐标轴','功能','missing','品牌认证账号',CZ,[],'健康就诊页不等于身体变化坐标图，尚无专用可编辑曲线页。');
+add('cz-body','趁早','身体管理坐标轴','功能','ready','品牌认证账号',CZ,['body_track'],'独立设计的逐日坐标底图，指标、单位和刻度自填，打印后描点；无自动数值分析，非原版复刻。');
 add('cz-general','趁早','效率手册基础内页','系列','partial','品牌认证账号 · 2025','https://www.sina.cn/news/detail/5120516375707716.html',['life_plan','wishlist100','annual_calendar','monthly'],'年份、薄厚版与其他附页未逐一核实。');
 for(const [i,name] of ['2027 厚本','2027 薄本','2027 口袋本'].entries())add('cz-version-'+i,'趁早',name,'待核实款','unknown','品牌／创始人账号内容，页面含聚合推荐','https://www.sina.cn/news/detail/5342326685437684.html',[],'已发现版本名称；需各版完整规格，不能用单篇聚合页当全册目录。');
 

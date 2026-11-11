@@ -19,6 +19,6 @@ export async function coverageChecks(cdp,check,art){
  check('390px手机核查页没有横向溢出',await cdp.eval(`document.documentElement.scrollWidth<=innerWidth+1`));
  writeFileSync(join(art,'coverage-mobile.png'),Buffer.from((await cdp.send('Page.captureScreenshot',{format:'png'})).data,'base64'));
  await cdp.send('Emulation.clearDeviceMetricsOverride');
- check('可打印核查表与数据同步且明确不等于全部SKU',await cdp.eval(`(async()=>{const {coverageEntries}=await import('./web/js/coverage-catalog.js');const data=await(await fetch('./docs/coverage-data.json')).json();const html=await(await fetch('./docs/coverage.html')).text();return data.entries.length===coverageEntries.length&&html.includes('81 种可编辑内页')&&html.includes('无法计算')&&html.includes('?layout=sleep_log')})()`));
+ check('可打印核查表与数据同步且明确不等于全部SKU',await cdp.eval(`(async()=>{const {coverageEntries}=await import('./web/js/coverage-catalog.js');const data=await(await fetch('./docs/coverage-data.json')).json();const html=await(await fetch('./docs/coverage.html')).text();return data.entries.length===coverageEntries.length&&html.includes('87 种可编辑内页')&&html.includes('无法计算')&&html.includes('?layout=sleep_log')})()`));
  await cdp.eval(`document.querySelector('[data-tab="works"]').click()`);
 }

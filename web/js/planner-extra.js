@@ -45,7 +45,47 @@ export function expandedPlannerProject(o,materials,t,layout,dates) {
  if(['study_2weeks','fortnight_diary'].includes(layout.id)&&!undated)dateLabel=`${week()[0].toISOString().slice(0,10)} — ${new Date(week()[0].getTime()+13*86400000).toISOString().slice(0,10)}`;
  text(dateLabel,12,39,2.7,soft);
  const id=layout.id;
- if(id==='sleep_log') {
+ if(id==='age_lookup') {
+  text('当年生日后满周岁；生日未到时减1岁',12,51,2.5,soft);
+  for(let c=0;c<4;c++){
+   const x=12+c*31;box(x,60,29,7);text('出生年 / 周岁',x+1,61.5,2.5);
+   for(let r=0;r<25;r++){const age=c*25+r,y=70+r*5.2;text(`${undated?'____':year-age} / ${String(age).padStart(2,'0')}`,x+2,y,2.5);line(x,y+4.3,29);}
+  }
+ } else if(id==='body_track') {
+  text('自填指标与刻度，再按每天的记录描点连线',12,51,2.5,soft);
+  for(let i=0;i<2;i++){
+   const y=63+i*67;section(`指标${i+1}：________  单位：____`,12,y,124);
+   text('上限____',12,y+14,2.2);text('下限____',12,y+53,2.2);
+   for(let r=0;r<=5;r++)line(34,y+13+r*8,102);
+   for(let d=0;d<=count;d++)line(34+d*102/count,y+13,.12,40);
+   for(let d=1;d<=count;d++)text(d,34+(d-.7)*102/count,y+55,1.8);
+  }
+  text('备注：____________________________',12,197,2.6);
+ } else if(id==='same_day_months') {
+  const day=focus.getUTCDate();
+  for(let m=0;m<12;m++){
+   const x=12+(m%2)*65,y=51+Math.floor(m/2)*25;
+   const valid=undated||new Date(Date.UTC(year,m+1,0)).getUTCDate()>=day;
+   box(x,y,59,6);text(undated?`${m+1} 月 / ____ 日`:`${m+1} 月 ${day} 日`,x+2,y+1,2.6);
+   if(!valid)text('本月无此日',x+30,y+1,2.5,soft);
+   rule(x,y+14,59,2,7);
+  }
+ } else if(id==='challenge21') {
+  if(!undated&&new Date(focus.getTime()+20*86400000).getUTCFullYear()>2199)throw new Error('21天计划的结束日期不能超过2199年');
+  text('行动目标：____________________________',12,51,2.8);
+  table(['日期','今天的行动 / 感受','完成'],[24,88,12],{y:61,rows:21,rh:6.2,prefill:Array.from({length:21},(_,i)=>[undated?`第${i+1}天`:short(new Date(focus.getTime()+i*86400000))])});
+  for(let i=0;i<21;i++)checkbox(128,71+i*6.2,2);
+ } else if(id==='cornell') {
+  box(12,51,124,8);text('主题：____________________________',15,53,2.8);
+  text('关键词 / 问题',12,65,2.8);text('笔记 / 例子 / 推导',49,65,2.8);line(43,65,.2,104);
+  rule(12,79,25,12,8);rule(49,79,87,12,8);
+  section('用自己的话总结',12,178,124);rule(12,193,124,2,7);
+ } else if(id==='film_review') {
+  section('片名 / 导演 / 观看地点',12,51,124);line(12,68,124);
+  box(12,78,55,44);text('电影票根 / 自己的速写',15,96,2.5,soft);
+  section('人物与印象',77,78,59);rule(77,94,59,4,8);
+  section('记住的片段 / 想说的话',12,136,124);rule(12,152,124,6,8);
+ } else if(id==='sleep_log') {
   text('涂色标记睡眠 · 每行从当天18点至次日17点',12,51,2.5,soft);
   for(let h=0;h<24;h++)text(String((h+18)%24).padStart(2,'0'),25+h*4.6,59,2);
   for(let d=0;d<count;d++)text(d+1,13,66+d*4,2.3);

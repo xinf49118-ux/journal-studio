@@ -53,8 +53,8 @@ test('habit page excludes nonexistent days and undated calendar has blank cells'
  assert.ok(!text(plannerProject({layout:'monthly',undated:true})).some(s=>/^\d+$/.test(s)));
 });
 test('every research entry resolves to usable layouts; metadata and ids stay unambiguous',()=>{
- assert.equal(plannerLayouts.length,81);assert.equal(kokuyoSeries.length,21);
- assert.equal(new Set(plannerLayouts.map(l=>l.id)).size,81);
+ assert.equal(plannerLayouts.length,87);assert.equal(kokuyoSeries.length,21);
+ assert.equal(new Set(plannerLayouts.map(l=>l.id)).size,87);
  for(const l of plannerLayouts){assert.ok(plannerGroups.includes(l.group));assert.ok(['none','year','month','week','day'].includes(l.period));}
  for(const s of [...kokuyoSeries,...otherSeries,...chinaSeries]){assert.match(s.url,/^https:\/\//);assert.ok(s.status&&s.variants);for(const id of s.layouts)assert.ok(plannerLayouts.some(l=>l.id===id));}
 });

@@ -2,6 +2,7 @@ import {coverageEntries,brandCoverage,coverageStatuses,coverageScope,coverageChe
 import {plannerLayouts} from './planner.js';
 import {$,el} from './ui.js';
 import {downloadBlob} from './api.js';
+import {openFold} from './fold-ui.js';
 export function initCoverage(choose){
  $('#coverage-scope').textContent=coverageScope;
  for(const {brand} of brandCoverage)$('#coverage-brand').append(el('option',{value:brand,text:brand}));
@@ -27,6 +28,7 @@ export function initCoverage(choose){
     for(const id of r.layouts)choices.append(el('button',{class:'btn ghost',text:plannerLayouts.find(l=>l.id===id).name,onclick:()=>choose(id)}));
     card.append(choices);
    }
+   if(r.tool==='fold')card.append(el('button',{class:'btn',text:'打开连续折页打印',onclick:openFold}));
    grid.append(card);
   }
   if(!items.length)grid.append(el('p',{text:'没有匹配项，试试清空关键词或筛选条件。'}));

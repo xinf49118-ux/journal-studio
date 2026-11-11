@@ -4,7 +4,7 @@
   "brands": [
     {
       "brand": "KOKUYO",
-      "limit": "已核对 Jibun、Campus、学习计划及历史资料。MO 01—07 未逐款核实；年份附页、地区款与历史联名尚无全量清单。"
+      "limit": "已核对 Jibun、Campus、学习计划及历史资料。MO 02／03／05／07 已找到逐款官方商品页；01／04／06 的官方规格仍待补。年份附页与历史联名尚无全量清单。"
     },
     {
       "brand": "Hobonichi",
@@ -24,7 +24,7 @@
     },
     {
       "brand": "kinbor",
-      "limit": "拆分官网原创和联名目录；大部分页面只说明主题与产品类别，尚不足以确认各款内页。"
+      "limit": "新增认证品牌账号的 2027 全年本、B6 周计划与周计划套装内页清单；其他主题、联名和版本仍需逐款确认。"
     },
     {
       "brand": "九口山",
@@ -345,7 +345,7 @@
       "evidence": "中国市场资料",
       "url": "https://vipssl.ey100.com/Goods/ItemDetail_9200-0118_1.htm",
       "layouts": [],
-      "remaining": "该页面显示不再销售，且标题与正文格式描述不一致；替芯01—07未逐一确认，不据此声称全部在售。",
+      "remaining": "本体原页面仍有描述冲突；已另找到02／03／05／07逐款替芯规格，见对应核查项。",
       "note": "国誉旗下易优百核实 B6、18孔、自填日期和可替换内芯，商品标题为时间轴周计划。",
       "checked": "2026-11-11"
     },
@@ -407,7 +407,7 @@
         "personal",
         "travel"
       ],
-      "remaining": "地图、交通线路、时差及年龄速查尚未实现。",
+      "remaining": "年龄速查已补；地图、交通线路与时差专页尚未实现。",
       "note": "规格表还列多年度日历、年龄速查、日本地图、交通线路和时差地图等附页。",
       "checked": "2026-11-11"
     },
@@ -597,36 +597,40 @@
       "name": "MO 替芯 01",
       "kind": "待核实款",
       "status": "unknown",
-      "evidence": "地区商品页存在描述冲突",
+      "evidence": "官方完整规格待补",
       "url": "https://vipssl.ey100.com/Goods/ItemDetail_9200-0118_1.htm",
       "layouts": [],
-      "remaining": "尚未取得此编号的可靠内页规格，不能从同系列推断。",
+      "remaining": "01横向周、04月计划有京东目录线索；06仍缺可靠逐款规格。尚不以通用模板代替核实。",
       "note": "",
       "checked": "2026-11-11"
     },
     {
       "id": "k-mo-02",
       "brand": "KOKUYO",
-      "name": "MO 替芯 02",
-      "kind": "待核实款",
-      "status": "unknown",
-      "evidence": "地区商品页存在描述冲突",
-      "url": "https://vipssl.ey100.com/Goods/ItemDetail_9200-0118_1.htm",
-      "layouts": [],
-      "remaining": "尚未取得此编号的可靠内页规格，不能从同系列推断。",
+      "name": "MO 替芯 02 · 时间轴周计划",
+      "kind": "替芯",
+      "status": "partial",
+      "evidence": "国誉易优百逐款商品页",
+      "url": "https://vipssl.ey100.com/Goods/ItemDetail_2023-7581_2.htm",
+      "layouts": [
+        "weekly_vertical"
+      ],
+      "remaining": "用途已核实；原品180×125mm、18孔，页面显示不再销售。工坊为A5通用页，无打孔／原材质。",
       "note": "",
       "checked": "2026-11-11"
     },
     {
       "id": "k-mo-03",
       "brand": "KOKUYO",
-      "name": "MO 替芯 03",
-      "kind": "待核实款",
-      "status": "unknown",
-      "evidence": "地区商品页存在描述冲突",
-      "url": "https://vipssl.ey100.com/Goods/ItemDetail_9200-0118_1.htm",
-      "layouts": [],
-      "remaining": "尚未取得此编号的可靠内页规格，不能从同系列推断。",
+      "name": "MO 替芯 03 · 时间轴每日计划",
+      "kind": "替芯",
+      "status": "partial",
+      "evidence": "国誉易优百逐款商品页",
+      "url": "https://vipssl.ey100.com/Goods/ItemDetail_9200-0122_1.htm",
+      "layouts": [
+        "life_left"
+      ],
+      "remaining": "用途已核实；原品180×125mm、18孔，页面显示不再销售。工坊为A5通用页，无打孔／原材质。",
       "note": "",
       "checked": "2026-11-11"
     },
@@ -636,23 +640,25 @@
       "name": "MO 替芯 04",
       "kind": "待核实款",
       "status": "unknown",
-      "evidence": "地区商品页存在描述冲突",
+      "evidence": "官方完整规格待补",
       "url": "https://vipssl.ey100.com/Goods/ItemDetail_9200-0118_1.htm",
       "layouts": [],
-      "remaining": "尚未取得此编号的可靠内页规格，不能从同系列推断。",
+      "remaining": "01横向周、04月计划有京东目录线索；06仍缺可靠逐款规格。尚不以通用模板代替核实。",
       "note": "",
       "checked": "2026-11-11"
     },
     {
       "id": "k-mo-05",
       "brand": "KOKUYO",
-      "name": "MO 替芯 05",
-      "kind": "待核实款",
-      "status": "unknown",
-      "evidence": "地区商品页存在描述冲突",
-      "url": "https://vipssl.ey100.com/Goods/ItemDetail_9200-0118_1.htm",
-      "layouts": [],
-      "remaining": "尚未取得此编号的可靠内页规格，不能从同系列推断。",
+      "name": "MO 替芯 05 · 4mm方格",
+      "kind": "替芯",
+      "status": "partial",
+      "evidence": "国誉易优百逐款商品页",
+      "url": "https://vipssl.ey100.com/Goods/ItemDetail_9200-0124_1.htm",
+      "layouts": [
+        "grid"
+      ],
+      "remaining": "用途已核实；原品180×125mm、18孔，页面显示不再销售。工坊为A5通用页，无打孔／原材质。",
       "note": "",
       "checked": "2026-11-11"
     },
@@ -662,23 +668,25 @@
       "name": "MO 替芯 06",
       "kind": "待核实款",
       "status": "unknown",
-      "evidence": "地区商品页存在描述冲突",
+      "evidence": "官方完整规格待补",
       "url": "https://vipssl.ey100.com/Goods/ItemDetail_9200-0118_1.htm",
       "layouts": [],
-      "remaining": "尚未取得此编号的可靠内页规格，不能从同系列推断。",
+      "remaining": "01横向周、04月计划有京东目录线索；06仍缺可靠逐款规格。尚不以通用模板代替核实。",
       "note": "",
       "checked": "2026-11-11"
     },
     {
       "id": "k-mo-07",
       "brand": "KOKUYO",
-      "name": "MO 替芯 07",
-      "kind": "待核实款",
-      "status": "unknown",
-      "evidence": "地区商品页存在描述冲突",
-      "url": "https://vipssl.ey100.com/Goods/ItemDetail_9200-0118_1.htm",
-      "layouts": [],
-      "remaining": "尚未取得此编号的可靠内页规格，不能从同系列推断。",
+      "name": "MO 替芯 07 · 空白",
+      "kind": "替芯",
+      "status": "partial",
+      "evidence": "国誉易优百逐款商品页",
+      "url": "https://vipssl.ey100.com/Goods/ItemDetail_9200-0126_1.htm",
+      "layouts": [
+        "blank"
+      ],
+      "remaining": "用途已核实；原品180×125mm、18孔，页面显示不再销售。工坊为A5通用页，无打孔／原材质。",
       "note": "",
       "checked": "2026-11-11"
     },
@@ -687,11 +695,13 @@
       "brand": "KOKUYO",
       "name": "年龄速查表",
       "kind": "功能",
-      "status": "missing",
+      "status": "ready",
       "evidence": "官网规格表",
       "url": "https://www.kokuyo.com/stationery/series/jibun-techo/spec/",
-      "layouts": [],
-      "remaining": "尚无对应专用页面；旅行清单或个人资料页不能替代。",
+      "layouts": [
+        "age_lookup"
+      ],
+      "remaining": "按所选年份计算0—99周岁；生日未到时减1，非原书附页复刻。",
       "note": "",
       "checked": "2026-11-11"
     },
@@ -1258,11 +1268,13 @@
       "brand": "MIDORI",
       "name": "Gate 12-Month Diary",
       "kind": "系列",
-      "status": "unknown",
-      "evidence": "官网列有商品",
+      "status": "partial",
+      "evidence": "官网明确说明每月同日对照",
       "url": "https://www.midori-japan.co.jp/english/products/multi-year-diary-gate/",
-      "layouts": [],
-      "remaining": "已确认产品名称；不能仅凭名称推断具体逐日格式。",
+      "layouts": [
+        "same_day_months"
+      ],
+      "remaining": "工坊将每月同日放在A5单页；原书双页展开、季节插画和问答附页未实现。",
       "note": "",
       "checked": "2026-11-11"
     },
@@ -1815,14 +1827,15 @@
       "id": "t-regular-032",
       "brand": "TRAVELER’S COMPANY",
       "name": "常规 032 · 风琴折页",
-      "kind": "配件／图案",
-      "status": "missing",
-      "evidence": "官网替芯目录",
-      "url": "https://www.travelers-company.com/products/trnote/refill-regular",
+      "kind": "替芯",
+      "status": "partial",
+      "evidence": "制造商官方规格 · 2023",
+      "url": "https://www.designphil.co.jp/presspdf/230309_tr_EN.pdf",
       "layouts": [],
-      "remaining": "尚无连续风琴折页与拼接打印。",
+      "remaining": "已提供实际尺寸A4拼接折页PDF，含裁切线、交替折线和接贴区；原厂纸张、原版13页与装订未实现。",
       "note": "",
-      "checked": "2026-11-11"
+      "checked": "2026-11-11",
+      "tool": "fold"
     },
     {
       "id": "t-passport-001",
@@ -2058,14 +2071,15 @@
       "id": "t-passport-018",
       "brand": "TRAVELER’S COMPANY",
       "name": "护照 018 · 风琴折页",
-      "kind": "配件／图案",
-      "status": "missing",
-      "evidence": "官网替芯目录",
-      "url": "https://www.travelers-company.com/products/trnote/refill-passport",
+      "kind": "替芯",
+      "status": "partial",
+      "evidence": "制造商官方规格 · 2023",
+      "url": "https://www.designphil.co.jp/presspdf/230309_tr_EN.pdf",
       "layouts": [],
-      "remaining": "尚无连续风琴折页与拼接打印。",
+      "remaining": "已提供实际尺寸A4拼接折页PDF，含裁切线、交替折线和接贴区；原厂纸张、原版13页与装订未实现。",
       "note": "",
-      "checked": "2026-11-11"
+      "checked": "2026-11-11",
+      "tool": "fold"
     },
     {
       "id": "t-discontinued",
@@ -2165,6 +2179,136 @@
       "url": "https://www.travelers-company.com/products/trnote/2027-diary",
       "layouts": [],
       "remaining": "年度图案和实体配件仅收录来源。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "kin-2027-year",
+      "brand": "kinbor",
+      "name": "2027 全年本 A5／A6",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "认证品牌账号 · 2026",
+      "url": "https://www.sina.cn/news/detail/5328251473101434.html",
+      "layouts": [
+        "annual_calendar",
+        "habits",
+        "monthly",
+        "annual_plan",
+        "life_left",
+        "gifts",
+        "challenge21"
+      ],
+      "remaining": "品牌列日程与21天等内页；部分附页仍需逐页规格。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "kin-2027-half",
+      "brand": "kinbor",
+      "name": "2027 上下分册 · 飞鸟与海",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "认证品牌账号 · 2026",
+      "url": "https://www.sina.cn/news/detail/5328251473101434.html",
+      "layouts": [
+        "daily_story",
+        "monthly",
+        "challenge21"
+      ],
+      "remaining": "分册属于版本；不重复计算为新格式，原版分册页序未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "kin-2027-b6",
+      "brand": "kinbor",
+      "name": "2027 B6 周计划",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "认证品牌账号 · 2026",
+      "url": "https://www.sina.cn/news/detail/5328976378855866.html",
+      "layouts": [
+        "annual_calendar",
+        "monthly",
+        "weekly",
+        "gifts",
+        "year_review",
+        "personal"
+      ],
+      "remaining": "品牌给出年历、月／周计划、清单与回顾等，原版周格式细节未全部核实。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "kin-2027-set",
+      "brand": "kinbor",
+      "name": "2027 周计划套装",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "认证品牌账号 · 2026",
+      "url": "https://www.sina.cn/news/detail/5328976378855866.html",
+      "layouts": [
+        "monthly",
+        "weekly",
+        "gifts",
+        "challenge21"
+      ],
+      "remaining": "原套装另有贴纸和月历卡，未将这些品牌原图加入。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "kin-challenge",
+      "brand": "kinbor",
+      "name": "21天行动计划",
+      "kind": "功能",
+      "status": "ready",
+      "evidence": "认证品牌账号列有21天计划",
+      "url": "https://www.sina.cn/news/detail/5328251473101434.html",
+      "layouts": [
+        "challenge21"
+      ],
+      "remaining": "连续21天日期和完成框是工坊独立设计，不是原版等比图。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "kin-2027-ref-0",
+      "brand": "kinbor",
+      "name": "2027 时间轴系列",
+      "kind": "系列",
+      "status": "reference",
+      "evidence": "认证品牌账号列出产品线",
+      "url": "https://www.sina.cn/news/detail/5328251473101434.html",
+      "layouts": [],
+      "remaining": "产品线名称已核实，完整规格仍待补；名称不能证明全册已实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "kin-2027-ref-1",
+      "brand": "kinbor",
+      "name": "2027 八分格系列",
+      "kind": "系列",
+      "status": "reference",
+      "evidence": "认证品牌账号列出产品线",
+      "url": "https://www.sina.cn/news/detail/5328251473101434.html",
+      "layouts": [],
+      "remaining": "产品线名称已核实，完整规格仍待补；名称不能证明全册已实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "kin-2027-ref-2",
+      "brand": "kinbor",
+      "name": "2027 效率本系列",
+      "kind": "系列",
+      "status": "reference",
+      "evidence": "认证品牌账号列出产品线",
+      "url": "https://www.sina.cn/news/detail/5328251473101434.html",
+      "layouts": [],
+      "remaining": "产品线名称已核实，完整规格仍待补；名称不能证明全册已实现。",
       "note": "",
       "checked": "2026-11-11"
     },
@@ -2509,7 +2653,8 @@
         "movies",
         "monthly_dimensions",
         "wellbeing_day",
-        "semester_review"
+        "semester_review",
+        "body_track"
       ],
       "remaining": "已覆盖公开列明的主要用途；学年跨年整册、身体坐标轴原格式未完整实现。",
       "note": "",
@@ -2625,11 +2770,13 @@
       "brand": "趁早",
       "name": "身体管理坐标轴",
       "kind": "功能",
-      "status": "missing",
+      "status": "ready",
       "evidence": "品牌认证账号",
       "url": "https://www.sina.cn/news/detail/5334715154303627.html",
-      "layouts": [],
-      "remaining": "健康就诊页不等于身体变化坐标图，尚无专用可编辑曲线页。",
+      "layouts": [
+        "body_track"
+      ],
+      "remaining": "独立设计的逐日坐标底图，指标、单位和刻度自填，打印后描点；无自动数值分析，非原版复刻。",
       "note": "",
       "checked": "2026-11-11"
     },

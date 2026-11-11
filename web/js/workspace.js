@@ -7,6 +7,7 @@ import {plannerGroups,kokuyoSeries} from './planner-catalog.js';
 import {otherSeries,brandScope as researchScope} from './brand-catalog.js';
 import {chinaSeries} from './china-catalog.js';
 import {initCoverage} from './coverage.js';
+import {initFold} from './fold-ui.js';
 const referenceSeries=[...kokuyoSeries.map(s=>({...s,brand:'KOKUYO'})),...otherSeries,...chinaSeries];
 import {loadLibrary} from './library.js';
 import {renderToPngBlob} from './render.js';
@@ -187,5 +188,5 @@ export function initWorkspace(flushDraft) {
   await run(async()=>{if(file.size>100_000_000)throw new Error('备份超过 100MB，请拆分作品');const b=JSON.parse(await file.text());await openBundle(b,b.name);await renderWorks();});
  };
  document.querySelector('[data-tab="works"]').addEventListener('click',()=>renderWorks().catch(e=>err(e.message)));
- initPlanner();renderTemplates();renderWorks().catch(e=>err(e.message));
+ initPlanner();initFold();renderTemplates();renderWorks().catch(e=>err(e.message));
 }

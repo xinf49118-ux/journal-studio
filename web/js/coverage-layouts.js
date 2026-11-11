@@ -1,6 +1,12 @@
 // Independent functional layouts, not reproductions of branded printed pages.
 const page=(id,name,group,period,subtitle)=>({id,name,group,period,subtitle});
 export const coverageLayouts=[
+ page('age_lookup','年龄与出生年速查','长期记录','year','列出0至99岁对应出生年，按当年生日后满周岁计算'),
+ page('body_track','身体指标记录图','长期记录','month','自填两个指标、单位和上下限，逐日描点记录变化'),
+ page('same_day_months','十二个月同日对照','日记拼贴','day','对照所选年份每个月的同一天，不存在的日期会标明'),
+ page('challenge21','21天行动计划','清单与回顾','day','从所选日期连续排21天，记录行动、完成情况和感受'),
+ page('cornell','线索与总结笔记','学习计划','none','左栏关键词、右栏正文、底部总结，适合边学边整理'),
+ page('film_review','电影票根与观影笔记','日记拼贴','day','收藏电影票根，写下角色、片段与自己的感受'),
  page('sleep_log','整月睡眠记录','长期记录','month','每天一行，18点至次日17点；手动涂记睡眠时段'),
  page('fortnight_diary','两周生活日记','日记拼贴','week','连续十四天分为两栏，跨月跨年自动排日期'),
  page('weekly_dual','每周双栏日程','日程安排','week','每天分开记录两类安排，栏名可以改成工作与生活'),
