@@ -1,6 +1,6 @@
 # 手账工坊 Journal Studio
 
-**2026-11-11 更新：DIY整册工作台已加入，可自由组页、逐页编辑回写、备份恢复、导出和打印。** [打开DIY工作台](https://xinf49118-ux.github.io/journal-studio/?tool=diy) · [DIY使用说明](docs/DIY-2026-11-11.md)。支持全年／自选时段成册，A5、A6、B6（JIS）、Weeks 风格四种尺寸。 [开始制作整本手账](https://xinf49118-ux.github.io/journal-studio/?tool=book) · [使用说明与验证](docs/BOOK-2026-11-11.md)。现有 87 种可编辑内页、613 件素材和两种实际尺寸的连续折页继续可用。[覆盖核查表](docs/coverage.html) 包含原 9 个品牌及单列的 MD PRODUCT，共 211 项系列、功能、配件和资料线索，分别标注实现状态；不是全品牌商品总数。内页支持 6 套配色，素材可按 9 套主题筛选。
+**2026-11-11 更新：新增自定义毫米尺寸、活页孔位、双面裁切和对折装订拼版。** [装订打印说明](docs/BINDING-2026-11-11.md)。DIY整册支持自由组页、逐页编辑回写、备份恢复、导出和打印。 [打开DIY工作台](https://xinf49118-ux.github.io/journal-studio/?tool=diy) · [DIY使用说明](docs/DIY-2026-11-11.md)。支持全年／自选时段成册，A5、A6、B6（JIS）、Weeks 风格四种尺寸。 [开始制作整本手账](https://xinf49118-ux.github.io/journal-studio/?tool=book) · [使用说明与验证](docs/BOOK-2026-11-11.md)。现有 87 种可编辑内页、613 件素材和两种实际尺寸的连续折页继续可用。[覆盖核查表](docs/coverage.html) 包含原 9 个品牌及单列的 MD PRODUCT，共 211 项系列、功能、配件和资料线索，分别标注实现状态；不是全品牌商品总数。内页支持 6 套配色，素材可按 9 套主题筛选。
 
 点击「模板与作品」开始：使用模板、命名并存为作品；换电脑前导出备份，在新设备导入。在线版保存于当前浏览器，并非账户云同步。
 

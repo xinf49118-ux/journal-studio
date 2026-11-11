@@ -58,6 +58,11 @@ class TestRenderGeometry(unittest.TestCase):
             img = server.render_page(base_request(page={"size": size, "dpi": 150, "bleed_mm": 0, "crop_marks": False}))
             self.assertEqual(img.size, (px(w, 150), px(h, 150)), size)
 
+    def test_custom_and_a3_print_geometry(self):
+        for page, dims in [({"size":"Custom","w_mm":120,"h_mm":180},(120,180)),({"size":"A3","orientation":"landscape"},(420,297))]:
+            img=server.render_page(base_request(page={**page,"dpi":150,"bleed_mm":0,"crop_marks":False}))
+            self.assertEqual(img.size,(px(dims[0],150),px(dims[1],150)))
+
     def test_landscape_swaps(self):
         req = base_request(page={"size": "A5", "dpi": 150, "bleed_mm": 0, "crop_marks": False, "orientation": "landscape"})
         img = server.render_page(req)

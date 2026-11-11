@@ -1,4 +1,4 @@
-import {PAGE_SIZES,makeTextLayer,makeShapeLayer,lighten} from './core.js';
+import {pageDims,PAGE_SIZES,makeTextLayer,makeShapeLayer,lighten} from './core.js';
 import {parseDate,monthCells} from './planner.js';
 import {templates} from './templates.js';
 export const bookSizes={A5:'A5 · 148 × 210 mm',A6:'A6 · 105 × 148 mm',B6:'B6（JIS）· 128 × 182 mm',Weeks:'Weeks 风格 · 94 × 188 mm'};
@@ -86,7 +86,7 @@ export function bookPage(plan,index){
 export function bookPrintPage(project,paper='native'){
  if(paper==='native')return structuredClone(project);
  if(paper!=='a4')throw new Error('打印纸张无效');
- const [w,h]=PAGE_SIZES[project.page.size],x=(210-w)/2,y=(297-h)/2,p=structuredClone(project);
+ const [w,h]=pageDims(project.page);if(w>190||h>250)throw new Error('此尺寸超过A4裁切版可用区域，请改用原尺寸导出');const x=(210-w)/2,y=(297-h)/2,p=structuredClone(project);
  p.page.size='A4';for(const l of p.layers){l.x_mm+=x;l.y_mm+=y;}
  const line=(a,b,c,d=.18)=>p.layers.push(makeShapeLayer({x_mm:a,y_mm:b,w_mm:c,h_mm:d,fill:'#8a8a82'}));
  for(const [a,b] of [[x,y],[x+w,y],[x,y+h],[x+w,y+h]]){

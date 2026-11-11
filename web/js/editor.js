@@ -527,7 +527,7 @@ function centerLayer(layer) {
 /* ---------------------------------------------------------------- 页面设置 */
 
 export function setPageSize(size) {
-  const fitted=fitProject({page:state.page,layers:state.layers},size);
+  const fitted=fitProject({page:state.page,layers:state.layers},size==='Custom'?{size,w_mm:state.page.w_mm||148,h_mm:state.page.h_mm||210}:size);
   state.page=fitted.page;state.layers=fitted.layers;
   pushHistory();
   render();

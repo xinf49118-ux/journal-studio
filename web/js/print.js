@@ -166,7 +166,7 @@ async function exportFile(kind) {
 
 function syncFromControls() {
   const size = $('#print-size')?.value;
-  if (size && size!==state.page.size) { const fitted=fitProject({page:state.page,layers:state.layers},size);state.page=fitted.page;state.layers=fitted.layers; }
+  if (size && size!==state.page.size) { const fitted=fitProject({page:state.page,layers:state.layers},size==='Custom'?{size,w_mm:state.page.w_mm||148,h_mm:state.page.h_mm||210}:size);state.page=fitted.page;state.layers=fitted.layers; }
   const bleed = $('#print-bleed')?.value;
   if (bleed !== undefined && bleed !== '') state.page.bleed_mm = parseFloat(bleed);
   const crop = $('#print-crop');

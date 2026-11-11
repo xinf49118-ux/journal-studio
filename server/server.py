@@ -51,6 +51,7 @@ DATA_DIR = ROOT / "data"
 
 MM_PER_INCH = 25.4
 PAGE_SIZES: dict[str, tuple[float, float]] = {
+    "A3": (297.0, 420.0),
     "A5": (148.0, 210.0),
     "A6": (105.0, 148.0),
     "A4": (210.0, 297.0),
