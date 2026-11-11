@@ -7,6 +7,8 @@ import {plannerGroups,kokuyoSeries} from './planner-catalog.js';
 import {otherSeries,brandScope as researchScope} from './brand-catalog.js';
 import {chinaSeries} from './china-catalog.js';
 import {initCoverage} from './coverage.js';
+import {initBook} from './book-ui.js';
+import {fitProject} from './page-fit.js';
 import {initFold} from './fold-ui.js';
 const referenceSeries=[...kokuyoSeries.map(s=>({...s,brand:'KOKUYO'})),...otherSeries,...chinaSeries];
 import {loadLibrary} from './library.js';
@@ -99,7 +101,7 @@ function initPlanner() {
   select.disabled=!select.options.length;
  }
  fillLayouts('monthly');
- const options=()=>({layout:$('#planner-layout').value,theme,month:$('#planner-month').value,date:$('#planner-date').value,year:$('#planner-year').value,weekStart:$('#planner-week-start').value,undated:$('#planner-undated').checked});
+ const options=()=>({size:$('#planner-size').value,layout:$('#planner-layout').value,theme,month:$('#planner-month').value,date:$('#planner-date').value,year:$('#planner-year').value,weekStart:$('#planner-week-start').value,undated:$('#planner-undated').checked});
  async function refresh() {
   const ticket=++revision,o=options(),layout=plannerLayouts.find(l=>l.id===o.layout);
   apply.disabled=true;preview.hidden=true;
@@ -114,12 +116,12 @@ function initPlanner() {
   const companion=$('#planner-companion');companion.hidden=!layout.companion;
   companion.onclick=()=>choose(layout.companion);
   try {
-   const p=plannerProject(o,state.materials.items);
+   const p=fitProject(plannerProject(o,state.materials.items),o.size);
    const blob=await renderToPngBlob({...p,page:{...p.page,dpi:100}});
    if(ticket!==revision)return;
    const url=URL.createObjectURL(blob);if(previewUrl)URL.revokeObjectURL(previewUrl);previewUrl=url;
    preview.src=url;preview.hidden=false;preview.alt=`${templates.find(t=>t.id===theme).name} · ${plannerLayouts.find(l=>l.id===o.layout).name}内页预览`;
-   status.textContent='A5 · 白底省墨 · 文字与格线均可编辑';apply.disabled=working;
+   status.textContent=`${o.size} · 等比适配 · 文字与格线可编辑，小尺寸建议先试印`; apply.disabled=working;
   } catch(e) {if(ticket===revision){status.textContent=e.message;apply.disabled=true;}}
  }
  for(const t of templates){
@@ -131,7 +133,7 @@ function initPlanner() {
  $('#planner-search').addEventListener('input',()=>{fillLayouts();refresh();});
  apply.onclick=()=>run(async()=>{
   // Capture the exact selected page before saving the previous draft.
-  const o=options(),project=plannerProject(o,state.materials.items);
+  const o=options(),project=fitProject(plannerProject(o,state.materials.items),o.size);
   await protectDraft();loadProject(project);
   const layout=plannerLayouts.find(l=>l.id===o.layout);
   const suffix=layout.period==='none'?'':o.undated?' · 无日期':' · '+({month:o.month,year:o.year,day:o.date,week:o.date}[layout.period]);
@@ -188,5 +190,5 @@ export function initWorkspace(flushDraft) {
   await run(async()=>{if(file.size>100_000_000)throw new Error('备份超过 100MB，请拆分作品');const b=JSON.parse(await file.text());await openBundle(b,b.name);await renderWorks();});
  };
  document.querySelector('[data-tab="works"]').addEventListener('click',()=>renderWorks().catch(e=>err(e.message)));
- initPlanner();initFold();renderTemplates();renderWorks().catch(e=>err(e.message));
+ initPlanner();initFold();initBook((p,title)=>run(async()=>{await protectDraft();loadProject(p);$('#work-name').value=title;activeWork=null;emit('changed');await renderWorks();document.querySelector('[data-tab="editor"]').click();ok('这一页已作为独立作品打开，可改字与添加贴纸');}));renderTemplates();renderWorks().catch(e=>err(e.message));
 }

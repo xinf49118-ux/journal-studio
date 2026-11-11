@@ -1,3 +1,4 @@
+import {fitProject} from './page-fit.js';
 /* 打印：屏幕预览、浏览器打印（真实毫米 @page）、导出 PNG / PDF */
 
 import { state, pageDims, buildRenderRequest, round, emit } from './core.js';
@@ -10,6 +11,11 @@ import { $, el, ok, err, busy, toast } from './ui.js';
 export function refreshPrintPreview() {
   const wrap = $('#print-preview');
   if (!wrap) return;
+  // Opening another project or undoing a resize must not reuse stale print settings.
+  if ($('#print-size')) $('#print-size').value = state.page.size;
+  if ($('#print-bleed')) $('#print-bleed').value = String(state.page.bleed_mm ?? 0);
+  if ($('#print-crop')) $('#print-crop').checked = !!state.page.crop_marks;
+  if ($('#print-dpi')) $('#print-dpi').value = String(state.page.dpi || 300);
   wrap.innerHTML = '';
   const built = buildStage({ interactive: false, showGuides: true, showGrid: false });
   const stage = built.el;
@@ -160,7 +166,7 @@ async function exportFile(kind) {
 
 function syncFromControls() {
   const size = $('#print-size')?.value;
-  if (size) state.page.size = size;
+  if (size && size!==state.page.size) { const fitted=fitProject({page:state.page,layers:state.layers},size);state.page=fitted.page;state.layers=fitted.layers; }
   const bleed = $('#print-bleed')?.value;
   if (bleed !== undefined && bleed !== '') state.page.bleed_mm = parseFloat(bleed);
   const crop = $('#print-crop');

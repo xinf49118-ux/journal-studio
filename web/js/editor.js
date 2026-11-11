@@ -1,3 +1,4 @@
+import {fitProject} from './page-fit.js';
 /* 可视化编辑器：毫米坐标画布 + 拖拽/缩放/旋转/吸附 + 图层管理 + 撤销重做 */
 
 import {
@@ -526,7 +527,8 @@ function centerLayer(layer) {
 /* ---------------------------------------------------------------- 页面设置 */
 
 export function setPageSize(size) {
-  state.page.size = size;
+  const fitted=fitProject({page:state.page,layers:state.layers},size);
+  state.page=fitted.page;state.layers=fitted.layers;
   pushHistory();
   render();
   emit('changed');

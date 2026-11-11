@@ -55,6 +55,8 @@ PAGE_SIZES: dict[str, tuple[float, float]] = {
     "A6": (105.0, 148.0),
     "A4": (210.0, 297.0),
     "B5": (176.0, 250.0),
+    "B6": (128.0, 182.0),
+    "Weeks": (94.0, 188.0),
 }
 
 LIBRARY = store.Library(DATA_DIR)

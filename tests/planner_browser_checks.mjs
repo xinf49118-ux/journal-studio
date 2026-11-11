@@ -3,6 +3,7 @@ import {join} from 'node:path';
 import {catalogChecks} from './catalog_browser_checks.mjs';
 import {coverageChecks} from './coverage_browser_checks.mjs';
 import {foldChecks} from './fold_browser_checks.mjs';
+import {bookChecks} from './book_browser_checks.mjs';
 const pause=ms=>new Promise(r=>setTimeout(r,ms));
 export async function plannerChecks(cdp,check,art) {
  console.log('\n[功能内页] 日期、主题、素材与实际导出');
@@ -11,6 +12,7 @@ export async function plannerChecks(cdp,check,art) {
  await catalogChecks(cdp,check,art);
  await coverageChecks(cdp,check,art);
  await foldChecks(cdp,check,art);
+ await bookChecks(cdp,check,art);
  for(const layout of ['monthly','weekly','daily','habits','life_left','life_right','five_year','tickets','photo_story','plant_observation','goal_steps','scene_collage','sleep_log','dual_month','fortnight_diary','ten_year','monthly_dimensions','wellbeing_day','age_lookup','body_track','same_day_months','challenge21','cornell','film_review']) {
   await cdp.eval(`(()=>{
    document.querySelector('#planner-layout').value=${JSON.stringify(layout)};

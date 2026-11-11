@@ -43,6 +43,7 @@
           <label for="planner-layout">页面用途</label><select id="planner-layout" class="input"></select>
           <p id="planner-description" class="muted"></p><button id="planner-companion" type="button" class="btn ghost" hidden>预览配套的另一页 ↔</button>
           <div class="planner-dates">
+            <label>内页尺寸<select id="planner-size" class="input"><option value="A5">A5 · 148×210mm</option><option value="A6">A6 · 105×148mm</option><option value="B6">B6（JIS）· 128×182mm</option></select></label>
             <label id="planner-year-field" hidden>计划年份<input id="planner-year" type="number" min="1900" max="2199" step="1" class="input"></label>
             <label id="planner-month-field">计划月份<input id="planner-month" type="month" min="1900-01" max="2199-12" class="input"></label>
             <label id="planner-date-field" hidden><span id="planner-date-label">记录日期</span><input id="planner-date" type="date" min="1900-01-01" max="2199-12-31" class="input"></label>
@@ -56,6 +57,21 @@
         </form>
         <div class="planner-preview-wrap"><img id="planner-preview" width="148" height="210" alt="内页预览" hidden><p id="planner-status" class="muted small" role="status" aria-live="polite"></p></div>
       </div>
+      <details id="book-builder" class="collage-templates"><summary>做一本自己的手账：整年或自选时段</summary>
+        <p class="muted">从封面、目录到月／周／日记录，自动编排页码。四种尺寸分别排版，预览任意一页后导出整册；也可把某一页另存到编辑器。</p>
+        <div class="book-builder"><form id="book-options">
+          <label>封面标题<input id="book-title" class="input" value="我的手账" maxlength="24"></label>
+          <div class="book-fields"><label>手账类型<select id="book-type" class="input"></select></label><label>页面尺寸<select id="book-size" class="input"></select></label>
+          <label>日期范围<select id="book-mode" class="input"><option value="year">完整一年</option><option value="range">自己选起止日期</option></select></label><label id="book-year-field">年份<input id="book-year" class="input" type="number" min="1900" max="2199"></label></div>
+          <div id="book-range" class="book-fields" hidden><label>开始日期<input id="book-start" class="input" type="date" min="1900-01-01" max="2199-12-31"></label><label>结束日期<input id="book-end" class="input" type="date" min="1900-01-01" max="2199-12-31"></label></div>
+          <div class="book-fields"><label>页面配色<select id="book-theme" class="input"></select></label><label>每周开始于<select id="book-week" class="input"><option value="1">星期一</option><option value="0">星期日</option></select></label>
+          <label>末尾笔记页<input id="book-notes" class="input" type="number" min="0" max="20" value="4"></label><label>导出方式<select id="book-paper" class="input"><option value="native">原尺寸 PDF</option><option value="a4">A4 裁切打印</option></select></label></div>
+          <label class="planner-checkbox"><input id="book-front" type="checkbox" checked> 加入封面与目录</label>
+          <p class="muted small">一次最多366天。周页含首尾相邻日期，以浅色区分范围外日期。B6采用JIS规格；Weeks风格为94×188mm。按页码单面打印，A4版每张一页，含裁切角标与50mm标尺。</p>
+          <div class="row gap6"><button type="button" id="book-export" class="btn primary" disabled>导出整本 PDF</button><button type="button" id="book-cancel" class="btn" hidden>取消导出</button></div>
+          <p id="book-status" class="muted small" role="status" aria-live="polite"></p>
+        </form><div class="book-preview-wrap"><div class="book-nav"><button type="button" class="btn" id="book-prev" disabled aria-label="上一页">←</button><select id="book-page" class="input" aria-label="预览页码" disabled></select><button type="button" class="btn" id="book-next" disabled aria-label="下一页">→</button></div><img id="book-preview" alt="整册预览" hidden><button type="button" class="btn ghost" id="book-edit" disabled>将这一页另存到编辑器</button></div></div>
+      </details>
       <details id="fold-builder" class="collage-templates"><summary>做一本连续折页：裁切、接贴、折起来</summary>
         <p class="muted">生成带编号、折线和接贴区的 A4 打印页。提供空白、方格和旅途故事三种内容，打印后手写、画画或贴照片。可用常规或护照尺寸；这是工坊拼接版，非原厂纸张与装订。</p>
         <div class="fold-builder"><form id="fold-options"><label>折好后的每面尺寸<select id="fold-size" class="input"><option value="regular">常规 110 × 210 mm</option><option value="passport">护照 89 × 124 mm</option></select></label><label>总面数<select id="fold-panels" class="input"><option value="3">3 面</option><option value="6" selected>6 面</option><option value="9">9 面</option><option value="12">12 面</option></select></label><label>页面内容<select id="fold-style" class="input"><option value="story">旅途故事</option><option value="blank">留白绘画</option><option value="grid">5mm 方格</option></select></label><button type="button" id="fold-export" class="btn primary" disabled>导出整套折页 PDF</button><p id="fold-status" class="muted small" role="status"></p></form><img id="fold-preview" alt="折页第一张打印预览" width="210" height="297" hidden></div>
@@ -202,6 +218,7 @@
           <select id="page-size" class="input">
             <option value="A5">A5 · 148×210mm</option>
             <option value="A6">A6 · 105×148mm</option>
+            <option value="B6">B6（JIS）· 128×182mm</option><option value="Weeks">Weeks 风格 · 94×188mm</option>
             <option value="A4">A4 · 210×297mm</option>
             <option value="B5">B5 · 176×250mm</option>
           </select>
@@ -256,6 +273,7 @@
           <select id="print-size" class="input">
             <option value="A5">A5 · 148×210mm</option>
             <option value="A6">A6 · 105×148mm</option>
+            <option value="B6">B6（JIS）· 128×182mm</option><option value="Weeks">Weeks 风格 · 94×188mm</option>
             <option value="A4">A4 · 210×297mm（可裁成两张A5）</option>
             <option value="B5">B5 · 176×250mm</option>
           </select>

@@ -20,13 +20,15 @@ import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {workspaceChecks} from './workspace_browser_checks.mjs';
+import {sizeChecks} from './size_browser_checks.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, '..');
 const ART = join(HERE, '_artifacts');
-const argUrl = process.argv[2] && process.argv[2].startsWith('http') ? process.argv[2].replace(/\/$/, '') : null;
-const STATIC_PORT = Number(argUrl ? 0 : (process.argv[2] || 8770));
-const PY_BASE = process.argv[3] || 'http://127.0.0.1:8765';
+const positional = process.argv.slice(2).filter(a=>!a.startsWith('--'));
+const argUrl = positional[0] && positional[0].startsWith('http') ? positional[0].replace(/\/$/, '') : null;
+const STATIC_PORT = Number(argUrl ? 0 : (positional[0] || 8770));
+const PY_BASE = positional[1] || 'http://127.0.0.1:8765';
 const CDP_PORT = 9355;
 const PY = 'C:\\Users\\AT1556\\.dsh\\dsh-runtimes\\dsh-primary-runtime\\dependencies\\python\\python.exe';
 const CHROME = [
@@ -158,7 +160,8 @@ async function main() {
     check('网格加载的是缩略图而不是原图', gi.allThumbs === true,
       gi.allThumbs ? `全部走 /thumbs/（已排队 ${gi.withSrc} 张）` : `混进了原图：${gi.offenders.join(', ')}`);
 
-    await workspaceChecks(cdp, check, ART);
+    if(!process.argv.includes('--sizes-only'))await workspaceChecks(cdp, check, ART);
+    await sizeChecks(cdp, check, ART);
     console.log('\n[3] 页面分析（浏览器内完成，不走服务器）');
     const sampleB64 = readFileSync(join(HERE, 'fixtures', 'sample-page.png')).toString('base64');
     const analysis = await cdp.eval(`(async () => {

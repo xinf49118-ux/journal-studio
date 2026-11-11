@@ -54,7 +54,7 @@ class TestRenderGeometry(unittest.TestCase):
         self.assertEqual(img.size, (px(154, 300), px(216, 300)))
 
     def test_a6_a4_b5(self):
-        for size, (w, h) in (("A6", (105, 148)), ("A4", (210, 297)), ("B5", (176, 250))):
+        for size, (w, h) in (("A6", (105, 148)), ("A4", (210, 297)), ("B5", (176, 250)), ("B6", (128, 182)), ("Weeks", (94, 188))):
             img = server.render_page(base_request(page={"size": size, "dpi": 150, "bleed_mm": 0, "crop_marks": False}))
             self.assertEqual(img.size, (px(w, 150), px(h, 150)), size)
 

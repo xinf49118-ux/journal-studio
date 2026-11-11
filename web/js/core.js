@@ -6,8 +6,8 @@
  */
 export const APP_ROOT = new URL('../../', import.meta.url);
 
-export const PAGE_SIZES = { A5: [148, 210], A6: [105, 148], A4: [210, 297], B5: [176, 250] };
-export const PAGE_NAMES = { A5: 'A5', A6: 'A6', A4: 'A4', B5: 'B5' };
+export const PAGE_SIZES = { A5: [148, 210], A6: [105, 148], A4: [210, 297], B5: [176, 250], B6: [128, 182], Weeks: [94, 188] };
+export const PAGE_NAMES = { A5: 'A5', A6: 'A6', A4: 'A4', B5: 'B5', B6: 'B6 (JIS)', Weeks: 'Weeks 风格' };
 
 /** 各类素材的参考 dpi：换算成毫米时的「自然尺寸」 */
 export const CAT_REF_DPI = { paper: 150 };

@@ -2,7 +2,7 @@
 export function validateBundle(bundle, materialIds = null) {
   if (!bundle || bundle.format !== 'journal-studio-backup' || bundle.version !== 1) throw new Error('这不是支持的手账备份文件');
   const p = bundle.project;
-  if (!p || !p.page || !['A4','A5','A6','B5'].includes(p.page.size) || !['portrait','landscape'].includes(p.page.orientation)) throw new Error('备份纸张设置无效');
+  if (!p || !p.page || !['A4','A5','A6','B5','B6','Weeks'].includes(p.page.size) || !['portrait','landscape'].includes(p.page.orientation)) throw new Error('备份纸张设置无效');
   if (!Array.isArray(p.layers) || p.layers.length > 1000 || !Array.isArray(bundle.assets) || bundle.assets.length > 300) throw new Error('备份图层或素材数量无效');
   const refs = new Set();
   for (const a of bundle.assets) {
