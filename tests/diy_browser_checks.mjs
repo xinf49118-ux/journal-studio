@@ -1,0 +1,31 @@
+import {writeFileSync} from 'node:fs';import {join} from 'node:path';
+const pause=ms=>new Promise(r=>setTimeout(r,ms));
+export async function diyChecks(cdp,check,art){
+ await cdp.send('Page.navigate',{url:(await cdp.eval('location.href.split("?")[0]'))+'?tool=diy'});await pause(2000);
+ const click=async id=>{await cdp.eval(`document.querySelector('#${id}').click()`);await pause(500);};
+ check('DIY工作台可直接打开，87种模板加空白页',await cdp.eval(`document.querySelector('#diy-template').options.length===88&&document.querySelector('#diy-builder').open`));
+ await cdp.eval(`document.querySelector('#diy-template').value='monthly'`);await click('diy-add');await click('diy-copy');
+ check('添加和复制保留独立页',await cdp.eval(`document.querySelector('#diy-page').options.length===2`));
+ await click('diy-edit');
+ await pause(1400);await cdp.send('Page.reload');await pause(1800);check('刷新后仍可继续编辑并保存回整册',await cdp.eval(`!document.querySelector('#diy-return').hidden`));
+ await cdp.eval(`(async()=>{const c=await import('./web/js/core.js'),a=await import('./web/js/api.js'),l=await import('./web/js/library.js');const canvas=document.createElement('canvas');canvas.width=50;canvas.height=50;canvas.getContext('2d').fillStyle='red';canvas.getContext('2d').fillRect(0,0,50,50);const blob=await new Promise(r=>canvas.toBlob(r));const result=await a.api.importBlob(blob,'DIY照片');await l.loadLibrary();c.state.layers.push(c.makeImageLayer(result.item,{x_mm:30,y_mm:50,w_mm:20,h_mm:20}),c.makeTextLayer({text:'我自己设计的页面',x_mm:12,y_mm:180,size_mm:3}));c.emit('changed');})()`);await click('diy-return');
+ check('编辑文字和照片可保存回原册',await cdp.eval(`(async()=>{const b=await import('./web/js/backup.js'),r=(await b.shelf('list')).find(r=>r.kind==='book');return r.doc.pages[0].bundle.assets.length===1&&r.doc.pages[0].bundle.project.layers.some(l=>l.text==='我自己设计的页面');})()`));
+ await click('diy-down');
+ check('页面顺序可以调整',await cdp.eval(`document.querySelector('#diy-page').options[0].textContent.includes('副本')`));
+ await cdp.eval(`window.__oldDiyClick=HTMLAnchorElement.prototype.click;HTMLAnchorElement.prototype.click=function(){fetch(this.href).then(r=>r.arrayBuffer()).then(a=>{if(this.download.endsWith('.book.json'))window.__diyBackup=new TextDecoder().decode(a);else {const t=new TextDecoder('latin1').decode(a);window.__diyPdf={pages:Number(t.match(new RegExp('/Count ([0-9]+)'))?.[1]),bytes:a.byteLength};}});}`);
+ await click('diy-backup');
+ check('整册备份包含图片数据',await cdp.eval(`JSON.parse(window.__diyBackup).pages.some(p=>p.bundle.assets.some(a=>a.data.startsWith('data:image/png;base64,')))`));
+ await cdp.eval(`(async()=>{const a=await import('./web/js/api.js'),l=await import('./web/js/library.js'),c=await import('./web/js/core.js');for(const x of [...c.state.library])await a.api.deleteLibraryItem(x.id);await l.loadLibrary();const file=new File([window.__diyBackup],'restore.book.json',{type:'application/json'}),d=new DataTransfer();d.items.add(file);document.querySelector('#diy-file').files=d.files;document.querySelector('#diy-file').dispatchEvent(new Event('change'));})()`);await pause(1000);
+ check('素材库为空时可以恢复整册，保留原册',await cdp.eval(`(async()=>{const b=await import('./web/js/backup.js');return (await b.shelf('list')).filter(r=>r.kind==='book').length===2&&document.querySelector('#diy-page').options.length===2;})()`));
+ const picture=await cdp.eval(`(async()=>{const b=await import('./web/js/backup.js'),d=await import('./web/js/diy.js'),r=await import('./web/js/render.js');const doc=(await b.shelf('list')).filter(r=>r.kind==='book')[0].doc,p=d.diyPages(doc,{toc:false}).find(p=>Object.keys(p.embeddedAssets||{}).length);const bitmap=await createImageBitmap(await r.renderToPngBlob(p)),canvas=document.createElement('canvas');canvas.width=bitmap.width;canvas.height=bitmap.height;const ctx=canvas.getContext('2d');ctx.drawImage(bitmap,0,0);const data=ctx.getImageData(0,0,canvas.width,canvas.height).data;let red=0;for(let i=0;i<data.length;i+=4)if(data[i]>220&&data[i+1]<30&&data[i+2]<30)red++;return red;})()`);
+ check('恢复后导出真实包含照片像素',picture>1000,String(picture));
+ await click('diy-export');await pause(1200);check('整册PDF包含自动目录和全部页面',await cdp.eval(`window.__diyPdf?.pages===3&&window.__diyPdf.bytes>10000`));
+ await cdp.eval(`window.__oldOpen=window.open;window.__printTarget={location:{},close(){}};window.open=()=>window.__printTarget`);await click('diy-print');await pause(1200);
+ check('打印入口生成可打开的PDF',await cdp.eval(`window.__printTarget.location.href?.startsWith('blob:')&&document.querySelector('#diy-status').textContent.includes('打印PDF已打开')`));
+ await cdp.eval(`window.open=window.__oldOpen;HTMLAnchorElement.prototype.click=window.__oldDiyClick;window.confirm=()=>true`);await click('diy-delete');check('可以删除页面',await cdp.eval(`document.querySelector('#diy-page').options.length===1`));
+ await cdp.eval(`(async()=>{const {bookPlan}=await import('./web/js/book.js');document.dispatchEvent(new CustomEvent('book-to-diy',{detail:bookPlan({type:'monthly',size:'B6',notes:0})}));})()`);await pause(900);
+ check('生成的整册可转入DIY并保留尺寸',await cdp.eval(`document.querySelector('#diy-size').value==='B6'&&document.querySelector('#diy-page').options.length===13`));
+ await cdp.send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});await pause(300);await cdp.eval(`document.querySelector('#diy-builder').scrollIntoView({block:'start'})`);
+ check('手机DIY工作台没有横向溢出',await cdp.eval('document.documentElement.scrollWidth<=innerWidth+1'));
+ writeFileSync(join(art,'diy-mobile.png'),Buffer.from((await cdp.send('Page.captureScreenshot',{format:'png'})).data,'base64'));await cdp.send('Emulation.clearDeviceMetricsOverride');
+}

@@ -1,3 +1,4 @@
+import {initDiy} from './diy-ui.js';
 import {state,serializeProject,loadProject,emit,libraryUrl} from './core.js';
 import {api,downloadBlob} from './api.js';
 import {makeBundle,restoreBundle,validateBundle,shelf} from './backup.js';
@@ -57,7 +58,7 @@ async function openBundle(bundle,title) {
 }
 async function renderWorks() {
  const box=$('#works-grid');box.replaceChildren();
- const records=(await shelf('list')).sort((a,b)=>b.updatedAt.localeCompare(a.updatedAt));
+ const records=(await shelf('list')).filter(r=>r.kind!=='book').sort((a,b)=>b.updatedAt.localeCompare(a.updatedAt));
  if(!records.length){box.append(el('p',{class:'muted',text:'还没有收藏作品。完成一页后，点击「存为新作品」。作品保存在这台设备，换电脑前请导出备份。'}));return;}
  for(const record of records){
   const card=el('article',{class:'work-card'});
@@ -190,5 +191,5 @@ export function initWorkspace(flushDraft) {
   await run(async()=>{if(file.size>100_000_000)throw new Error('备份超过 100MB，请拆分作品');const b=JSON.parse(await file.text());await openBundle(b,b.name);await renderWorks();});
  };
  document.querySelector('[data-tab="works"]').addEventListener('click',()=>renderWorks().catch(e=>err(e.message)));
- initPlanner();initFold();initBook((p,title)=>run(async()=>{await protectDraft();loadProject(p);$('#work-name').value=title;activeWork=null;emit('changed');await renderWorks();document.querySelector('[data-tab="editor"]').click();ok('这一页已作为独立作品打开，可改字与添加贴纸');}));renderTemplates();renderWorks().catch(e=>err(e.message));
+ initDiy({capture:make,open:openBundle});initPlanner();initFold();initBook((p,title)=>run(async()=>{await protectDraft();loadProject(p);$('#work-name').value=title;activeWork=null;emit('changed');await renderWorks();document.querySelector('[data-tab="editor"]').click();ok('这一页已作为独立作品打开，可改字与添加贴纸');}));renderTemplates();renderWorks().catch(e=>err(e.message));
 }

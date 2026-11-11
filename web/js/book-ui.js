@@ -32,6 +32,7 @@ export function initBook(openPage){
  select.onchange=show;
  $('#book-prev').onclick=()=>{select.value=String(Number(select.value)-1);show();};$('#book-next').onclick=()=>{select.value=String(Number(select.value)+1);show();};
  edit.onclick=async()=>{if(!plan||busy)return;edit.disabled=true;try{await openPage(bookPage(plan,Number(select.value)),`${plan.options.title} · ${select.selectedOptions[0].textContent}`);}finally{edit.disabled=false;}};
+ $('#book-customize').onclick=()=>{if(plan&&!busy)document.dispatchEvent(new CustomEvent('book-to-diy',{detail:structuredClone(plan)}));};
  $('#book-cancel').onclick=()=>controller?.abort();
  button.onclick=async()=>{
   if(busy||!plan)return;const snapshot=structuredClone(plan);busy=true;revision++;controller=new AbortController();

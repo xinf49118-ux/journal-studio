@@ -88,7 +88,7 @@ function collectSources(req) {
       const item = materialById(layer.ref);
       if (item) urls.push(materialUrl(item));
     } else if (layer.kind === 'image') {
-      const src = layerUrl(layer.ref);
+      const src = layerUrl(layer.ref,req);
       if (src) urls.push(src);
     }
   }
@@ -96,7 +96,8 @@ function collectSources(req) {
 }
 
 /** 用户素材的 URL 解析：服务端版是 /media/<id>，静态版是条目自带的 blob: 地址 */
-function layerUrl(ref) {
+function layerUrl(ref,req={}) {
+  if(req.embeddedAssets?.[ref])return req.embeddedAssets[ref];
   return ref ? libraryUrl(ref) : null;
 }
 
@@ -327,7 +328,7 @@ export async function renderToCanvas(req, preloaded = null) {
             natural = naturalMm(item);
           }
         } else {
-          const url = layerUrl(layer.ref);
+          const url = layerUrl(layer.ref,req);
           img = url ? (imgs.get(url) || null) : null;
         }
         if (!img) continue;

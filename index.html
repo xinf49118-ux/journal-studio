@@ -23,7 +23,7 @@
     <button class="tab-btn" data-tab="editor">编辑器</button>
     <button class="tab-btn" data-tab="print">打印</button>
   </nav>
-  <div class="topbar-actions">
+  <div class="topbar-actions"><button id="diy-return" class="btn primary" hidden>保存回整册</button><button id="diy-discard" class="btn" hidden>退出整册编辑</button>
     <span class="page-summary" id="page-summary">A5 · 148×210mm</span>
     <button class="btn ghost" id="btn-undo" title="Ctrl+Z">↶ 撤销</button>
     <button class="btn ghost" id="btn-redo" title="Ctrl+Y">↷ 重做</button>
@@ -57,7 +57,16 @@
         </form>
         <div class="planner-preview-wrap"><img id="planner-preview" width="148" height="210" alt="内页预览" hidden><p id="planner-status" class="muted small" role="status" aria-live="polite"></p></div>
       </div>
-      <details id="book-builder" class="collage-templates"><summary>做一本自己的手账：整年或自选时段</summary>
+      <details id="diy-builder" class="collage-templates"><summary>DIY 整册工作台：自由组合、逐页编辑</summary>
+<p class="muted">选空白页、87种功能页，或把生成的整册放进来。每页可改字、贴图、换底纹，编辑完点顶部「保存回整册」。作品保存在当前浏览器，换设备请导出整册备份。</p>
+<div class="book-fields"><label>我的手账<select id="diy-library" class="input"></select></label><button id="diy-new" class="btn">新建一本</button><label>手账名称<input id="diy-title" class="input" value="我的DIY手账" maxlength="60"></label><label>统一纸张<select id="diy-size" class="input"><option>A5</option><option>A6</option><option>B6</option><option>Weeks</option></select></label></div>
+<div class="book-fields"><label>添加页面<select id="diy-template" class="input"><option value="blank">空白自由页</option></select></label><button id="diy-add" class="btn">添加到末尾</button><button id="diy-capture" class="btn">把当前编辑页加入整册</button><label>页码<select id="diy-page" class="input"></select></label></div>
+<div class="row gap6"><button id="diy-edit" class="btn primary">编辑选中页</button><button id="diy-copy" class="btn">复制页</button><button id="diy-up" class="btn">前移一页</button><button id="diy-down" class="btn">后移一页</button><button id="diy-delete" class="btn">删除页</button></div>
+<div class="book-fields"><label>页面名称<input id="diy-name" class="input" maxlength="60"></label><label>导出方式<select id="diy-paper" class="input"><option value="native">原尺寸PDF</option><option value="a4">A4裁切打印</option></select></label></div>
+<label class="planner-checkbox"><input type="checkbox" id="diy-toc" checked>自动生成目录</label><label class="planner-checkbox"><input type="checkbox" id="diy-numbers" checked>自动标页码</label>
+<div class="row gap6"><button id="diy-export" class="btn primary">导出整本PDF</button><button id="diy-print" class="btn">打开打印PDF</button><button id="diy-cancel" class="btn" hidden>取消导出</button><button id="diy-backup" class="btn">导出整册备份</button><button id="diy-import" class="btn">恢复整册备份</button><input id="diy-file" type="file" accept=".json" hidden></div>
+<p id="diy-status" class="muted small" role="status" aria-live="polite"></p><img id="diy-preview" alt="DIY选中页面" style="max-width:100%;max-height:500px" hidden></details>
+<details id="book-builder" class="collage-templates"><summary>做一本自己的手账：整年或自选时段</summary>
         <p class="muted">从封面、目录到月／周／日记录，自动编排页码。四种尺寸分别排版，预览任意一页后导出整册；也可把某一页另存到编辑器。</p>
         <div class="book-builder"><form id="book-options">
           <label>封面标题<input id="book-title" class="input" value="我的手账" maxlength="24"></label>
@@ -70,7 +79,7 @@
           <p class="muted small">一次最多366天。周页含首尾相邻日期，以浅色区分范围外日期。B6采用JIS规格；Weeks风格为94×188mm。按页码单面打印，A4版每张一页，含裁切角标与50mm标尺。</p>
           <div class="row gap6"><button type="button" id="book-export" class="btn primary" disabled>导出整本 PDF</button><button type="button" id="book-cancel" class="btn" hidden>取消导出</button></div>
           <p id="book-status" class="muted small" role="status" aria-live="polite"></p>
-        </form><div class="book-preview-wrap"><div class="book-nav"><button type="button" class="btn" id="book-prev" disabled aria-label="上一页">←</button><select id="book-page" class="input" aria-label="预览页码" disabled></select><button type="button" class="btn" id="book-next" disabled aria-label="下一页">→</button></div><img id="book-preview" alt="整册预览" hidden><button type="button" class="btn ghost" id="book-edit" disabled>将这一页另存到编辑器</button></div></div>
+        </form><div class="book-preview-wrap"><div class="book-nav"><button type="button" class="btn" id="book-prev" disabled aria-label="上一页">←</button><select id="book-page" class="input" aria-label="预览页码" disabled></select><button type="button" class="btn" id="book-next" disabled aria-label="下一页">→</button></div><img id="book-preview" alt="整册预览" hidden><button type="button" class="btn primary" id="book-customize">将整册放进 DIY 工作台</button><button type="button" class="btn ghost" id="book-edit" disabled>将这一页另存到编辑器</button></div></div>
       </details>
       <details id="fold-builder" class="collage-templates"><summary>做一本连续折页：裁切、接贴、折起来</summary>
         <p class="muted">生成带编号、折线和接贴区的 A4 打印页。提供空白、方格和旅途故事三种内容，打印后手写、画画或贴照片。可用常规或护照尺寸；这是工坊拼接版，非原厂纸张与装订。</p>

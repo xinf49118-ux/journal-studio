@@ -299,6 +299,7 @@ export function serializeProject() {
 
 export function loadProject(data) {
   if (!data) return;
+  if(!data.page?.diy_session)delete state.page.diy_session;
   state.page = { ...state.page, ...(data.page || {}) };
   state.background = { ...state.background, ...(data.background || {}) };
   state.layers = Array.isArray(data.layers) ? data.layers : [];

@@ -21,6 +21,7 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {workspaceChecks} from './workspace_browser_checks.mjs';
 import {sizeChecks} from './size_browser_checks.mjs';
+import {diyChecks} from './diy_browser_checks.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, '..');
@@ -160,7 +161,8 @@ async function main() {
     check('网格加载的是缩略图而不是原图', gi.allThumbs === true,
       gi.allThumbs ? `全部走 /thumbs/（已排队 ${gi.withSrc} 张）` : `混进了原图：${gi.offenders.join(', ')}`);
 
-    if(!process.argv.includes('--sizes-only'))await workspaceChecks(cdp, check, ART);
+    if(process.argv.includes('--diy-only'))await diyChecks(cdp,check,ART);
+    else if(!process.argv.includes('--sizes-only')){await workspaceChecks(cdp, check, ART);await diyChecks(cdp,check,ART);}
     await sizeChecks(cdp, check, ART);
     console.log('\n[3] 页面分析（浏览器内完成，不走服务器）');
     const sampleB64 = readFileSync(join(HERE, 'fixtures', 'sample-page.png')).toString('base64');
