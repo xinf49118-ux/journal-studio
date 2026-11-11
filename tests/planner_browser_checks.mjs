@@ -1,10 +1,12 @@
 import {writeFileSync} from 'node:fs';
 import {join} from 'node:path';
+import {catalogChecks} from './catalog_browser_checks.mjs';
 const pause=ms=>new Promise(r=>setTimeout(r,ms));
 export async function plannerChecks(cdp,check,art) {
  console.log('\n[功能内页] 日期、主题、素材与实际导出');
  await cdp.eval(`document.querySelector('[data-tab="works"]').click()`);await pause(1200);
- check('内页预览已加载、四种用途和六个主题可选',await cdp.eval(`document.querySelector('#planner-preview').naturalWidth>0 && document.querySelector('#planner-layout').options.length===4 && document.querySelectorAll('.theme-choice').length===6`));
+ check('内页预览已加载、49种用途和六个主题可选',await cdp.eval(`document.querySelector('#planner-preview').naturalWidth>0 && document.querySelector('#planner-layout').options.length===49 && document.querySelectorAll('.theme-choice').length===6`));
+ await catalogChecks(cdp,check,art);
  for(const layout of ['monthly','weekly','daily','habits']) {
   await cdp.eval(`(()=>{
    document.querySelector('#planner-layout').value=${JSON.stringify(layout)};

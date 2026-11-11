@@ -3,6 +3,7 @@ import {api,downloadBlob} from './api.js';
 import {makeBundle,restoreBundle,validateBundle,shelf} from './backup.js';
 import {templates,templateProject} from './templates.js';
 import {plannerLayouts,plannerProject,todayString} from './planner.js';
+import {plannerGroups,kokuyoSeries,researchScope} from './planner-catalog.js';
 import {loadLibrary} from './library.js';
 import {renderToPngBlob} from './render.js';
 import {$,el,ok,err} from './ui.js';
@@ -80,15 +81,29 @@ async function renderTemplates(){
 function initPlanner() {
  const form=$('#planner-options'),preview=$('#planner-preview'),status=$('#planner-status'),apply=$('#apply-planner');
  let theme=templates[0].id,revision=0,previewUrl=null;
- const date=todayString();$('#planner-month').value=date.slice(0,7);$('#planner-date').value=date;
- for(const layout of plannerLayouts)$('#planner-layout').append(el('option',{value:layout.id,text:layout.name}));
- const options=()=>({layout:$('#planner-layout').value,theme,month:$('#planner-month').value,date:$('#planner-date').value,weekStart:$('#planner-week-start').value,undated:$('#planner-undated').checked});
+ const date=todayString();$('#planner-month').value=date.slice(0,7);$('#planner-date').value=date;$('#planner-year').value=date.slice(0,4);
+ for(const group of plannerGroups)$('#planner-group').append(el('option',{value:group,text:group}));
+ function fillLayouts(preferred=$('#planner-layout').value) {
+  const group=$('#planner-group').value,q=$('#planner-search').value.trim().toLowerCase(),select=$('#planner-layout');select.replaceChildren();
+  for(const g of plannerGroups){
+   const matches=plannerLayouts.filter(l=>(!group||group===l.group)&&l.group===g&&`${l.name} ${l.subtitle}`.toLowerCase().includes(q));
+   if(!matches.length)continue;const optgroup=el('optgroup',{label:g});
+   for(const l of matches)optgroup.append(el('option',{value:l.id,text:l.name}));select.append(optgroup);
+  }
+  if([...select.options].some(o=>o.value===preferred))select.value=preferred;
+  select.disabled=!select.options.length;
+ }
+ fillLayouts('monthly');
+ const options=()=>({layout:$('#planner-layout').value,theme,month:$('#planner-month').value,date:$('#planner-date').value,year:$('#planner-year').value,weekStart:$('#planner-week-start').value,undated:$('#planner-undated').checked});
  async function refresh() {
-  const ticket=++revision,o=options(),monthly=['monthly','habits'].includes(o.layout);
-  $('#planner-month-field').hidden=!monthly;$('#planner-date-field').hidden=monthly;
-  $('#planner-week-field').hidden=!['monthly','weekly'].includes(o.layout);
-  $('#planner-month').disabled=o.undated;$('#planner-date').disabled=o.undated;
-  $('#planner-date-label').textContent=o.layout==='weekly'?'这一周中的任意一天':'记录日期';
+  const ticket=++revision,o=options(),layout=plannerLayouts.find(l=>l.id===o.layout);
+  apply.disabled=true;preview.hidden=true;
+  if(!layout){status.textContent='没有匹配的内页，试试其他关键词';$('#planner-description').textContent='';return;}
+  $('#planner-month-field').hidden=layout.period!=='month';$('#planner-date-field').hidden=!['week','day'].includes(layout.period);$('#planner-year-field').hidden=layout.period!=='year';
+  $('#planner-week-field').hidden=!(layout.period==='week'||['monthly','monthly_grid','monthly_log','annual_calendar'].includes(o.layout));
+  $('#planner-undated-choice').hidden=layout.period==='none';
+  $('#planner-month').disabled=o.undated;$('#planner-date').disabled=o.undated;$('#planner-year').disabled=o.undated;
+  $('#planner-date-label').textContent=layout.period==='week'?'起始周中的任意一天':'记录日期';
   apply.disabled=true;preview.hidden=true;status.textContent='正在排好这一页…';
   $('#planner-description').textContent=plannerLayouts.find(l=>l.id===o.layout).subtitle;
   try {
@@ -105,17 +120,47 @@ function initPlanner() {
    theme=t.id;for(const b of $('#planner-themes').children)b.setAttribute('aria-pressed',String(b===button));refresh();
   }});button.style.setProperty('--theme-color',t.accent);$('#planner-themes').append(button);
  }
- form.addEventListener('submit',e=>e.preventDefault());form.addEventListener('change',refresh);
+ form.addEventListener('submit',e=>e.preventDefault());form.addEventListener('change',e=>{if(e.target.id==='planner-group')fillLayouts();refresh();});
+ $('#planner-search').addEventListener('input',()=>{fillLayouts();refresh();});
  apply.onclick=()=>run(async()=>{
   // Capture the exact selected page before saving the previous draft.
   const o=options(),project=plannerProject(o,state.materials.items);
   await protectDraft();loadProject(project);
-  const layout=plannerLayouts.find(l=>l.id===o.layout).name;
-  $('#work-name').value=`${templates.find(t=>t.id===o.theme).name} · ${layout}${o.undated?' · 无日期':' · '+(['monthly','habits'].includes(o.layout)?o.month:o.date)}`;
+  const layout=plannerLayouts.find(l=>l.id===o.layout);
+  const suffix=layout.period==='none'?'':o.undated?' · 无日期':' · '+({month:o.month,year:o.year,day:o.date,week:o.date}[layout.period]);
+  $('#work-name').value=`${templates.find(t=>t.id===o.theme).name} · ${layout.name}${suffix}`;
   activeWork=null;emit('changed');await renderWorks();document.querySelector('[data-tab="editor"]').click();
   ok('内页已创建，可以改字、添加贴纸或导出打印');
  }).finally(()=>{apply.disabled=preview.hidden;});
  refresh();
+ const choose=id=>{
+  $('#planner-group').value='';$('#planner-search').value='';fillLayouts(id);refresh();
+  document.querySelector('[data-tab="works"]').click();$('#tab-works').scrollTo({top:0});
+ };
+ initReference(choose);
+ const requested=new URLSearchParams(location.search).get('layout');
+ if(plannerLayouts.some(l=>l.id===requested))choose(requested);
+ $('#planner-total').textContent=`${plannerLayouts.length} 种内页`;
+}
+function initReference(choose) {
+ $('#reference-summary').textContent=researchScope.summary;$('#reference-limit').textContent=researchScope.limit;$('#reference-adaptation').textContent=researchScope.adaptation;
+ for(const family of [...new Set(kokuyoSeries.map(s=>s.family))])$('#reference-family').append(el('option',{value:family,text:family}));
+ function render(){
+  const q=$('#reference-search').value.trim().toLowerCase(),family=$('#reference-family').value;
+  const items=kokuyoSeries.filter(s=>(!family||s.family===family)&&`${s.name} ${s.description} ${s.status} ${s.layouts.map(id=>plannerLayouts.find(l=>l.id===id)?.name).join(' ')}`.toLowerCase().includes(q));
+  const box=$('#reference-grid');box.replaceChildren();$('#reference-count').textContent=`显示 ${items.length} / ${kokuyoSeries.length} 个系列与分支 · 核实于 ${researchScope.checked}`;
+  for(const s of items){
+   const card=el('article',{class:'reference-card'});
+   card.append(el('p',{class:'eyebrow',text:`${s.family} / ${s.status}`}),el('h2',{text:s.name}),el('p',{text:s.description}),el('p',{class:'muted small',text:s.variants}));
+   const links=el('div',{class:'reference-links'});links.append(el('a',{href:s.url,target:'_blank',rel:'noopener noreferrer',text:'查看来源 ↗'}));
+   if(s.extraUrl)links.append(el('a',{href:s.extraUrl,target:'_blank',rel:'noopener noreferrer',text:'历史款补充 ↗'}));card.append(links);
+   const choices=el('div',{class:'reference-layouts'});
+   for(const id of s.layouts){const l=plannerLayouts.find(l=>l.id===id);choices.append(el('button',{class:'btn ghost',text:l.name,onclick:()=>choose(id)}));}
+   card.append(choices);box.append(card);
+  }
+  if(!items.length)box.append(el('p',{class:'muted',text:'没有找到对应系列，试试清空关键词或切换分类。'}));
+ }
+ $('#reference-search').addEventListener('input',render);$('#reference-family').addEventListener('change',render);render();
 }
 export function initWorkspace(flushDraft) {
  flush=flushDraft;

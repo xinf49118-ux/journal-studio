@@ -4,6 +4,7 @@ import {readFileSync} from 'node:fs';
 import {plannerProject,plannerLayouts,monthCells,weekDates,parseDate,todayString} from '../web/js/planner.js';
 import {templates} from '../web/js/templates.js';
 import {validateBundle,restoreBundle} from '../web/js/backup.js';
+import {kokuyoSeries,plannerGroups} from '../web/js/planner-catalog.js';
 const manifest=JSON.parse(readFileSync(new URL('../assets/materials/manifest.json',import.meta.url),'utf8'));
 const ids=new Set(manifest.items.map(m=>m.id));
 test('calendar handles leap centuries, 4/5/6-row months and both week starts',()=>{
@@ -48,4 +49,25 @@ test('habit page excludes nonexistent days and undated calendar has blank cells'
  assert.ok(!text(plannerProject({layout:'habits',month:'2100-02'})).includes('29'));
  assert.ok(text(plannerProject({layout:'habits',undated:true})).includes('31'));
  assert.ok(!text(plannerProject({layout:'monthly',undated:true})).some(s=>/^\d+$/.test(s)));
+});
+test('every research entry resolves to usable layouts; metadata and ids stay unambiguous',()=>{
+ assert.equal(plannerLayouts.length,49);assert.equal(kokuyoSeries.length,21);
+ assert.equal(new Set(plannerLayouts.map(l=>l.id)).size,49);
+ for(const l of plannerLayouts){assert.ok(plannerGroups.includes(l.group));assert.ok(['none','year','month','week','day'].includes(l.period));}
+ for(const s of kokuyoSeries){assert.match(s.url,/^https:\/\//);assert.ok(s.status&&s.variants);for(const id of s.layouts)assert.ok(plannerLayouts.some(l=>l.id===id));}
+});
+test('two-week dates cross year correctly; yearly controls reject invalid years',()=>{
+ const text=p=>p.layers.filter(l=>l.kind==='text').map(l=>l.text);
+ assert.ok(text(plannerProject({layout:'study_2weeks',date:'2027-01-01'})).some(s=>s.includes('2026-12-28 — 2027-01-10')));
+ for(const year of ['',1899,2200,'2024.5'])assert.throws(()=>plannerProject({layout:'annual_calendar',year}));
+ const p=plannerProject({layout:'annual_calendar',year:'2024'});
+ assert.equal(text(p).filter(s=>s==='29').length,12);
+ assert.equal(text(plannerProject({layout:'annual_calendar',year:'2100'})).filter(s=>s==='29').length,11);
+});
+test('timelines include all 24 hours and wish list contains 100 distinct entries',()=>{
+ const text=p=>p.layers.filter(l=>l.kind==='text').map(l=>l.text);
+ for(const id of ['weekly_vertical','study_week','weekly_routine']){
+  const values=text(plannerProject({layout:id}));for(let h=0;h<24;h++)assert.ok(values.includes(String(h).padStart(2,'0')));
+ }
+ const values=text(plannerProject({layout:'wishlist100'}));for(let i=1;i<=100;i++)assert.ok(values.includes(String(i).padStart(3,'0')));
 });

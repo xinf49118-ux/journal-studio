@@ -1,0 +1,159 @@
+import {makeMaterialLayer,makeShapeLayer,makeTextLayer,lighten} from './core.js';
+
+export function expandedPlannerProject(o,materials,t,layout,dates) {
+ const {parseDate,monthCells,weekDates,todayString}=dates;
+ const undated=!!o.undated,start=Number(o.weekStart)===0?0:1,now=todayString();
+ const date=undated?'2026-01-01':(o.date??now),month=undated?'2026-01':(o.month??now.slice(0,7));
+ let focus=new Date(Date.UTC(2026,0,1));
+ if(!undated){
+  if(['day','week'].includes(layout.period))focus=parseDate(date);
+  if(layout.period==='month')focus=parseDate(month+'-01');
+  if(layout.period==='year')focus=parseDate(String(o.year??now.slice(0,4))+'-01-01');
+ }
+ const year=focus.getUTCFullYear(),monthN=focus.getUTCMonth()+1;
+ const monthKey=`${year}-${String(monthN).padStart(2,'0')}`;
+ const count=undated?31:new Date(Date.UTC(year,monthN,0)).getUTCDate();
+ const days=['周日','周一','周二','周三','周四','周五','周六'],labels=Array.from({length:7},(_,i)=>days[(i+start)%7]);
+ const layers=[],ink=t.ink,soft=lighten(ink,.23),stroke=lighten(ink,.72),wash=lighten(t.accent,.68);
+ const box=(x,y,w,h,fill=wash)=>layers.push(makeShapeLayer({x_mm:x,y_mm:y,w_mm:w,h_mm:h,fill}));
+ const text=(s,x,y,size=2.8,color=ink)=>layers.push(makeTextLayer({text:String(s),x_mm:x,y_mm:y,size_mm:size,color}));
+ const line=(x,y,w,h=.16)=>box(x,y,w,h,stroke);
+ const rule=(x,y,w,n=3,gap=7)=>{for(let i=0;i<n;i++)line(x,y+i*gap,w);};
+ const checkbox=(x,y,s=2)=>{box(x,y,s,s,stroke);box(x+.23,y+.23,s-.46,s-.46,'#FFFFFF');};
+ const section=(s,x,y,w)=>{text(s,x,y);line(x,y+6,w);};
+ const grid=(x,y,w,h,step=4)=>{for(let dx=0;dx<=w+.01;dx+=step)line(x+dx,y,.12,h);for(let dy=0;dy<=h+.01;dy+=step)line(x,y+dy,w,.12);};
+ const table=(headers,widths,{x=12,y=51,rows=12,rh=10,hh=8,prefill=[]}={})=>{
+  const total=widths.reduce((a,b)=>a+b,0);box(x,y,total,hh);
+  let xx=x;headers.forEach((s,i)=>{text(s,xx+2,y+2,2.6);xx+=widths[i];});
+  for(let r=0;r<=rows;r++)line(x,y+hh+r*rh,total);
+  let edge=x;for(const width of [0,...widths]){edge+=width;line(edge,y,.16,hh+rows*rh);}
+  prefill.forEach((row,r)=>{let xx=x;row.forEach((value,c)=>{if(value)text(value,xx+2,y+hh+r*rh+2,2.6);xx+=widths[c];});});
+ };
+ const miniCalendar=(key,x,y,w,h,blank=undated)=>{
+  const cw=w/7,rh=(h-14)/6;
+  box(x,y,w,7);text(blank?'月份：____':`${Number(key.slice(5))} 月`,x+2,y+1.5,2.6);
+  labels.forEach((s,c)=>text(s.slice(1),x+c*cw+1.2,y+8,2.2));
+  const cells=blank?Array(42).fill(null):monthCells(key,start);
+  cells.forEach((d,i)=>{if(d)text(d,x+(i%7)*cw+1,y+14+Math.floor(i/7)*rh,2.2);});
+ };
+ const week=()=>weekDates(date,start);
+ const short=d=>`${d.getUTCMonth()+1}/${d.getUTCDate()}`;
+ text(`${t.name}  /  ${layout.group}`,12,11,2.5,soft);text(layout.name,12,21,6);box(12,33,28,.8,t.accent);
+ const art=materials.find(m=>m.id===`sticker_collection_${t.id}_00`);
+ if(art)layers.push(makeMaterialLayer(art,{x_mm:117,y_mm:10,w_mm:19,h_mm:19}));
+ let dateLabel=layout.period==='year'?(undated?'年份：________':`${year} 年`):layout.period==='month'?(undated?'月份：________':`${year} 年 ${monthN} 月`):layout.period==='day'?(undated?'日期：________':`${date}  ${days[focus.getUTCDay()]}`):layout.period==='week'?(undated?'本周日期：________':`${week()[0].toISOString().slice(0,10)} — ${week()[6].toISOString().slice(0,10)}`):'按自己的节奏，慢慢记录';
+ if(layout.id==='study_2weeks'&&!undated)dateLabel=`${week()[0].toISOString().slice(0,10)} — ${new Date(week()[0].getTime()+13*86400000).toISOString().slice(0,10)}`;
+ text(dateLabel,12,39,2.7,soft);
+ const id=layout.id;
+ if(id==='annual_calendar') {
+  for(let m=1;m<=12;m++)miniCalendar(`${year}-${String(m).padStart(2,'0')}`,12+((m-1)%3)*43,51+Math.floor((m-1)/3)*37,38,33,undated);
+ } else if(['annual_plan','anniversaries'].includes(id)) {
+  for(let i=0;i<12;i++){
+   const x=12+(i%2)*65,y=51+Math.floor(i/2)*24;
+   box(x,y,59,5.5);text(`${i+1} 月`,x+2,y+.7,2.6);rule(x,y+13,59,2,7);
+  }
+ } else if(['monthly_grid','monthly_log'].includes(id)) {
+  const x=12,y=60,cw=124/7,rh=id==='monthly_log'?15:18;
+  labels.forEach((s,i)=>{box(x+i*cw,50,cw,7);text(s,x+i*cw+4.5,51.5,2.7);});
+  if(id==='monthly_grid')for(let i=0;i<42;i++)grid(x+i%7*cw+1,y+Math.floor(i/7)*rh+6,cw-2,rh-7,4);
+  for(let c=0;c<=7;c++)line(x+c*cw,y,.18,rh*6);for(let r=0;r<=6;r++)line(x,y+r*rh,124);
+  if(!undated)monthCells(monthKey,start).forEach((d,i)=>{if(d)text(d,x+i%7*cw+1.4,y+Math.floor(i/7)*rh+1.2,2.5);});
+  if(id==='monthly_log')table(['习惯','第1周','第2周','第3周','第4周','第5周','第6周'],[28,16,16,16,16,16,16],{y:159,rows:3,rh:10});
+  else{section('本月备注',12,177,124);rule(12,191,124,2,8);}
+ } else if(id==='monthly_project') {
+  text('用横线标记持续时间，用圆点标记关键日期',12,49,2.7,soft);
+  const cw=3,x=43,y=62;
+  box(12,y,124,8);text('项目 / 事项',14,y+2,2.7);
+  for(let d=1;d<=31;d++){
+   if(d<=count)text(d,x+(d-1)*cw+.2,y+2,1.9);else box(x+(d-1)*cw,y,cw,108,'#F0EFEC');
+  }
+  for(let c=0;c<=31;c++)line(x+c*cw,y+8,.14,100);
+  for(let r=0;r<=10;r++){line(12,y+8+r*10,124);if(r<10)text(`项目 ${r+1}`,14,y+11+r*10,2.5);}
+  line(12,y,.18,108);section('下一步 / 风险与调整',12,182,124);line(12,198,124);
+ } else if(['weekly_vertical','study_week','weekly_routine'].includes(id)) {
+  const x=22,cw=114/7,y=62,rh=4.6;
+  labels.forEach((s,i)=>{box(x+i*cw,50,cw,10);text(s,x+i*cw+3.5,51,2.4);if(!undated&&id!=='weekly_routine')text(short(week()[i]),x+i*cw+3.5,55,2.1);});
+  for(let r=0;r<24;r++){text(`${String(r).padStart(2,'0')}`,12,y+r*rh+.4,2.2,soft);line(x,y+r*rh,114);}
+  line(x,y+24*rh,114);for(let c=0;c<=7;c++)line(x+c*cw,y,.16,24*rh);
+  section(id==='study_week'?'科目色标 / 本周目标':'本周重点 / 调整',12,180,124);
+  if(id==='study_week')for(let i=0;i<4;i++){box(12+i*31,191,3,3,[t.accent,'#D4E2DC','#DFDCEC','#E8D8C8'][i]);text(`科目 ${i+1}`,17+i*31,190.5,2.5);}
+  else rule(12,194,124,2,7);
+ } else if(id==='weekly_notes') {
+  for(let i=0;i<7;i++){const y=51+i*20;box(12,y,18,18);text(labels[i],14,y+2,2.7);if(!undated)text(short(week()[i]),14,y+9,2.3);rule(33,y+8,38,2,8);}
+  section('随手记',81,51,55);grid(81,63,55,136,4);
+ } else if(id==='day_split') {
+  text('时间',12,51,2.6);section('计划 / 工作',26,51,52);section('实际 / 生活',84,51,52);
+  for(let h=0;h<24;h++){const y=63+h*5.2;text(String(h).padStart(2,'0')+':00',12,y,2.2,soft);line(26,y+4,52);line(84,y+4,52);}
+  text('今天的一句话：',12,193,2.8);line(39,199,97);
+ } else if(id==='month_cover') {
+  box(12,53,124,75);text(undated?'新的一个月':String(monthN).padStart(2,'0'),24,63,18);text('放一张照片，或贴上喜欢的素材',24,108,3,soft);
+  section('这个月的关键词',12,139,124);line(12,155,124);
+  section('三件想完成的事',12,166,124);for(let i=0;i<3;i++){checkbox(12,178+i*8);line(18,181+i*8,118);}
+ } else if(id==='month_week') {
+  miniCalendar(monthKey,12,51,58,62);section('本月重点',80,51,56);rule(80,66,56,6,8);
+  for(let i=0;i<7;i++){const y=121+i*11;box(12,y,23,9);text(labels[i]+(undated?'':' '+short(week()[i])),14,y+2,2.5);line(39,y+7,97);}
+ } else if(id==='study_2weeks') {
+  const startDay=week()[0],cw=7,x=38,y=61;
+  box(12,y,124,14);text('科目',14,y+5,2.7);
+  for(let c=0;c<14;c++){text(labels[c%7].slice(1),x+c*cw+2,y+1,2.3);const d=new Date(startDay.getTime()+c*86400000);if(!undated)text(short(d),x+c*cw+.8,y+7,2);}
+  for(let r=0;r<6;r++)text(`科目 ${r+1}`,14,y+19+r*15,2.6);
+  for(let r=0;r<=6;r++)line(12,y+14+r*15,124);for(let c=0;c<=14;c++)line(x+c*cw,y+14,.15,90);
+  section('查漏补缺 / 下一轮复习',12,177,124);rule(12,191,124,2,8);
+ } else if(id==='study_todo') {
+  for(let i=0;i<7;i++){const y=51+i*19;box(12,y,124,6);text(labels[i]+(undated?'':' '+short(week()[i])),14,y+1,2.6);text('用时：______',109,y+1,2.4);checkbox(14,y+10);line(21,y+13,51);checkbox(80,y+10);line(87,y+13,47);}
+  section('本周完成 / 下周调整',12,189,124);line(12,201,124);
+ } else if(id==='study_day') {
+  section('今天的学习目标',12,51,124);line(12,66,124);
+  table(['科目','具体任务','预计','实际','完成'],[21,61,15,15,12],{y:77,rows:8,rh:10});
+  section('疑问与收获',12,177,124);rule(12,191,124,2,8);
+ } else if(id==='timetable') {
+  table(['节次',...labels],[12,16,16,16,16,16,16,16],{rows:8,rh:15,prefill:Array.from({length:8},(_,i)=>[String(i+1)])});
+  text('本学期备注：',12,190);line(37,197,99);
+ } else if(id==='wishlist100') {
+  for(let c=0;c<4;c++)for(let r=0;r<25;r++){const x=12+c*31.5,y=51+r*5.8;text(String(c*25+r+1).padStart(3,'0'),x,y,2.2,soft);line(x+7,y+4,22);}
+ } else if(['goals','year_review','study_goal','study_review'].includes(id)) {
+  const titles={goals:['学习与成长','工作与创造','健康与休息','关系与陪伴','体验与兴趣','今年的一小步'],year_review:['最有成就感的事','难忘的相遇','新学会的东西','遇到的困难','想继续保持的习惯','写给明年的自己'],study_goal:['想达成的目标','为什么值得努力','现在的起点','接下来三步','检查时间与标准','需要的支持'],study_review:['本次完成了什么','最有效的方法','还没解决的问题','时间花在哪里','下一次怎样调整','给自己的鼓励']}[id];
+  titles.forEach((s,i)=>{const x=12+(i%2)*65,y=51+Math.floor(i/2)*49;section(s,x,y,59);rule(x,y+17,59,4,8);});
+ } else if(id==='budget') {
+  table(['项目','计划收入','实际收入','计划支出','实际支出'],[28,24,24,24,24],{rows:10,rh:10});
+  section('月末核对与调整',12,174,124);rule(12,188,124,2,10);
+ } else if(id==='quotes') {
+  for(let i=0;i<4;i++){const y=51+i*37;box(12,y,1,29,t.accent);text('摘录 / 出处：',17,y,2.7);rule(17,y+13,119,3,8);}
+ } else if(id==='family') {
+  const node=(label,x,y,w)=>{box(x,y,w,17);text(label,x+3,y+2,2.7);line(x+3,y+12,w-6);};
+  [12,44,76,108].forEach((x,i)=>node(`长辈 ${i+1}`,x,58,28));
+  line(26,77,.2,10);line(58,77,.2,10);line(26,87,32);line(42,87,.2,10);
+  line(90,77,.2,10);line(122,77,.2,10);line(90,87,32);line(106,87,.2,10);
+  node('家人 A',25,98,35);node('家人 B',89,98,35);line(42,117,.2,10);line(106,117,.2,10);line(42,127,64);line(74,127,.2,10);node('我 / 关注的人',52,138,44);
+  section('家庭故事 / 其他重要关系',12,170,124);rule(12,185,124,3,7);
+ } else if(id==='memories') {
+  for(let i=0;i<2;i++){const y=51+i*76;box(12,y,55,62);text('照片 / 画面',23,y+26,3,soft);section('时间 · 地点',77,y,59);rule(77,y+16,59,6,8);}
+ } else if(id==='personal') {
+  ['姓名 / 称呼','生日','联系方式','重要地址','紧急联系人','其他备注'].forEach((s,i)=>{const y=53+i*22;text(s,12,y,3);line(43,y+7,93);});
+ } else if(['grid','dot','ruled','blank'].includes(id)) {
+  if(id==='grid')grid(12,51,124,148,4);
+  if(id==='dot')for(let y=51;y<=199;y+=5)for(let x=12;x<=136;x+=5)box(x,y,.3,.3,stroke);
+  if(id==='ruled')rule(12,57,124,21,7);
+ } else {
+  const tables={
+   scores:[['日期','考试 / 科目','目标分','实际分','复盘'],[20,38,18,18,30]],
+   reading:[['书名','作者','完成日期','印象 / 页码'],[38,25,23,38]],
+   movies:[['片名','观看日期','评分','一句感想'],[38,25,15,46]],
+   recommendations:[['推荐内容','推荐人','日期','体验 / 备注'],[38,25,23,38]],
+   gifts:[['日期','对象','送出 / 收到','礼物与心意'],[20,24,25,55]],
+   promises:[['约定内容','和谁','日期 / 期限','进展'],[45,24,30,25]],
+   life_plan:[['阶段 / 年份','希望的生活','行动','回看'],[25,42,35,22]],
+   timeline:[['年份 / 日期','发生的事','感受 / 影响'],[26,50,48]],
+   travel:[['日期','国家 / 城市','足迹与回忆'],[24,38,62]],
+   contacts:[['姓名 / 机构','关系','联络方式','备注'],[27,20,42,35]],
+   assets:[['项目','金额 / 数量','保管位置','核对日期'],[34,28,35,27]],
+   health:[['日期','事项 / 症状','就诊记录','后续安排'],[20,34,35,35]],
+   hints:[['用途 / 服务','账号提示','恢复方式 / 备注'],[32,40,52]],
+   index:[['页码','主题','日期','关键词'],[16,45,25,38]],
+  };
+  const config=tables[id];if(!config)throw new Error('这类内页暂不可用');
+  table(...config,{rows:13,rh:10});
+  text('补充：',12,195,2.7);line(24,200,112);
+ }
+ return {version:1,page:{size:'A5',orientation:'portrait',dpi:300,bleed_mm:0,crop_marks:false},background:{type:'color',value:'#FFFFFF',tile:false},layers};
+}
