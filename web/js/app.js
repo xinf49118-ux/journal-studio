@@ -4,6 +4,8 @@ import {
   state, on, emit, loadProject, serializeProject, resetHistory, canUndo, canRedo, pageDims,
 } from './core.js';
 import { api, detectMode } from './api.js';
+import { DraftSaver } from './draft.js';
+import { initWorkspace } from './workspace.js';
 import { $, $$, ok, err, toast } from './ui.js';
 import { initLibrary, loadMaterials, loadLibrary } from './library.js';
 import { initEditor, render as renderEditor, zoomToFit } from './editor.js';
@@ -38,20 +40,26 @@ function initTabs() {
   }
 }
 
+const saver = new DraftSaver(p => api.saveProject(p), (status, message) => {
+  const label = $('#save-status');
+  if (label) { label.textContent = message; label.dataset.status = status; }
+});
+async function flushDraft() {
+  clearTimeout(saveTimer);
+  await saver.save(serializeProject());
+}
 function scheduleSave() {
   clearTimeout(saveTimer);
   saveTimer = setTimeout(async () => {
     const payload = JSON.stringify(serializeProject());
-    if (payload === lastSaved) return;
-    lastSaved = payload;
-    try { await api.saveProject(JSON.parse(payload)); } catch (e) { /* 静默 */ }
+    try { await saver.save(JSON.parse(payload)); lastSaved = payload; } catch (e) { /* status remains visible; the next edit or manual save retries */ }
   }, 1200);
 }
 
 async function restoreProject() {
   try {
     const data = await api.getProject();
-    if (data.project && (data.project.layers || []).length) {
+    if (data.project && Array.isArray(data.project.layers)) {
       loadProject(data.project);
       lastSaved = JSON.stringify(serializeProject());
       const ps = $('#page-size');
@@ -81,7 +89,7 @@ async function boot() {
     const bc = $('#bg-color');
     if (bc && state.background.type === 'color') bc.value = state.background.value;
   });
-  on('history', updateButtons);
+  on('history', () => { updateButtons(); scheduleSave(); });
   on('project', () => { renderEditor(); refreshPrintPreview(); updateButtons(); });
   on('background', () => {
     const bc = $('#bg-color');
@@ -95,9 +103,9 @@ async function boot() {
   $('#btn-save-project')?.addEventListener('click', async () => {
     const payload = serializeProject();
     try {
-      await api.saveProject(payload);
+      await flushDraft();
       lastSaved = JSON.stringify(payload);
-      ok('工程已保存到 data/project.json，下次打开会自动恢复');
+      ok(api.mode() === 'static' ? '草稿已保存在当前浏览器；换电脑请导出备份' : '草稿已保存到本机；可在作品库导出备份');
     } catch (e) {
       err(`保存失败：${e.message}`);
     }
@@ -129,6 +137,7 @@ async function boot() {
   await loadMaterials();
   await loadLibrary();
   await restoreProject();
+  initWorkspace(flushDraft);
   renderEditor();
   updateButtons();
   setTimeout(() => { zoomToFit(); refreshPrintPreview(); }, 60);

@@ -19,6 +19,7 @@ import { mkdirSync, writeFileSync, rmSync, readFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import {workspaceChecks} from './workspace_browser_checks.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, '..');
@@ -130,7 +131,7 @@ async function main() {
       return JSON.stringify({ items: core.state.materials.items.length, cats: core.state.materials.categories.length });
     })()`);
     const mi = JSON.parse(mat);
-    check('素材清单加载成功', mi.items === 181, `${mi.items} 件 / ${mi.cats} 类`);
+    check('素材清单加载成功', mi.items === 277, `${mi.items} 件 / ${mi.cats} 类`);
     const grid = await cdp.eval(`(async () => {
       // 等第一张缩略图真的加载出来（慢网络下要给足时间）
       const t0 = Date.now();
@@ -157,6 +158,7 @@ async function main() {
     check('网格加载的是缩略图而不是原图', gi.allThumbs === true,
       gi.allThumbs ? `全部走 /thumbs/（已排队 ${gi.withSrc} 张）` : `混进了原图：${gi.offenders.join(', ')}`);
 
+    await workspaceChecks(cdp, check, ART);
     console.log('\n[3] 页面分析（浏览器内完成，不走服务器）');
     const sampleB64 = readFileSync(join(HERE, 'fixtures', 'sample-page.png')).toString('base64');
     const analysis = await cdp.eval(`(async () => {

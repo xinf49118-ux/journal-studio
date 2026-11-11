@@ -97,6 +97,10 @@ journal-studio/
 
 字段规则：
 
+- 可选 `collections`：主题集合数组 `{id,name,color,count}`。素材可选 `collection` 指向主题 ID；旧素材无需此字段。
+- 2026-11-11 新增六套主题各16件，共96件。全量生成器调用 `expand_materials.py`；既有素材 ID 保持不变。
+- 作品备份格式为 `journal-studio-backup` v1 JSON，包含工程和所用自定义图片的 raster data URI。导入前校验类型、引用和数量，不从备份加载远程 URL。
+
 - `id`：全局唯一，`[a-z0-9_]+`，且以 `<cat>_` 开头。
 - `cat` 必须是 `categories[].id` 之一，**固定为下列 8 类**：
   `paper` 底纹纸 / `tape` 和纸胶带 / `sticker` 贴纸 / `frame` 边框花边 / `divider` 分割线 /

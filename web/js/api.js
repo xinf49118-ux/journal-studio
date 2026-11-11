@@ -60,7 +60,7 @@ const lazy = {
 };
 
 async function loadManifest() {
-  const res = await fetch(new URL('assets/materials/manifest.json', APP_ROOT), { cache: 'force-cache' });
+  const res = await fetch(new URL('assets/materials/manifest.json', APP_ROOT), { cache: 'no-cache' });
   if (!res.ok) throw new Error('内置素材清单读取失败，请确认 assets/materials/manifest.json 存在');
   return res.json();
 }
@@ -210,7 +210,10 @@ export const api = {
   },
 
   async saveProject(project) {
-    if (isStatic()) return { ok: projectStore.write(project) };
+    if (isStatic()) {
+      if (!projectStore.write(project)) throw new Error('浏览器保存失败，请检查存储空间或导出备份');
+      return {ok:true};
+    }
     return jsonFetch(apiUrl('api/project'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

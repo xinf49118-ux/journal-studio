@@ -5,12 +5,17 @@ import { api, downloadBlob } from './api.js';
 import { $, el, ok, err, toast, busy, shrinkImage } from './ui.js';
 import { addMaterial, addLibraryImage, addLayer } from './editor.js';
 
-const view = { source: 'builtin', cat: 'all', q: '', webResults: [], webQuery: '', webSource: 'wikimedia' };
+const view = { collection: '', favoritesOnly: false, source: 'builtin', cat: 'all', q: '', webResults: [], webQuery: '', webSource: 'wikimedia' };
 
+let favorites = new Set();
+try { favorites = new Set(JSON.parse(localStorage.getItem('journal-studio:favorites') || '[]')); } catch {}
 export async function loadMaterials() {
   try {
     const data = await api.materials();
     state.materials = { categories: data.categories || [], items: data.items || [] };
+    const select = $('#collection-filter');
+    if (select) { select.replaceChildren(el('option', {value:'',text:'全部主题'}));
+      for (const c of data.collections || []) select.append(el('option',{value:c.id,text:`${c.name} · ${c.count}件`})); }
     emit('materials');
     renderCatList();
     renderGrid();
@@ -80,7 +85,7 @@ export function renderGrid() {
 
   let items = [];
   if (view.source === 'builtin') {
-    items = state.materials.items.map((m) => ({ ...m, _src: 'builtin' }));
+    items = state.materials.items.map((m) => ({ ...m, _src: 'builtin' })).sort((a,b)=>Number(!!b.collection)-Number(!!a.collection));
   } else if (view.source === 'mine') {
     items = state.library.map((m) => ({ ...m, _src: 'mine' }));
   } else {
@@ -89,6 +94,8 @@ export function renderGrid() {
   // 联网结果没有本地分类，只按搜索词过滤；本地素材还要叠加分类筛选
   items = items.filter((it) => {
     if (!matchQuery(it)) return false;
+    if (view.collection && it.collection !== view.collection) return false;
+    if (view.favoritesOnly && !favorites.has(it.id)) return false;
     if (view.source === 'web' || view.cat === 'all') return true;
     return (it.cat || 'imported') === view.cat;
   });
@@ -106,12 +113,21 @@ function thumbUrl(item) {
 }
 
 function cardFor(item) {
-  const card = el('div', { class: 'mat-card' });
+  const card = el('div', { class: 'mat-card', tabindex:'0', role:'group', 'aria-label':item.name || item.title || '素材' });
   const thumbWrap = el('div', { class: 'mat-thumb' });
   const img = el('img', { src: thumbUrl(item), alt: item.name || item.title || '', loading: 'lazy' });
   img.addEventListener('error', () => { img.style.display = 'none'; });
   thumbWrap.appendChild(img);
   card.appendChild(thumbWrap);
+  if(item._src === 'builtin' || item._src === 'mine') {
+    const favorite = el('button',{class:'favorite-btn', text:favorites.has(item.id)?'♥':'♡', 'aria-label':'收藏 '+(item.name||'素材'), 'aria-pressed':String(favorites.has(item.id))});
+    favorite.onclick=e=>{e.stopPropagation(); const next=new Set(favorites); next.has(item.id)?next.delete(item.id):next.add(item.id);
+      try{localStorage.setItem('journal-studio:favorites',JSON.stringify([...next]));favorites=next;renderGrid();}catch{err('收藏保存失败，请检查浏览器存储空间');}};
+    card.append(favorite);
+    const preview = el('button',{class:'preview-btn',text:'放大', 'aria-label':'放大预览 '+(item.name||'素材')});
+    preview.onclick=e=>{e.stopPropagation();$('#preview-name').textContent=item.name||'素材';$('#preview-image').src=item._src==='builtin'?materialUrl(item):libraryUrl(item);$('#material-preview').showModal();};
+    card.append(preview);
+  }
 
   const badge = item._src === 'builtin' ? (CAT_NAMES[item.cat] || item.cat)
     : (item._src === 'mine' ? '我的' : (item.source || '联网'));
@@ -180,6 +196,7 @@ function cardFor(item) {
       name: item.name || item.title, cat: item.cat,
     }));
   });
+  card.addEventListener('keydown', e=>{if(e.target===card && (e.key==='Enter'||e.key===' ')){e.preventDefault();card.click();}});
   card.addEventListener('click', () => {
     if (item._src === 'builtin') addMaterial(item);
     else if (item._src === 'mine') addLibraryImage(item);
@@ -252,9 +269,14 @@ async function doWebSearch() {
 /* ---------------------------------------------------------------- 初始化 */
 
 export function initLibrary() {
+  $('#collection-filter').onchange=e=>{view.collection=e.target.value;renderGrid();};
+  $('#favorites-filter').onclick=e=>{view.favoritesOnly=!view.favoritesOnly;e.currentTarget.setAttribute('aria-pressed',String(view.favoritesOnly));renderGrid();};
+  $('#browse-templates').onclick=()=>document.querySelector('[data-tab="works"]').click();
+  $('#close-preview').onclick=()=>$('#material-preview').close();
   document.querySelectorAll('#source-filter .chip').forEach((chip) => {
     chip.addEventListener('click', () => {
       view.source = chip.dataset.source;
+      view.collection='';$('#collection-filter').value='';
       view.cat = 'all';
       syncSourceChips();
       renderCatList();

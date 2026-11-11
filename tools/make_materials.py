@@ -2661,6 +2661,9 @@ def main(argv=None):
     for c in manifest["categories"]:
         print("        %-8s %-6s %d" % (c["id"], c["name"], c["count"]))
     print("[清单] %s" % path)
+    if not args.only:
+        from expand_materials import main as expand_collections
+        expand_collections(out_dir)
     errs, total = check_materials(out_dir)
     return 1 if errs else 0
 

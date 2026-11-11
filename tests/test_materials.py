@@ -206,7 +206,7 @@ class TestMaterials(unittest.TestCase):
     # ---- SPEC 2.1 尺寸形态约束（抽样，避免超时） ------------------------- #
     def test_shape_rules_sampled(self):
         for cat in ("tape", "sticker", "divider", "stamp", "title", "icon"):
-            for it in self.by_cat.get(cat, [])[:4]:
+            for it in self.by_cat.get(cat, []):
                 w, h = it["w"], it["h"]
                 long_side, short_side = max(w, h), min(w, h)
                 if cat == "tape":
