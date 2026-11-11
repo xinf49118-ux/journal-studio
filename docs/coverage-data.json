@@ -1,0 +1,3032 @@
+{
+  "checked": "2026-11-11",
+  "scope": "核查项包含系列、具体格式、配件与待核实线索，不是商品总数。功能已加入仅指工坊的原创中文页面；部分覆盖不等于整本复刻。未获得全球历年完整 SKU 清单，无法计算全品牌覆盖率。",
+  "brands": [
+    {
+      "brand": "KOKUYO",
+      "limit": "已核对 Jibun、Campus、学习计划及历史资料。MO 01—07 未逐款核实；年份附页、地区款与历史联名尚无全量清单。"
+    },
+    {
+      "brand": "Hobonichi",
+      "limit": "拆分 2027 官网的主要本体格式。封面、联名、语言与每个年度附页未逐 SKU 收录。"
+    },
+    {
+      "brand": "MIDORI",
+      "limit": "核对 2027 八个日程系列、hibino、Yuru Log、多年 Gate。纸张、插画及实体装订不计作已实现。"
+    },
+    {
+      "brand": "MD PRODUCT",
+      "limit": "作为关联的独立品牌单列，核对 2027 四类日程产品；套装、封套与全尺寸版本未穷举。"
+    },
+    {
+      "brand": "TRAVELER’S COMPANY",
+      "limit": "按官网常规与护照替芯目录逐号列出，另列年度款。实体配件和纸张属性仅收录资料；不是全部地区限定版。"
+    },
+    {
+      "brand": "kinbor",
+      "limit": "拆分官网原创和联名目录；大部分页面只说明主题与产品类别，尚不足以确认各款内页。"
+    },
+    {
+      "brand": "九口山",
+      "limit": "馆方历史合作可核实；另收录 AM 文创文章的转载线索，尚未获得品牌全量目录与内页规格。"
+    },
+    {
+      "brand": "趁早",
+      "limit": "认证账号确认基础内页和大学生版；厚本、薄本、口袋本与年度特别版仍需逐款规格。"
+    },
+    {
+      "brand": "MOODTAPE",
+      "limit": "官方海外店、单品页和官方账号可核实部分胶带与印章；店铺显示的总商品数不等于已逐项核实。"
+    },
+    {
+      "brand": "陌墨 MO.CARD",
+      "limit": "Pinkoi 店铺未展示商品。具体系列来自零售商线索，未取得品牌确认，不标为已加入。"
+    }
+  ],
+  "statuses": {
+    "ready": "功能已加入",
+    "partial": "部分覆盖",
+    "missing": "待补充",
+    "unknown": "资料不足",
+    "reference": "仅资料收录"
+  },
+  "entries": [
+    {
+      "id": "k-standard",
+      "brand": "KOKUYO",
+      "name": "Standard / DIARY",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网系列",
+      "url": "https://www.kokuyo.com/stationery/series/jibun-techo/standard/",
+      "layouts": [
+        "monthly",
+        "weekly_vertical",
+        "monthly_project",
+        "annual_plan",
+        "goals",
+        "budget",
+        "reading",
+        "movies",
+        "gifts",
+        "promises",
+        "year_review"
+      ],
+      "remaining": "仅覆盖所列通用功能，原版尺寸、整册组合与品牌图案未实现。",
+      "note": "月历、24小时纵向周计划和项目管理，附生活清单与年度回顾。",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "k-biz",
+      "brand": "KOKUYO",
+      "name": "Biz",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网系列",
+      "url": "https://www.kokuyo.com/stationery/series/jibun-techo/biz/",
+      "layouts": [
+        "weekly_vertical",
+        "monthly",
+        "monthly_project",
+        "index",
+        "recommendations",
+        "quotes"
+      ],
+      "remaining": "仅覆盖所列通用功能，原版尺寸、整册组合与品牌图案未实现。",
+      "note": "保留24小时时间轴与月历，采用较克制的配色和字体；实体纸张为 MIO。",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "k-lite",
+      "brand": "KOKUYO",
+      "name": "Lite",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网系列",
+      "url": "https://www.kokuyo.com/stationery/series/jibun-techo/lite/",
+      "layouts": [
+        "weekly_vertical",
+        "monthly_log",
+        "habits",
+        "grid"
+      ],
+      "remaining": "仅覆盖所列通用功能，原版尺寸、整册组合与品牌图案未实现。",
+      "note": "精简记录项目，保留24小时周时间轴；月历下方提供习惯记录区。",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "k-days",
+      "brand": "KOKUYO",
+      "name": "DAYs",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网系列",
+      "url": "https://www.kokuyo.com/stationery/series/jibun-techo/days/",
+      "layouts": [
+        "day_split",
+        "daily",
+        "monthly_log",
+        "habits",
+        "month_cover",
+        "wishlist100"
+      ],
+      "remaining": "仅覆盖所列通用功能，原版尺寸、整册组合与品牌图案未实现。",
+      "note": "一日一页，允许区分两类记录；另有月历、习惯记录及月度扉页。",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "k-kit",
+      "brand": "KOKUYO",
+      "name": "First Kit",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "组合套装",
+      "url": "https://www.kokuyo.com/stationery/series/jibun-techo/",
+      "layouts": [
+        "monthly",
+        "weekly_vertical",
+        "life_plan",
+        "grid"
+      ],
+      "remaining": "仅覆盖所列通用功能，原版尺寸、整册组合与品牌图案未实现。",
+      "note": "把 DIARY、LIFE、IDEA 组合在一起，是套装而非另一种独立日程格式。",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "k-life",
+      "brand": "KOKUYO",
+      "name": "LIFE",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网系列",
+      "url": "https://www.kokuyo.com/stationery/series/jibun-techo/life/",
+      "layouts": [
+        "wishlist100",
+        "life_plan",
+        "timeline",
+        "anniversaries",
+        "travel",
+        "family",
+        "contacts",
+        "assets",
+        "health",
+        "memories",
+        "personal",
+        "hints"
+      ],
+      "remaining": "仅覆盖所列通用功能，原版尺寸、整册组合与品牌图案未实现。",
+      "note": "适合跨年保留的资料：人生目标、纪念日、个人年表、家庭关系、联络与回忆。",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "k-idea",
+      "brand": "KOKUYO",
+      "name": "IDEA",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "规格表核实",
+      "url": "https://www.kokuyo.com/stationery/series/jibun-techo/spec/",
+      "layouts": [
+        "grid",
+        "index"
+      ],
+      "remaining": "仅覆盖所列通用功能，原版尺寸、整册组合与品牌图案未实现。",
+      "note": "独立方格笔记册，可补充自由记录。规格表列常规约3.4mm、mini约2.9mm方格。",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "k-campus-basic",
+      "brand": "KOKUYO",
+      "name": "Campus Diary Basic",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网系列",
+      "url": "https://www.kokuyo.com/stationery/series/campus-diary/basic/",
+      "layouts": [
+        "monthly",
+        "monthly_grid",
+        "weekly_notes",
+        "weekly_vertical"
+      ],
+      "remaining": "仅覆盖所列通用功能，原版尺寸、整册组合与品牌图案未实现。",
+      "note": "月历标准型／方格型、横向周记配笔记，以及纵向周时间轴。",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "k-campus-soft",
+      "brand": "KOKUYO",
+      "name": "Campus Soft Ring Diary",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网系列",
+      "url": "https://www.kokuyo.com/stationery/series/campus-diary/softring/",
+      "layouts": [
+        "monthly",
+        "annual_calendar",
+        "annual_plan",
+        "grid",
+        "index"
+      ],
+      "remaining": "仅覆盖所列通用功能，原版尺寸、整册组合与品牌图案未实现。",
+      "note": "月历配大量方格笔记，另有索引、年度日历和年度计划。软环属于实体书写体验。",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "k-sooofa",
+      "brand": "KOKUYO",
+      "name": "Sooofa Diary / Notebook",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网系列",
+      "url": "https://www.kokuyo.com/stationery/series/softring-notebook/sooofa/",
+      "layouts": [
+        "monthly",
+        "grid",
+        "annual_calendar"
+      ],
+      "remaining": "仅覆盖所列通用功能，原版尺寸、整册组合与品牌图案未实现。",
+      "note": "日程款把月历与4mm方格笔记结合；普通笔记款也采用4mm方格。",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "k-free",
+      "brand": "KOKUYO",
+      "name": "Campus Diary Free",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官方商店核实",
+      "url": "https://www.kokuyo-shop.jp/sc/ProductDetail.aspx?pcd=4901480235103",
+      "layouts": [
+        "annual_plan",
+        "monthly",
+        "ruled"
+      ],
+      "remaining": "仅覆盖所列通用功能，原版尺寸、整册组合与品牌图案未实现。",
+      "note": "可自行填写日期，包含年度计划、月历和横线笔记，适合随时开始。",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "k-study-diary",
+      "brand": "KOKUYO",
+      "name": "Study Planner Diary",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网系列",
+      "url": "https://www.kokuyo.com/stationery/series/campus/study-planner/dialy/",
+      "layouts": [
+        "study_goal",
+        "annual_plan",
+        "monthly",
+        "study_week",
+        "scores",
+        "study_review",
+        "timetable"
+      ],
+      "remaining": "仅覆盖所列通用功能，原版尺寸、整册组合与品牌图案未实现。",
+      "note": "从目标、年度与月度计划，到每周安排、考试记录与复盘，所有页面日期自填。",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "k-time-log",
+      "brand": "KOKUYO",
+      "name": "Study Planner TIME LOG",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网系列",
+      "url": "https://www.kokuyo.com/stationery/series/campus/study-planner/time-log/",
+      "layouts": [
+        "study_week",
+        "study_goal",
+        "study_review"
+      ],
+      "remaining": "仅覆盖所列通用功能，原版尺寸、整册组合与品牌图案未实现。",
+      "note": "按周安排学习，以涂色时间格记录不同科目的投入，配目标、待办和回顾。",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "k-study-todo",
+      "brand": "KOKUYO",
+      "name": "Study Planner TO DO",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网系列",
+      "url": "https://www.kokuyo.com/stationery/series/campus/study-planner/todo/",
+      "layouts": [
+        "study_todo",
+        "study_day"
+      ],
+      "remaining": "仅覆盖所列通用功能，原版尺寸、整册组合与品牌图案未实现。",
+      "note": "以每周、每日任务和完成情况为主，也能粗略记录学习用时。",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "k-study-formats",
+      "brand": "KOKUYO",
+      "name": "2 Weeks / Weekly / Daily",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网系列",
+      "url": "https://www.kokuyo.com/stationery/series/campus/study-planner/2weeks-weekly-daily/",
+      "layouts": [
+        "study_2weeks",
+        "weekly_vertical",
+        "study_day"
+      ],
+      "remaining": "仅覆盖所列通用功能，原版尺寸、整册组合与品牌图案未实现。",
+      "note": "两周按科目推进、每周24小时安排、每日具体任务三种格式；笔记本与活页版本并存。",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "k-mo",
+      "brand": "KOKUYO",
+      "name": "Campus MO 活页手帐",
+      "kind": "系列",
+      "status": "unknown",
+      "evidence": "中国市场资料",
+      "url": "https://vipssl.ey100.com/Goods/ItemDetail_9200-0118_1.htm",
+      "layouts": [],
+      "remaining": "该页面显示不再销售，且标题与正文格式描述不一致；替芯01—07未逐一确认，不据此声称全部在售。",
+      "note": "国誉旗下易优百核实 B6、18孔、自填日期和可替换内芯，商品标题为时间轴周计划。",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "k-patmi",
+      "brand": "KOKUYO",
+      "name": "Pat-mi",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "历史资料 · 2017",
+      "url": "https://www.kokuyo.co.jp/newsroom/news/assets/pdf/20170720_NewsLetter.pdf",
+      "layouts": [
+        "month_week"
+      ],
+      "remaining": "仅覆盖所列通用功能，原版尺寸、整册组合与品牌图案未实现。",
+      "note": "国誉历史资料记载，月间和周间页面可联动展开并同时查看。",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "k-trystrams",
+      "brand": "KOKUYO",
+      "name": "trystrams DIARY / linklet / LIFEHACK",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "历史资料 · 2017／2022",
+      "url": "https://www.kokuyo.com/news/release/20210531st/",
+      "layouts": [
+        "monthly",
+        "weekly_vertical",
+        "weekly_routine"
+      ],
+      "remaining": "仅覆盖所列通用功能，原版尺寸、整册组合与品牌图案未实现。",
+      "note": "历史线包括月历型 linklet、周时间轴 LIFEHACK，以及后来的横向／纵向薄型月历。",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "k-goods",
+      "brand": "KOKUYO",
+      "name": "Jibun Techo Goods",
+      "kind": "系列",
+      "status": "reference",
+      "evidence": "配件目录",
+      "url": "https://www.kokuyo.com/stationery/series/jibun-techo/goods/",
+      "layouts": [],
+      "remaining": "实体配件与品牌图案未加入。",
+      "note": "索引贴、TODO便签、图标／计划绘图模板，以及书写垫、保护套、拉链袋。",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "k-appendix",
+      "brand": "KOKUYO",
+      "name": "年度附页与信息页",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "2026规格表",
+      "url": "https://www.kokuyo.com/stationery/series/jibun-techo/spec/",
+      "layouts": [
+        "annual_calendar",
+        "personal",
+        "travel"
+      ],
+      "remaining": "地图、交通线路、时差及年龄速查尚未实现。",
+      "note": "规格表还列多年度日历、年龄速查、日本地图、交通线路和时差地图等附页。",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "k-function-weekly_vertical",
+      "brand": "KOKUYO",
+      "name": "24小时周轴",
+      "kind": "功能",
+      "status": "ready",
+      "evidence": "官网规格表",
+      "url": "https://www.kokuyo.com/stationery/series/jibun-techo/spec/",
+      "layouts": [
+        "weekly_vertical"
+      ],
+      "remaining": "独立中文功能页，非原版印刷样式。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "k-function-monthly_log",
+      "brand": "KOKUYO",
+      "name": "月计划与习惯",
+      "kind": "功能",
+      "status": "ready",
+      "evidence": "官网规格表",
+      "url": "https://www.kokuyo.com/stationery/series/jibun-techo/spec/",
+      "layouts": [
+        "monthly_log"
+      ],
+      "remaining": "独立中文功能页，非原版印刷样式。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "k-function-day_split",
+      "brand": "KOKUYO",
+      "name": "一日双区记录",
+      "kind": "功能",
+      "status": "ready",
+      "evidence": "官网规格表",
+      "url": "https://www.kokuyo.com/stationery/series/jibun-techo/spec/",
+      "layouts": [
+        "day_split"
+      ],
+      "remaining": "独立中文功能页，非原版印刷样式。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "k-function-monthly_project",
+      "brand": "KOKUYO",
+      "name": "月度项目表",
+      "kind": "功能",
+      "status": "ready",
+      "evidence": "官网规格表",
+      "url": "https://www.kokuyo.com/stationery/series/jibun-techo/spec/",
+      "layouts": [
+        "monthly_project"
+      ],
+      "remaining": "独立中文功能页，非原版印刷样式。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "k-function-life_plan",
+      "brand": "KOKUYO",
+      "name": "人生阶段计划",
+      "kind": "功能",
+      "status": "ready",
+      "evidence": "官网规格表",
+      "url": "https://www.kokuyo.com/stationery/series/jibun-techo/spec/",
+      "layouts": [
+        "life_plan"
+      ],
+      "remaining": "独立中文功能页，非原版印刷样式。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "k-function-wishlist100",
+      "brand": "KOKUYO",
+      "name": "100项愿望",
+      "kind": "功能",
+      "status": "ready",
+      "evidence": "官网规格表",
+      "url": "https://www.kokuyo.com/stationery/series/jibun-techo/spec/",
+      "layouts": [
+        "wishlist100"
+      ],
+      "remaining": "独立中文功能页，非原版印刷样式。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "k-function-anniversaries",
+      "brand": "KOKUYO",
+      "name": "纪念日",
+      "kind": "功能",
+      "status": "ready",
+      "evidence": "官网规格表",
+      "url": "https://www.kokuyo.com/stationery/series/jibun-techo/spec/",
+      "layouts": [
+        "anniversaries"
+      ],
+      "remaining": "独立中文功能页，非原版印刷样式。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "k-function-family",
+      "brand": "KOKUYO",
+      "name": "家庭关系",
+      "kind": "功能",
+      "status": "ready",
+      "evidence": "官网规格表",
+      "url": "https://www.kokuyo.com/stationery/series/jibun-techo/spec/",
+      "layouts": [
+        "family"
+      ],
+      "remaining": "独立中文功能页，非原版印刷样式。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "k-function-assets",
+      "brand": "KOKUYO",
+      "name": "资产记录",
+      "kind": "功能",
+      "status": "ready",
+      "evidence": "官网规格表",
+      "url": "https://www.kokuyo.com/stationery/series/jibun-techo/spec/",
+      "layouts": [
+        "assets"
+      ],
+      "remaining": "独立中文功能页，非原版印刷样式。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "k-function-reading",
+      "brand": "KOKUYO",
+      "name": "阅读记录",
+      "kind": "功能",
+      "status": "ready",
+      "evidence": "官网规格表",
+      "url": "https://www.kokuyo.com/stationery/series/jibun-techo/spec/",
+      "layouts": [
+        "reading"
+      ],
+      "remaining": "独立中文功能页，非原版印刷样式。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "k-function-movies",
+      "brand": "KOKUYO",
+      "name": "观影记录",
+      "kind": "功能",
+      "status": "ready",
+      "evidence": "官网规格表",
+      "url": "https://www.kokuyo.com/stationery/series/jibun-techo/spec/",
+      "layouts": [
+        "movies"
+      ],
+      "remaining": "独立中文功能页，非原版印刷样式。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "k-function-year_review",
+      "brand": "KOKUYO",
+      "name": "年度回顾",
+      "kind": "功能",
+      "status": "ready",
+      "evidence": "官网规格表",
+      "url": "https://www.kokuyo.com/stationery/series/jibun-techo/spec/",
+      "layouts": [
+        "year_review"
+      ],
+      "remaining": "独立中文功能页，非原版印刷样式。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "k-mo-01",
+      "brand": "KOKUYO",
+      "name": "MO 替芯 01",
+      "kind": "待核实款",
+      "status": "unknown",
+      "evidence": "地区商品页存在描述冲突",
+      "url": "https://vipssl.ey100.com/Goods/ItemDetail_9200-0118_1.htm",
+      "layouts": [],
+      "remaining": "尚未取得此编号的可靠内页规格，不能从同系列推断。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "k-mo-02",
+      "brand": "KOKUYO",
+      "name": "MO 替芯 02",
+      "kind": "待核实款",
+      "status": "unknown",
+      "evidence": "地区商品页存在描述冲突",
+      "url": "https://vipssl.ey100.com/Goods/ItemDetail_9200-0118_1.htm",
+      "layouts": [],
+      "remaining": "尚未取得此编号的可靠内页规格，不能从同系列推断。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "k-mo-03",
+      "brand": "KOKUYO",
+      "name": "MO 替芯 03",
+      "kind": "待核实款",
+      "status": "unknown",
+      "evidence": "地区商品页存在描述冲突",
+      "url": "https://vipssl.ey100.com/Goods/ItemDetail_9200-0118_1.htm",
+      "layouts": [],
+      "remaining": "尚未取得此编号的可靠内页规格，不能从同系列推断。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "k-mo-04",
+      "brand": "KOKUYO",
+      "name": "MO 替芯 04",
+      "kind": "待核实款",
+      "status": "unknown",
+      "evidence": "地区商品页存在描述冲突",
+      "url": "https://vipssl.ey100.com/Goods/ItemDetail_9200-0118_1.htm",
+      "layouts": [],
+      "remaining": "尚未取得此编号的可靠内页规格，不能从同系列推断。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "k-mo-05",
+      "brand": "KOKUYO",
+      "name": "MO 替芯 05",
+      "kind": "待核实款",
+      "status": "unknown",
+      "evidence": "地区商品页存在描述冲突",
+      "url": "https://vipssl.ey100.com/Goods/ItemDetail_9200-0118_1.htm",
+      "layouts": [],
+      "remaining": "尚未取得此编号的可靠内页规格，不能从同系列推断。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "k-mo-06",
+      "brand": "KOKUYO",
+      "name": "MO 替芯 06",
+      "kind": "待核实款",
+      "status": "unknown",
+      "evidence": "地区商品页存在描述冲突",
+      "url": "https://vipssl.ey100.com/Goods/ItemDetail_9200-0118_1.htm",
+      "layouts": [],
+      "remaining": "尚未取得此编号的可靠内页规格，不能从同系列推断。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "k-mo-07",
+      "brand": "KOKUYO",
+      "name": "MO 替芯 07",
+      "kind": "待核实款",
+      "status": "unknown",
+      "evidence": "地区商品页存在描述冲突",
+      "url": "https://vipssl.ey100.com/Goods/ItemDetail_9200-0118_1.htm",
+      "layouts": [],
+      "remaining": "尚未取得此编号的可靠内页规格，不能从同系列推断。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "k-gap-age",
+      "brand": "KOKUYO",
+      "name": "年龄速查表",
+      "kind": "功能",
+      "status": "missing",
+      "evidence": "官网规格表",
+      "url": "https://www.kokuyo.com/stationery/series/jibun-techo/spec/",
+      "layouts": [],
+      "remaining": "尚无对应专用页面；旅行清单或个人资料页不能替代。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "k-gap-map",
+      "brand": "KOKUYO",
+      "name": "日本／世界地图记录页",
+      "kind": "功能",
+      "status": "missing",
+      "evidence": "官网规格表",
+      "url": "https://www.kokuyo.com/stationery/series/jibun-techo/spec/",
+      "layouts": [],
+      "remaining": "尚无对应专用页面；旅行清单或个人资料页不能替代。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "k-gap-timezone",
+      "brand": "KOKUYO",
+      "name": "交通线路与时差信息页",
+      "kind": "功能",
+      "status": "missing",
+      "evidence": "官网规格表",
+      "url": "https://www.kokuyo.com/stationery/series/jibun-techo/spec/",
+      "layouts": [],
+      "remaining": "尚无对应专用页面；旅行清单或个人资料页不能替代。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "h-original",
+      "brand": "Hobonichi",
+      "name": "Original A6",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网 2027 本体目录",
+      "url": "https://www.1101.com/store/techo/en/2027/pc/",
+      "layouts": [
+        "daily_story",
+        "monthly"
+      ],
+      "remaining": "仅对应记录方式；尺寸、语言、分册、原版附页与封面未完整实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "h-avec-a6",
+      "brand": "Hobonichi",
+      "name": "Original Avec A6",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网 2027 本体目录",
+      "url": "https://www.1101.com/store/techo/en/2027/pc/",
+      "layouts": [
+        "daily_story",
+        "monthly"
+      ],
+      "remaining": "仅对应记录方式；尺寸、语言、分册、原版附页与封面未完整实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "h-cousin",
+      "brand": "Hobonichi",
+      "name": "Cousin A5",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网 2027 本体目录",
+      "url": "https://www.1101.com/store/techo/en/2027/pc/",
+      "layouts": [
+        "daily_story",
+        "monthly",
+        "weekly_vertical"
+      ],
+      "remaining": "仅对应记录方式；尺寸、语言、分册、原版附页与封面未完整实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "h-avec-a5",
+      "brand": "Hobonichi",
+      "name": "Cousin Avec A5",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网 2027 本体目录",
+      "url": "https://www.1101.com/store/techo/en/2027/pc/",
+      "layouts": [
+        "daily_story",
+        "monthly",
+        "weekly_vertical"
+      ],
+      "remaining": "仅对应记录方式；尺寸、语言、分册、原版附页与封面未完整实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "h-hon",
+      "brand": "Hobonichi",
+      "name": "HON A6 / A5",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网 2027 本体目录",
+      "url": "https://www.1101.com/store/techo/en/2027/pc/",
+      "layouts": [
+        "daily_story",
+        "monthly"
+      ],
+      "remaining": "仅对应记录方式；尺寸、语言、分册、原版附页与封面未完整实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "h-planner",
+      "brand": "Hobonichi",
+      "name": "Planner A6",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网 2027 本体目录",
+      "url": "https://www.1101.com/store/techo/en/2027/pc/",
+      "layouts": [
+        "daily_story",
+        "monthly"
+      ],
+      "remaining": "仅对应记录方式；尺寸、语言、分册、原版附页与封面未完整实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "h-weeks",
+      "brand": "Hobonichi",
+      "name": "Weeks",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网 2027 本体目录",
+      "url": "https://www.1101.com/store/techo/en/2027/pc/",
+      "layouts": [
+        "weekly_notes"
+      ],
+      "remaining": "仅对应记录方式；尺寸、语言、分册、原版附页与封面未完整实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "h-mega",
+      "brand": "Hobonichi",
+      "name": "Weeks Mega",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网 2027 本体目录",
+      "url": "https://www.1101.com/store/techo/en/2027/pc/",
+      "layouts": [
+        "weekly_notes",
+        "grid"
+      ],
+      "remaining": "仅对应记录方式；尺寸、语言、分册、原版附页与封面未完整实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "h-dayfree",
+      "brand": "Hobonichi",
+      "name": "Day-Free A6 / A5",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网 2027 本体目录",
+      "url": "https://www.1101.com/store/techo/en/2027/pc/",
+      "layouts": [
+        "monthly",
+        "grid"
+      ],
+      "remaining": "仅对应记录方式；尺寸、语言、分册、原版附页与封面未完整实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "h-five",
+      "brand": "Hobonichi",
+      "name": "5-Year A6 / A5",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网 2027 本体目录",
+      "url": "https://www.1101.com/store/techo/en/2027/pc/",
+      "layouts": [
+        "five_year"
+      ],
+      "remaining": "仅对应记录方式；尺寸、语言、分册、原版附页与封面未完整实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "h-covers",
+      "brand": "Hobonichi",
+      "name": "封面与联名商品目录",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官网 2027",
+      "url": "https://www.1101.com/store/techo/en/2027/pc/",
+      "layouts": [],
+      "remaining": "各合作插画、限定封面不作为工坊素材；未逐款穷举。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "m-book-dog",
+      "brand": "MIDORI",
+      "name": "Book Style · Dog",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网产品目录",
+      "url": "https://www.midori-japan.co.jp/english/products/diary/",
+      "layouts": [
+        "monthly",
+        "weekly_dual",
+        "habits",
+        "wishlist100",
+        "reading",
+        "sleep_log"
+      ],
+      "remaining": "仅提供 A5 中文通用页；原版插画、尺寸和装订未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "m-book-cat",
+      "brand": "MIDORI",
+      "name": "Book Style · Cat",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网产品目录",
+      "url": "https://www.midori-japan.co.jp/english/products/diary/",
+      "layouts": [
+        "monthly",
+        "weekly_dual",
+        "gifts",
+        "memories"
+      ],
+      "remaining": "仅提供 A5 中文通用页；原版插画、尺寸和装订未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "m-pocket-mini",
+      "brand": "MIDORI",
+      "name": "Pocket Diary · Mini 月历",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网产品目录",
+      "url": "https://www.midori-japan.co.jp/english/products/diary/",
+      "layouts": [
+        "monthly"
+      ],
+      "remaining": "仅提供 A5 中文通用页；原版插画、尺寸和装订未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "m-pocket-slim",
+      "brand": "MIDORI",
+      "name": "Pocket Diary · Slim 月历",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网产品目录",
+      "url": "https://www.midori-japan.co.jp/english/products/diary/",
+      "layouts": [
+        "monthly"
+      ],
+      "remaining": "仅提供 A5 中文通用页；原版插画、尺寸和装订未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "m-pocket-a6",
+      "brand": "MIDORI",
+      "name": "Pocket Diary · A6 两周日记",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网产品目录",
+      "url": "https://www.midori-japan.co.jp/english/products/diary/",
+      "layouts": [
+        "monthly",
+        "fortnight_diary"
+      ],
+      "remaining": "仅提供 A5 中文通用页；原版插画、尺寸和装订未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "m-pocket-ojisan-memo",
+      "brand": "MIDORI",
+      "name": "Pocket Diary · A6 Ojisan 月历＋便笺",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网产品目录",
+      "url": "https://www.midori-japan.co.jp/english/products/diary/",
+      "layouts": [
+        "monthly",
+        "ruled"
+      ],
+      "remaining": "仅提供 A5 中文通用页；原版插画、尺寸和装订未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "m-pocket-ojisan-week",
+      "brand": "MIDORI",
+      "name": "Pocket Diary · A6 Ojisan 周块",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网产品目录",
+      "url": "https://www.midori-japan.co.jp/english/products/diary/",
+      "layouts": [
+        "monthly",
+        "weekly"
+      ],
+      "remaining": "仅提供 A5 中文通用页；原版插画、尺寸和装订未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "m-pocket-b6",
+      "brand": "MIDORI",
+      "name": "Pocket Diary · B6 周记＋笔记",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网产品目录",
+      "url": "https://www.midori-japan.co.jp/english/products/diary/",
+      "layouts": [
+        "monthly",
+        "weekly_notes"
+      ],
+      "remaining": "仅提供 A5 中文通用页；原版插画、尺寸和装订未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "m-dual",
+      "brand": "MIDORI",
+      "name": "Double Schedule",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网产品目录",
+      "url": "https://www.midori-japan.co.jp/english/products/diary/",
+      "layouts": [
+        "dual_month"
+      ],
+      "remaining": "功能可分别使用；实体 Magic Index 与双册翻查结构未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "m-todo",
+      "brand": "MIDORI",
+      "name": "Double Schedule To Do",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网产品目录",
+      "url": "https://www.midori-japan.co.jp/english/products/diary/",
+      "layouts": [
+        "monthly",
+        "todo_priority"
+      ],
+      "remaining": "功能可分别使用；实体 Magic Index 与双册翻查结构未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "m-progress",
+      "brand": "MIDORI",
+      "name": "Double Schedule Progress",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网产品目录",
+      "url": "https://www.midori-japan.co.jp/english/products/diary/",
+      "layouts": [
+        "monthly",
+        "monthly_project"
+      ],
+      "remaining": "功能可分别使用；实体 Magic Index 与双册翻查结构未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "m-money",
+      "brand": "MIDORI",
+      "name": "Double Schedule Money",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网产品目录",
+      "url": "https://www.midori-japan.co.jp/english/products/diary/",
+      "layouts": [
+        "monthly",
+        "budget"
+      ],
+      "remaining": "功能可分别使用；实体 Magic Index 与双册翻查结构未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "m-flat",
+      "brand": "MIDORI",
+      "name": "Flat Diary",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网产品目录",
+      "url": "https://www.midori-japan.co.jp/english/products/diary/",
+      "layouts": [
+        "monthly"
+      ],
+      "remaining": "月历功能可用；硬质书写封面、收纳袋、A4 版结构未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "m-professional-month",
+      "brand": "MIDORI",
+      "name": "Professional · Slim Monthly Block",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网产品目录",
+      "url": "https://www.midori-japan.co.jp/english/products/diary/",
+      "layouts": [
+        "monthly",
+        "ruled",
+        "meeting_notes",
+        "todo_priority",
+        "contacts",
+        "monthly_project"
+      ],
+      "remaining": "仅提供 A5 中文通用页；原版插画、尺寸和装订未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "m-professional-week",
+      "brand": "MIDORI",
+      "name": "Professional · Slim Weekly Vertical",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网产品目录",
+      "url": "https://www.midori-japan.co.jp/english/products/diary/",
+      "layouts": [
+        "weekly_vertical",
+        "monthly",
+        "contacts",
+        "monthly_project",
+        "todo_priority"
+      ],
+      "remaining": "仅提供 A5 中文通用页；原版插画、尺寸和装订未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "m-stand",
+      "brand": "MIDORI",
+      "name": "Plus Stand Diary",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网产品目录",
+      "url": "https://www.midori-japan.co.jp/english/products/diary/",
+      "layouts": [
+        "monthly",
+        "monthly_project"
+      ],
+      "remaining": "月历／项目功能可用；桌面立架和实体翻面结构未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "m-gradation",
+      "brand": "MIDORI",
+      "name": "Gradation Diary",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网产品目录",
+      "url": "https://www.midori-japan.co.jp/english/products/diary/",
+      "layouts": [
+        "weekly_vertical"
+      ],
+      "remaining": "24 小时记录可用；原版昼夜渐变图案未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "m-hibino",
+      "brand": "MIDORI",
+      "name": "hibino",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网产品目录",
+      "url": "https://www.midori-japan.co.jp/english/products/hibino/",
+      "layouts": [
+        "life_left",
+        "life_right",
+        "monthly",
+        "annual_plan"
+      ],
+      "remaining": "两张独立页面；没有自动整本排版和连续双页导出。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "m-hibino-free",
+      "brand": "MIDORI",
+      "name": "hibino Free Diary",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网产品目录",
+      "url": "https://www.midori-japan.co.jp/english/products/hibino/",
+      "layouts": [
+        "life_left",
+        "life_right"
+      ],
+      "remaining": "可选无日期；配套两页分别保存和打印。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "m-gate-3",
+      "brand": "MIDORI",
+      "name": "Gate 3 年日记",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网产品目录",
+      "url": "https://www.midori-japan.co.jp/english/products/multi-year-diary-gate/",
+      "layouts": [
+        "three_year"
+      ],
+      "remaining": "同日跨年功能已加入；原版季节图案、附页及册装未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "m-gate-5",
+      "brand": "MIDORI",
+      "name": "Gate 5 年日记",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网产品目录",
+      "url": "https://www.midori-japan.co.jp/english/products/multi-year-diary-gate/",
+      "layouts": [
+        "five_year"
+      ],
+      "remaining": "同日跨年功能已加入；原版季节图案、附页及册装未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "m-gate-10",
+      "brand": "MIDORI",
+      "name": "Gate 10 年日记",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网产品目录",
+      "url": "https://www.midori-japan.co.jp/english/products/multi-year-diary-gate/",
+      "layouts": [
+        "ten_year"
+      ],
+      "remaining": "同日跨年功能已加入；原版季节图案、附页及册装未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "m-gate12",
+      "brand": "MIDORI",
+      "name": "Gate 12-Month Diary",
+      "kind": "系列",
+      "status": "unknown",
+      "evidence": "官网列有商品",
+      "url": "https://www.midori-japan.co.jp/english/products/multi-year-diary-gate/",
+      "layouts": [],
+      "remaining": "已确认产品名称；不能仅凭名称推断具体逐日格式。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "m-yuru-note",
+      "brand": "MIDORI",
+      "name": "Yuru Log 笔记本",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网产品目录",
+      "url": "https://www.midori-japan.co.jp/english/products/yurulog/",
+      "layouts": [
+        "dot",
+        "daily_story"
+      ],
+      "remaining": "仅提供通用书写与日记功能，品牌原插画未加入。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "m-yuru-贴纸",
+      "brand": "MIDORI",
+      "name": "Yuru Log 贴纸",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官网产品目录",
+      "url": "https://www.midori-japan.co.jp/english/products/yurulog/",
+      "layouts": [],
+      "remaining": "工坊原创相框与标签不计作品牌原品已加入。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "m-yuru-印章",
+      "brand": "MIDORI",
+      "name": "Yuru Log 印章",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官网产品目录",
+      "url": "https://www.midori-japan.co.jp/english/products/yurulog/",
+      "layouts": [],
+      "remaining": "工坊原创相框与标签不计作品牌原品已加入。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "m-function-sleep_log",
+      "brand": "MIDORI",
+      "name": "整月睡眠时段",
+      "kind": "功能",
+      "status": "ready",
+      "evidence": "官网格式说明",
+      "url": "https://www.midori-japan.co.jp/english/products/diary/",
+      "layouts": [
+        "sleep_log"
+      ],
+      "remaining": "独立中文功能实现，非原版等比复刻。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "m-function-fortnight_diary",
+      "brand": "MIDORI",
+      "name": "两周日记",
+      "kind": "功能",
+      "status": "ready",
+      "evidence": "官网格式说明",
+      "url": "https://www.midori-japan.co.jp/english/products/diary/",
+      "layouts": [
+        "fortnight_diary"
+      ],
+      "remaining": "独立中文功能实现，非原版等比复刻。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "m-function-weekly_dual",
+      "brand": "MIDORI",
+      "name": "每天左右分栏",
+      "kind": "功能",
+      "status": "ready",
+      "evidence": "官网格式说明",
+      "url": "https://www.midori-japan.co.jp/english/products/diary/",
+      "layouts": [
+        "weekly_dual"
+      ],
+      "remaining": "独立中文功能实现，非原版等比复刻。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "m-function-dual_month",
+      "brand": "MIDORI",
+      "name": "同月双日程",
+      "kind": "功能",
+      "status": "ready",
+      "evidence": "官网格式说明",
+      "url": "https://www.midori-japan.co.jp/english/products/diary/",
+      "layouts": [
+        "dual_month"
+      ],
+      "remaining": "独立中文功能实现，非原版等比复刻。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "md-normal",
+      "brand": "MD PRODUCT",
+      "name": "MD Notebook Diary",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网 2027 目录",
+      "url": "https://md-product.com/en/collections/special-feature-diary",
+      "layouts": [
+        "monthly",
+        "ruled",
+        "blank",
+        "eight_blocks"
+      ],
+      "remaining": "仅通用功能；原版纸张、尺寸及整册页序未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "md-thin",
+      "brand": "MD PRODUCT",
+      "name": "MD Notebook Diary Thin",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网 2027 目录",
+      "url": "https://md-product.com/en/collections/special-feature-diary",
+      "layouts": [
+        "monthly",
+        "grid"
+      ],
+      "remaining": "仅通用功能；原版纸张、尺寸及整册页序未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "md-day",
+      "brand": "MD PRODUCT",
+      "name": "MD Notebook Diary 1 Day 1 Page",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网 2027 目录",
+      "url": "https://md-product.com/en/collections/special-feature-diary",
+      "layouts": [
+        "daily_story",
+        "life_left",
+        "blank"
+      ],
+      "remaining": "仅通用功能；原版纸张、尺寸及整册页序未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "md-sticker",
+      "brand": "MD PRODUCT",
+      "name": "MD Diary Stickers · Dated Monthly",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官网 2027 目录",
+      "url": "https://md-product.com/en/collections/special-feature-diary",
+      "layouts": [],
+      "remaining": "月历打印页可用，但不是可直接使用的裁切日历贴纸套装。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "md-eight",
+      "brand": "MD PRODUCT",
+      "name": "八分区自由周记",
+      "kind": "功能",
+      "status": "ready",
+      "evidence": "官方美国站格式说明",
+      "url": "https://md-product-usa.com/products/md-notebook-diary-2027?variant=45534944985223",
+      "layouts": [
+        "eight_blocks"
+      ],
+      "remaining": "工坊为单页八格，原书支持在展开页上自由划分。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-regular-001",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "常规 001 · 横线",
+      "kind": "替芯",
+      "status": "partial",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-regular",
+      "layouts": [
+        "ruled"
+      ],
+      "remaining": "仅对应记录用途，TN 实际尺寸、材质与装订未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-regular-002",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "常规 002 · 方格",
+      "kind": "替芯",
+      "status": "partial",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-regular",
+      "layouts": [
+        "grid"
+      ],
+      "remaining": "仅对应记录用途，TN 实际尺寸、材质与装订未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-regular-003",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "常规 003 · 空白",
+      "kind": "替芯",
+      "status": "partial",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-regular",
+      "layouts": [
+        "blank"
+      ],
+      "remaining": "仅对应记录用途，TN 实际尺寸、材质与装订未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-regular-004",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "常规 004 · 口袋贴",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-regular",
+      "layouts": [],
+      "remaining": "实体配件或特殊纸张，目录收录不等于数字实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-regular-005",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "常规 005 · 无日期每日",
+      "kind": "替芯",
+      "status": "partial",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-regular",
+      "layouts": [
+        "daily_story"
+      ],
+      "remaining": "仅对应记录用途，TN 实际尺寸、材质与装订未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-regular-007",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "常规 007 · 卡片袋",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-regular",
+      "layouts": [],
+      "remaining": "实体配件或特殊纸张，目录收录不等于数字实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-regular-008",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "常规 008 · 拉链袋",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-regular",
+      "layouts": [],
+      "remaining": "实体配件或特殊纸张，目录收录不等于数字实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-regular-009",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "常规 009 · 标准色修补套件",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-regular",
+      "layouts": [],
+      "remaining": "实体配件或特殊纸张，目录收录不等于数字实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-regular-010",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "常规 010 · 备用色修补套件",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-regular",
+      "layouts": [],
+      "remaining": "实体配件或特殊纸张，目录收录不等于数字实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-regular-011",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "常规 011 · 替芯收纳夹",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-regular",
+      "layouts": [],
+      "remaining": "实体配件或特殊纸张，目录收录不等于数字实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-regular-012",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "常规 012 · 画纸",
+      "kind": "替芯",
+      "status": "partial",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-regular",
+      "layouts": [
+        "blank"
+      ],
+      "remaining": "仅对应记录用途，TN 实际尺寸、材质与装订未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-regular-013",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "常规 013 · 轻量纸",
+      "kind": "替芯",
+      "status": "partial",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-regular",
+      "layouts": [
+        "blank"
+      ],
+      "remaining": "仅对应记录用途，TN 实际尺寸、材质与装订未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-regular-014",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "常规 014 · 牛皮纸",
+      "kind": "替芯",
+      "status": "partial",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-regular",
+      "layouts": [
+        "blank"
+      ],
+      "remaining": "仅对应记录用途，TN 实际尺寸、材质与装订未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-regular-016",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "常规 016 · 笔夹 M",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-regular",
+      "layouts": [],
+      "remaining": "实体配件或特殊纸张，目录收录不等于数字实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-regular-017",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "常规 017 · 无日期月历",
+      "kind": "替芯",
+      "status": "partial",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-regular",
+      "layouts": [
+        "monthly"
+      ],
+      "remaining": "仅对应记录用途，TN 实际尺寸、材质与装订未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-regular-018",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "常规 018 · 无日期纵向周计划",
+      "kind": "替芯",
+      "status": "partial",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-regular",
+      "layouts": [
+        "weekly_vertical"
+      ],
+      "remaining": "仅对应记录用途，TN 实际尺寸、材质与装订未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-regular-019",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "常规 019 · 无日期周记＋笔记",
+      "kind": "替芯",
+      "status": "partial",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-regular",
+      "layouts": [
+        "weekly_notes"
+      ],
+      "remaining": "仅对应记录用途，TN 实际尺寸、材质与装订未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-regular-020",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "常规 020 · 牛皮纸文件夹",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-regular",
+      "layouts": [],
+      "remaining": "实体配件或特殊纸张，目录收录不等于数字实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-regular-021",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "常规 021 · 连接橡皮筋",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-regular",
+      "layouts": [],
+      "remaining": "实体配件或特殊纸张，目录收录不等于数字实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-regular-025",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "常规 025 · MD 奶油纸",
+      "kind": "替芯",
+      "status": "partial",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-regular",
+      "layouts": [
+        "blank"
+      ],
+      "remaining": "仅对应记录用途，TN 实际尺寸、材质与装订未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-regular-026",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "常规 026 · 点阵",
+      "kind": "替芯",
+      "status": "partial",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-regular",
+      "layouts": [
+        "dot"
+      ],
+      "remaining": "仅对应记录用途，TN 实际尺寸、材质与装订未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-regular-027",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "常规 027 · 水彩纸",
+      "kind": "替芯",
+      "status": "partial",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-regular",
+      "layouts": [
+        "blank"
+      ],
+      "remaining": "仅对应记录用途，TN 实际尺寸、材质与装订未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-regular-028",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "常规 028 · 卡片袋",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-regular",
+      "layouts": [],
+      "remaining": "实体配件或特殊纸张，目录收录不等于数字实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-regular-029",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "常规 029 · 三折文件夹",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-regular",
+      "layouts": [],
+      "remaining": "实体配件或特殊纸张，目录收录不等于数字实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-regular-030",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "常规 030 · 黄铜夹",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-regular",
+      "layouts": [],
+      "remaining": "实体配件或特殊纸张，目录收录不等于数字实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-regular-031",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "常规 031 · 贴纸离型纸",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-regular",
+      "layouts": [],
+      "remaining": "实体配件或特殊纸张，目录收录不等于数字实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-regular-032",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "常规 032 · 风琴折页",
+      "kind": "配件／图案",
+      "status": "missing",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-regular",
+      "layouts": [],
+      "remaining": "尚无连续风琴折页与拼接打印。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-passport-001",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "护照 001 · 横线",
+      "kind": "替芯",
+      "status": "partial",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-passport",
+      "layouts": [
+        "ruled"
+      ],
+      "remaining": "仅对应记录用途，TN 实际尺寸、材质与装订未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-passport-002",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "护照 002 · 方格",
+      "kind": "替芯",
+      "status": "partial",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-passport",
+      "layouts": [
+        "grid"
+      ],
+      "remaining": "仅对应记录用途，TN 实际尺寸、材质与装订未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-passport-003",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "护照 003 · 空白",
+      "kind": "替芯",
+      "status": "partial",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-passport",
+      "layouts": [
+        "blank"
+      ],
+      "remaining": "仅对应记录用途，TN 实际尺寸、材质与装订未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-passport-004",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "护照 004 · 拉链袋",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-passport",
+      "layouts": [],
+      "remaining": "实体配件或特殊纸张，目录收录不等于数字实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-passport-005",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "护照 005 · 轻量纸",
+      "kind": "替芯",
+      "status": "partial",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-passport",
+      "layouts": [
+        "blank"
+      ],
+      "remaining": "仅对应记录用途，TN 实际尺寸、材质与装订未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-passport-006",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "护照 006 · 无日期月历",
+      "kind": "替芯",
+      "status": "partial",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-passport",
+      "layouts": [
+        "monthly"
+      ],
+      "remaining": "仅对应记录用途，TN 实际尺寸、材质与装订未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-passport-007",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "护照 007 · 无日期周记",
+      "kind": "替芯",
+      "status": "partial",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-passport",
+      "layouts": [
+        "weekly"
+      ],
+      "remaining": "仅对应记录用途，TN 实际尺寸、材质与装订未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-passport-008",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "护照 008 · 画纸",
+      "kind": "替芯",
+      "status": "partial",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-passport",
+      "layouts": [
+        "blank"
+      ],
+      "remaining": "仅对应记录用途，TN 实际尺寸、材质与装订未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-passport-009",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "护照 009 · 牛皮纸",
+      "kind": "替芯",
+      "status": "partial",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-passport",
+      "layouts": [
+        "blank"
+      ],
+      "remaining": "仅对应记录用途，TN 实际尺寸、材质与装订未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-passport-010",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "护照 010 · 牛皮纸文件夹",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-passport",
+      "layouts": [],
+      "remaining": "实体配件或特殊纸张，目录收录不等于数字实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-passport-011",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "护照 011 · 连接橡皮筋",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-passport",
+      "layouts": [],
+      "remaining": "实体配件或特殊纸张，目录收录不等于数字实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-passport-013",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "护照 013 · MD 奶油纸",
+      "kind": "替芯",
+      "status": "partial",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-passport",
+      "layouts": [
+        "blank"
+      ],
+      "remaining": "仅对应记录用途，TN 实际尺寸、材质与装订未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-passport-014",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "护照 014 · 点阵",
+      "kind": "替芯",
+      "status": "partial",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-passport",
+      "layouts": [
+        "dot"
+      ],
+      "remaining": "仅对应记录用途，TN 实际尺寸、材质与装订未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-passport-015",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "护照 015 · 水彩纸",
+      "kind": "替芯",
+      "status": "partial",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-passport",
+      "layouts": [
+        "blank"
+      ],
+      "remaining": "仅对应记录用途，TN 实际尺寸、材质与装订未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-passport-016",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "护照 016 · 替芯收纳夹",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-passport",
+      "layouts": [],
+      "remaining": "实体配件或特殊纸张，目录收录不等于数字实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-passport-017",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "护照 017 · 贴纸离型纸",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-passport",
+      "layouts": [],
+      "remaining": "实体配件或特殊纸张，目录收录不等于数字实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-passport-018",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "护照 018 · 风琴折页",
+      "kind": "配件／图案",
+      "status": "missing",
+      "evidence": "官网替芯目录",
+      "url": "https://www.travelers-company.com/products/trnote/refill-passport",
+      "layouts": [],
+      "remaining": "尚无连续风琴折页与拼接打印。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-discontinued",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "常规 006 Pocket Sticker L",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官网标注停产",
+      "url": "https://www.travelers-company.com/products/trnote/refill-regular",
+      "layouts": [],
+      "remaining": "历史条目，不推定当前在售。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-2027-r-month",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "2027 常规年度月历",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网年度目录",
+      "url": "https://www.travelers-company.com/products/trnote/2027-diary",
+      "layouts": [
+        "monthly"
+      ],
+      "remaining": "按需生成日期；年度整套替芯、尺寸及专用附页未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-2027-r-vertical",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "2027 常规年度纵向周计划",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网年度目录",
+      "url": "https://www.travelers-company.com/products/trnote/2027-diary",
+      "layouts": [
+        "weekly_vertical"
+      ],
+      "remaining": "按需生成日期；年度整套替芯、尺寸及专用附页未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-2027-r-week",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "2027 常规年度周记＋笔记",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网年度目录",
+      "url": "https://www.travelers-company.com/products/trnote/2027-diary",
+      "layouts": [
+        "weekly_notes"
+      ],
+      "remaining": "按需生成日期；年度整套替芯、尺寸及专用附页未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-2027-p-month",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "2027 护照年度月历",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网年度目录",
+      "url": "https://www.travelers-company.com/products/trnote/2027-diary",
+      "layouts": [
+        "monthly"
+      ],
+      "remaining": "按需生成日期；年度整套替芯、尺寸及专用附页未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-2027-p-week",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "2027 护照年度周记",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "官网年度目录",
+      "url": "https://www.travelers-company.com/products/trnote/2027-diary",
+      "layouts": [
+        "weekly"
+      ],
+      "remaining": "按需生成日期；年度整套替芯、尺寸及专用附页未实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "t-2027-goods",
+      "brand": "TRAVELER’S COMPANY",
+      "name": "2027 限定文件夹／贴纸等",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官网年度目录",
+      "url": "https://www.travelers-company.com/products/trnote/2027-diary",
+      "layouts": [],
+      "remaining": "年度图案和实体配件仅收录来源。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "kin-new",
+      "brand": "kinbor",
+      "name": "畅销新品",
+      "kind": "系列",
+      "status": "unknown",
+      "evidence": "官网原创目录",
+      "url": "https://www.kinbor.net/original.html",
+      "layouts": [],
+      "remaining": "系列已核实，具体内页与各商品尚未逐款确认。",
+      "note": "页面介绍布面／刺绣与自填式内页，未给出逐页清单。",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "kin-space",
+      "brand": "kinbor",
+      "name": "宇宙",
+      "kind": "系列",
+      "status": "unknown",
+      "evidence": "官网原创目录",
+      "url": "https://www.kinbor.net/original.html",
+      "layouts": [],
+      "remaining": "系列已核实，具体内页与各商品尚未逐款确认。",
+      "note": "主题含手账、套装、周边与胶带。",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "kin-mimo",
+      "brand": "kinbor",
+      "name": "MIMO",
+      "kind": "系列",
+      "status": "unknown",
+      "evidence": "官网原创目录",
+      "url": "https://www.kinbor.net/original.html",
+      "layouts": [],
+      "remaining": "系列已核实，具体内页与各商品尚未逐款确认。",
+      "note": "原创角色主题，目录列手账及周边。",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "kin-sakura",
+      "brand": "kinbor",
+      "name": "樱花",
+      "kind": "系列",
+      "status": "unknown",
+      "evidence": "官网原创目录",
+      "url": "https://www.kinbor.net/original.html",
+      "layouts": [],
+      "remaining": "系列已核实，具体内页与各商品尚未逐款确认。",
+      "note": "主题含手账套装、周边与胶带。",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "kin-cross-0",
+      "brand": "kinbor",
+      "name": "盗墓笔记",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官网跨界合作目录",
+      "url": "https://www.kinbor.net/cooper.html",
+      "layouts": [],
+      "remaining": "仅确认合作分类；各联名商品与内页未逐款列全，品牌角色未加入素材库。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "kin-cross-1",
+      "brand": "kinbor",
+      "name": "龙族",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官网跨界合作目录",
+      "url": "https://www.kinbor.net/cooper.html",
+      "layouts": [],
+      "remaining": "仅确认合作分类；各联名商品与内页未逐款列全，品牌角色未加入素材库。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "kin-cross-2",
+      "brand": "kinbor",
+      "name": "三丽鸥",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官网跨界合作目录",
+      "url": "https://www.kinbor.net/cooper.html",
+      "layouts": [],
+      "remaining": "仅确认合作分类；各联名商品与内页未逐款列全，品牌角色未加入素材库。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "kin-cross-3",
+      "brand": "kinbor",
+      "name": "Brunch Brother",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官网跨界合作目录",
+      "url": "https://www.kinbor.net/cooper.html",
+      "layouts": [],
+      "remaining": "仅确认合作分类；各联名商品与内页未逐款列全，品牌角色未加入素材库。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "kin-cross-4",
+      "brand": "kinbor",
+      "name": "白日提灯",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官网跨界合作目录",
+      "url": "https://www.kinbor.net/cooper.html",
+      "layouts": [],
+      "remaining": "仅确认合作分类；各联名商品与内页未逐款列全，品牌角色未加入素材库。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "kin-cross-5",
+      "brand": "kinbor",
+      "name": "迪士尼",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官网跨界合作目录",
+      "url": "https://www.kinbor.net/cooper.html",
+      "layouts": [],
+      "remaining": "仅确认合作分类；各联名商品与内页未逐款列全，品牌角色未加入素材库。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "kin-cross-6",
+      "brand": "kinbor",
+      "name": "阴阳师",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官网跨界合作目录",
+      "url": "https://www.kinbor.net/cooper.html",
+      "layouts": [],
+      "remaining": "仅确认合作分类；各联名商品与内页未逐款列全，品牌角色未加入素材库。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "kin-cross-7",
+      "brand": "kinbor",
+      "name": "知否知否应是绿肥红瘦",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官网跨界合作目录",
+      "url": "https://www.kinbor.net/cooper.html",
+      "layouts": [],
+      "remaining": "仅确认合作分类；各联名商品与内页未逐款列全，品牌角色未加入素材库。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "kin-cross-8",
+      "brand": "kinbor",
+      "name": "重启之极海听雷",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官网跨界合作目录",
+      "url": "https://www.kinbor.net/cooper.html",
+      "layouts": [],
+      "remaining": "仅确认合作分类；各联名商品与内页未逐款列全，品牌角色未加入素材库。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "kin-cross-9",
+      "brand": "kinbor",
+      "name": "博物馆合作",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官网跨界合作目录",
+      "url": "https://www.kinbor.net/cooper.html",
+      "layouts": [],
+      "remaining": "仅确认合作分类；各联名商品与内页未逐款列全，品牌角色未加入素材库。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "kin-cross-10",
+      "brand": "kinbor",
+      "name": "艺术家合作",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官网跨界合作目录",
+      "url": "https://www.kinbor.net/cooper.html",
+      "layouts": [],
+      "remaining": "仅确认合作分类；各联名商品与内页未逐款列全，品牌角色未加入素材库。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "kin-cross-11",
+      "brand": "kinbor",
+      "name": "双品牌联名",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官网跨界合作目录",
+      "url": "https://www.kinbor.net/cooper.html",
+      "layouts": [],
+      "remaining": "仅确认合作分类；各联名商品与内页未逐款列全，品牌角色未加入素材库。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "jiu-pixel",
+      "brand": "九口山",
+      "name": "世界像素 · 博氪球合作",
+      "kind": "系列",
+      "status": "reference",
+      "evidence": "世博会博物馆 · 2021",
+      "url": "https://www.expo-museum.cn/sbbwg/n281/n282/n330/n331/u1ai27023.html",
+      "layouts": [],
+      "remaining": "馆藏题材与合作案例可核实，原画、装帧及实际内页未加入。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "jiu-lead-0",
+      "brand": "九口山",
+      "name": "大闹天宫（绘画本／缝线本／明信片）",
+      "kind": "待核实款",
+      "status": "unknown",
+      "evidence": "AM 文创文章转载 · 2025",
+      "url": "https://www.sohu.com/a/914867667_121124800",
+      "layouts": [],
+      "remaining": "找到具体系列线索；转载账号不是品牌官方，尚待核对内页原始资料。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "jiu-lead-1",
+      "brand": "九口山",
+      "name": "小动物商店街",
+      "kind": "待核实款",
+      "status": "unknown",
+      "evidence": "AM 文创文章转载 · 2025",
+      "url": "https://www.sohu.com/a/914867667_121124800",
+      "layouts": [],
+      "remaining": "找到具体系列线索；转载账号不是品牌官方，尚待核对内页原始资料。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "jiu-lead-2",
+      "brand": "九口山",
+      "name": "闪闪发光（周历／口袋本）",
+      "kind": "待核实款",
+      "status": "unknown",
+      "evidence": "AM 文创文章转载 · 2025",
+      "url": "https://www.sohu.com/a/914867667_121124800",
+      "layouts": [],
+      "remaining": "找到具体系列线索；转载账号不是品牌官方，尚待核对内页原始资料。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "jiu-lead-3",
+      "brand": "九口山",
+      "name": "四字箴言",
+      "kind": "待核实款",
+      "status": "unknown",
+      "evidence": "AM 文创文章转载 · 2025",
+      "url": "https://www.sohu.com/a/914867667_121124800",
+      "layouts": [],
+      "remaining": "找到具体系列线索；转载账号不是品牌官方，尚待核对内页原始资料。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "jiu-lead-4",
+      "brand": "九口山",
+      "name": "fiesta 嘉年华",
+      "kind": "待核实款",
+      "status": "unknown",
+      "evidence": "AM 文创文章转载 · 2025",
+      "url": "https://www.sohu.com/a/914867667_121124800",
+      "layouts": [],
+      "remaining": "找到具体系列线索；转载账号不是品牌官方，尚待核对内页原始资料。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "jiu-lead-5",
+      "brand": "九口山",
+      "name": "井田志半年本",
+      "kind": "待核实款",
+      "status": "unknown",
+      "evidence": "AM 文创文章转载 · 2025",
+      "url": "https://www.sohu.com/a/914867667_121124800",
+      "layouts": [],
+      "remaining": "找到具体系列线索；转载账号不是品牌官方，尚待核对内页原始资料。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "jiu-lead-6",
+      "brand": "九口山",
+      "name": "生活百科全书",
+      "kind": "待核实款",
+      "status": "unknown",
+      "evidence": "AM 文创文章转载 · 2025",
+      "url": "https://www.sohu.com/a/914867667_121124800",
+      "layouts": [],
+      "remaining": "找到具体系列线索；转载账号不是品牌官方，尚待核对内页原始资料。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "jiu-lead-7",
+      "brand": "九口山",
+      "name": "小材有大用",
+      "kind": "待核实款",
+      "status": "unknown",
+      "evidence": "AM 文创文章转载 · 2025",
+      "url": "https://www.sohu.com/a/914867667_121124800",
+      "layouts": [],
+      "remaining": "找到具体系列线索；转载账号不是品牌官方，尚待核对内页原始资料。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "cz-student",
+      "brand": "趁早",
+      "name": "2027 效率手册 · 大学生版",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "品牌认证账号 · 2026",
+      "url": "https://www.sina.cn/news/detail/5334715154303627.html",
+      "layouts": [
+        "life_plan",
+        "annual_plan",
+        "wishlist100",
+        "reading",
+        "movies",
+        "monthly_dimensions",
+        "wellbeing_day",
+        "semester_review"
+      ],
+      "remaining": "已覆盖公开列明的主要用途；学年跨年整册、身体坐标轴原格式未完整实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "cz-function-life_plan",
+      "brand": "趁早",
+      "name": "一生的计划",
+      "kind": "功能",
+      "status": "ready",
+      "evidence": "品牌认证账号",
+      "url": "https://www.sina.cn/news/detail/5334715154303627.html",
+      "layouts": [
+        "life_plan"
+      ],
+      "remaining": "为对应用途独立设计，非原书逐页复刻。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "cz-function-wishlist100",
+      "brand": "趁早",
+      "name": "愿望清单",
+      "kind": "功能",
+      "status": "ready",
+      "evidence": "品牌认证账号",
+      "url": "https://www.sina.cn/news/detail/5334715154303627.html",
+      "layouts": [
+        "wishlist100"
+      ],
+      "remaining": "为对应用途独立设计，非原书逐页复刻。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "cz-function-reading",
+      "brand": "趁早",
+      "name": "读书清单",
+      "kind": "功能",
+      "status": "ready",
+      "evidence": "品牌认证账号",
+      "url": "https://www.sina.cn/news/detail/5334715154303627.html",
+      "layouts": [
+        "reading"
+      ],
+      "remaining": "为对应用途独立设计，非原书逐页复刻。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "cz-function-movies",
+      "brand": "趁早",
+      "name": "观影清单",
+      "kind": "功能",
+      "status": "ready",
+      "evidence": "品牌认证账号",
+      "url": "https://www.sina.cn/news/detail/5334715154303627.html",
+      "layouts": [
+        "movies"
+      ],
+      "remaining": "为对应用途独立设计，非原书逐页复刻。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "cz-function-monthly_dimensions",
+      "brand": "趁早",
+      "name": "七维月计划",
+      "kind": "功能",
+      "status": "ready",
+      "evidence": "品牌认证账号",
+      "url": "https://www.sina.cn/news/detail/5334715154303627.html",
+      "layouts": [
+        "monthly_dimensions"
+      ],
+      "remaining": "为对应用途独立设计，非原书逐页复刻。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "cz-function-wellbeing_day",
+      "brand": "趁早",
+      "name": "每日24小时与生活记录",
+      "kind": "功能",
+      "status": "ready",
+      "evidence": "品牌认证账号",
+      "url": "https://www.sina.cn/news/detail/5334715154303627.html",
+      "layouts": [
+        "wellbeing_day"
+      ],
+      "remaining": "为对应用途独立设计，非原书逐页复刻。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "cz-function-semester_review",
+      "brand": "趁早",
+      "name": "学期总结",
+      "kind": "功能",
+      "status": "ready",
+      "evidence": "品牌认证账号",
+      "url": "https://www.sina.cn/news/detail/5334715154303627.html",
+      "layouts": [
+        "semester_review"
+      ],
+      "remaining": "为对应用途独立设计，非原书逐页复刻。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "cz-body",
+      "brand": "趁早",
+      "name": "身体管理坐标轴",
+      "kind": "功能",
+      "status": "missing",
+      "evidence": "品牌认证账号",
+      "url": "https://www.sina.cn/news/detail/5334715154303627.html",
+      "layouts": [],
+      "remaining": "健康就诊页不等于身体变化坐标图，尚无专用可编辑曲线页。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "cz-general",
+      "brand": "趁早",
+      "name": "效率手册基础内页",
+      "kind": "系列",
+      "status": "partial",
+      "evidence": "品牌认证账号 · 2025",
+      "url": "https://www.sina.cn/news/detail/5120516375707716.html",
+      "layouts": [
+        "life_plan",
+        "wishlist100",
+        "annual_calendar",
+        "monthly"
+      ],
+      "remaining": "年份、薄厚版与其他附页未逐一核实。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "cz-version-0",
+      "brand": "趁早",
+      "name": "2027 厚本",
+      "kind": "待核实款",
+      "status": "unknown",
+      "evidence": "品牌／创始人账号内容，页面含聚合推荐",
+      "url": "https://www.sina.cn/news/detail/5342326685437684.html",
+      "layouts": [],
+      "remaining": "已发现版本名称；需各版完整规格，不能用单篇聚合页当全册目录。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "cz-version-1",
+      "brand": "趁早",
+      "name": "2027 薄本",
+      "kind": "待核实款",
+      "status": "unknown",
+      "evidence": "品牌／创始人账号内容，页面含聚合推荐",
+      "url": "https://www.sina.cn/news/detail/5342326685437684.html",
+      "layouts": [],
+      "remaining": "已发现版本名称；需各版完整规格，不能用单篇聚合页当全册目录。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "cz-version-2",
+      "brand": "趁早",
+      "name": "2027 口袋本",
+      "kind": "待核实款",
+      "status": "unknown",
+      "evidence": "品牌／创始人账号内容，页面含聚合推荐",
+      "url": "https://www.sina.cn/news/detail/5342326685437684.html",
+      "layouts": [],
+      "remaining": "已发现版本名称；需各版完整规格，不能用单篇聚合页当全册目录。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "mood-tape-0",
+      "brand": "MOODTAPE",
+      "name": "闲约珈琲店",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官方海外商店展示",
+      "url": "https://hk.pinkoi.com/store/moodtape?i18n_tag=%E6%B0%B4%E6%99%B6%E5%8D%B0%E7%AB%A0&tag=%E6%B0%B4%E6%99%B6%E5%8D%B0%E7%AB%A0",
+      "layouts": [],
+      "remaining": "主题胶带资料已收录；品牌原图未加入，工坊通用场景不能算作该款已实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "mood-tape-1",
+      "brand": "MOODTAPE",
+      "name": "街头书屋",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官方海外商店展示",
+      "url": "https://hk.pinkoi.com/store/moodtape?i18n_tag=%E6%B0%B4%E6%99%B6%E5%8D%B0%E7%AB%A0&tag=%E6%B0%B4%E6%99%B6%E5%8D%B0%E7%AB%A0",
+      "layouts": [],
+      "remaining": "主题胶带资料已收录；品牌原图未加入，工坊通用场景不能算作该款已实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "mood-tape-2",
+      "brand": "MOODTAPE",
+      "name": "山间野芒",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官方海外商店展示",
+      "url": "https://hk.pinkoi.com/store/moodtape?i18n_tag=%E6%B0%B4%E6%99%B6%E5%8D%B0%E7%AB%A0&tag=%E6%B0%B4%E6%99%B6%E5%8D%B0%E7%AB%A0",
+      "layouts": [],
+      "remaining": "主题胶带资料已收录；品牌原图未加入，工坊通用场景不能算作该款已实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "mood-tape-3",
+      "brand": "MOODTAPE",
+      "name": "山野的风",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官方海外商店展示",
+      "url": "https://hk.pinkoi.com/store/moodtape?i18n_tag=%E6%B0%B4%E6%99%B6%E5%8D%B0%E7%AB%A0&tag=%E6%B0%B4%E6%99%B6%E5%8D%B0%E7%AB%A0",
+      "layouts": [],
+      "remaining": "主题胶带资料已收录；品牌原图未加入，工坊通用场景不能算作该款已实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "mood-tape-4",
+      "brand": "MOODTAPE",
+      "name": "星夜神话",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官方海外商店展示",
+      "url": "https://hk.pinkoi.com/store/moodtape?i18n_tag=%E6%B0%B4%E6%99%B6%E5%8D%B0%E7%AB%A0&tag=%E6%B0%B4%E6%99%B6%E5%8D%B0%E7%AB%A0",
+      "layouts": [],
+      "remaining": "主题胶带资料已收录；品牌原图未加入，工坊通用场景不能算作该款已实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "mood-tape-5",
+      "brand": "MOODTAPE",
+      "name": "废弃星之海",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官方海外商店展示",
+      "url": "https://hk.pinkoi.com/store/moodtape?i18n_tag=%E6%B0%B4%E6%99%B6%E5%8D%B0%E7%AB%A0&tag=%E6%B0%B4%E6%99%B6%E5%8D%B0%E7%AB%A0",
+      "layouts": [],
+      "remaining": "主题胶带资料已收录；品牌原图未加入，工坊通用场景不能算作该款已实现。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "mood-stamp-0",
+      "brand": "MOODTAPE",
+      "name": "标签集 · 透明印章",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官方海外商店展示",
+      "url": "https://hk.pinkoi.com/store/moodtape?i18n_tag=%E6%B0%B4%E6%99%B6%E5%8D%B0%E7%AB%A0&tag=%E6%B0%B4%E6%99%B6%E5%8D%B0%E7%AB%A0",
+      "layouts": [],
+      "remaining": "印章原图与实体效果未加入。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "mood-stamp-1",
+      "brand": "MOODTAPE",
+      "name": "回忆 film · 透明印章",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官方海外商店展示",
+      "url": "https://hk.pinkoi.com/store/moodtape?i18n_tag=%E6%B0%B4%E6%99%B6%E5%8D%B0%E7%AB%A0&tag=%E6%B0%B4%E6%99%B6%E5%8D%B0%E7%AB%A0",
+      "layouts": [],
+      "remaining": "印章原图与实体效果未加入。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "mood-stamp-2",
+      "brand": "MOODTAPE",
+      "name": "用餐时刻 · 透明印章",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官方海外商店展示",
+      "url": "https://hk.pinkoi.com/store/moodtape?i18n_tag=%E6%B0%B4%E6%99%B6%E5%8D%B0%E7%AB%A0&tag=%E6%B0%B4%E6%99%B6%E5%8D%B0%E7%AB%A0",
+      "layouts": [],
+      "remaining": "印章原图与实体效果未加入。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "mood-stamp-3",
+      "brand": "MOODTAPE",
+      "name": "12个月计划 · 透明印章",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官方海外商店展示",
+      "url": "https://hk.pinkoi.com/store/moodtape?i18n_tag=%E6%B0%B4%E6%99%B6%E5%8D%B0%E7%AB%A0&tag=%E6%B0%B4%E6%99%B6%E5%8D%B0%E7%AB%A0",
+      "layouts": [],
+      "remaining": "印章原图与实体效果未加入。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "mood-stamp-4",
+      "brand": "MOODTAPE",
+      "name": "铃兰 · 透明印章",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官方海外商店展示",
+      "url": "https://hk.pinkoi.com/store/moodtape?i18n_tag=%E6%B0%B4%E6%99%B6%E5%8D%B0%E7%AB%A0&tag=%E6%B0%B4%E6%99%B6%E5%8D%B0%E7%AB%A0",
+      "layouts": [],
+      "remaining": "印章原图与实体效果未加入。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "mood-qing",
+      "brand": "MOODTAPE",
+      "name": "清风明月",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官方店铺单品页",
+      "url": "https://cn.pinkoi.com/product/bQ5awJpg",
+      "layouts": [],
+      "remaining": "人物胶带原图未加入。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "mood-rose",
+      "brand": "MOODTAPE",
+      "name": "蔷薇岛屿",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "官方店铺单品页",
+      "url": "https://www.pinkoi.com/product/JFpSNmqn",
+      "layouts": [],
+      "remaining": "胶带原图未加入。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "mood-home",
+      "brand": "MOODTAPE",
+      "name": "温暖之居",
+      "kind": "配件／图案",
+      "status": "reference",
+      "evidence": "品牌官方账号 · 2025",
+      "url": "https://lottery.media.weibo.com/lottery/h5/history/list?mid=5118704098739725",
+      "layouts": [],
+      "remaining": "品牌卧室图案未加入；工坊窗边拼贴为独立设计。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "mood-planner",
+      "brand": "MOODTAPE",
+      "name": "日程本产品线",
+      "kind": "待核实款",
+      "status": "unknown",
+      "evidence": "官方店铺品牌介绍",
+      "url": "https://en.pinkoi.com/store/moodtape",
+      "layouts": [],
+      "remaining": "品牌介绍提及日程本，但未取得具体本体与内页清单。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "mo-store",
+      "brand": "陌墨 MO.CARD",
+      "name": "品牌店铺与当前目录",
+      "kind": "待核实款",
+      "status": "unknown",
+      "evidence": "品牌店铺未展示商品",
+      "url": "https://cn.pinkoi.com/store/mocard-cn",
+      "layouts": [],
+      "remaining": "缺少当前官方产品目录，不能确认所有在售系列。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "mo-lead-0",
+      "brand": "陌墨 MO.CARD",
+      "name": "优雅读书时 · 贴纸包",
+      "kind": "待核实款",
+      "status": "unknown",
+      "evidence": "零售商线索，非官方规格",
+      "url": "https://yiwugo.com/hu/784680.html",
+      "layouts": [],
+      "remaining": "尚待品牌来源确认；未作为品牌素材加入。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "mo-lead-1",
+      "brand": "陌墨 MO.CARD",
+      "name": "花草情书 · 素材纸",
+      "kind": "待核实款",
+      "status": "unknown",
+      "evidence": "零售商线索，非官方规格",
+      "url": "https://yiwugo.com/hu/784680.html",
+      "layouts": [],
+      "remaining": "尚待品牌来源确认；未作为品牌素材加入。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "mo-lead-2",
+      "brand": "陌墨 MO.CARD",
+      "name": "彩色图鉴 · PET贴纸",
+      "kind": "待核实款",
+      "status": "unknown",
+      "evidence": "零售商线索，非官方规格",
+      "url": "https://yiwugo.com/hu/784680.html",
+      "layouts": [],
+      "remaining": "尚待品牌来源确认；未作为品牌素材加入。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "mo-lead-3",
+      "brand": "陌墨 MO.CARD",
+      "name": "花蝶纸语 · 镂空材料",
+      "kind": "待核实款",
+      "status": "unknown",
+      "evidence": "零售商线索，非官方规格",
+      "url": "https://yiwugo.com/hu/784680.html",
+      "layouts": [],
+      "remaining": "尚待品牌来源确认；未作为品牌素材加入。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "mo-lead-4",
+      "brand": "陌墨 MO.CARD",
+      "name": "数字印记 · 木印章",
+      "kind": "待核实款",
+      "status": "unknown",
+      "evidence": "零售商线索，非官方规格",
+      "url": "https://yiwugo.com/hu/784680.html",
+      "layouts": [],
+      "remaining": "尚待品牌来源确认；未作为品牌素材加入。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "mo-lead-5",
+      "brand": "陌墨 MO.CARD",
+      "name": "祈愿花笺 · 信笺套装",
+      "kind": "待核实款",
+      "status": "unknown",
+      "evidence": "零售商线索，非官方规格",
+      "url": "https://yiwugo.com/hu/784680.html",
+      "layouts": [],
+      "remaining": "尚待品牌来源确认；未作为品牌素材加入。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "mo-lead-6",
+      "brand": "陌墨 MO.CARD",
+      "name": "蕾丝花框 · PET贴纸",
+      "kind": "待核实款",
+      "status": "unknown",
+      "evidence": "零售商线索，非官方规格",
+      "url": "https://yiwugo.com/hu/784680.html",
+      "layouts": [],
+      "remaining": "尚待品牌来源确认；未作为品牌素材加入。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "mo-lead-7",
+      "brand": "陌墨 MO.CARD",
+      "name": "花开有期 · 素材纸",
+      "kind": "待核实款",
+      "status": "unknown",
+      "evidence": "零售商线索，非官方规格",
+      "url": "https://yiwugo.com/hu/784680.html",
+      "layouts": [],
+      "remaining": "尚待品牌来源确认；未作为品牌素材加入。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "mo-lead-8",
+      "brand": "陌墨 MO.CARD",
+      "name": "透白之境 · 硫酸纸",
+      "kind": "待核实款",
+      "status": "unknown",
+      "evidence": "零售商线索，非官方规格",
+      "url": "https://yiwugo.com/hu/784680.html",
+      "layouts": [],
+      "remaining": "尚待品牌来源确认；未作为品牌素材加入。",
+      "note": "",
+      "checked": "2026-11-11"
+    },
+    {
+      "id": "mo-lead-9",
+      "brand": "陌墨 MO.CARD",
+      "name": "一日一页 · 硫酸纸素材本",
+      "kind": "待核实款",
+      "status": "unknown",
+      "evidence": "零售商线索，非官方规格",
+      "url": "https://yiwugo.com/hu/784680.html",
+      "layouts": [],
+      "remaining": "尚待品牌来源确认；未作为品牌素材加入。",
+      "note": "这里的“一日一页”是素材本名称，不能当作日程本格式。",
+      "checked": "2026-11-11"
+    }
+  ]
+}

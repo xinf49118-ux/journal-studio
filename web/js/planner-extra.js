@@ -42,10 +42,70 @@ export function expandedPlannerProject(o,materials,t,layout,dates) {
  const art=materials.find(m=>m.id===`sticker_collection_${t.id}_00`);
  if(art)layers.push(makeMaterialLayer(art,{x_mm:117,y_mm:10,w_mm:19,h_mm:19}));
  let dateLabel=layout.period==='year'?(undated?'年份：________':`${year} 年`):layout.period==='month'?(undated?'月份：________':`${year} 年 ${monthN} 月`):layout.period==='day'?(undated?'日期：________':`${date}  ${days[focus.getUTCDay()]}`):layout.period==='week'?(undated?'本周日期：________':`${week()[0].toISOString().slice(0,10)} — ${week()[6].toISOString().slice(0,10)}`):'按自己的节奏，慢慢记录';
- if(layout.id==='study_2weeks'&&!undated)dateLabel=`${week()[0].toISOString().slice(0,10)} — ${new Date(week()[0].getTime()+13*86400000).toISOString().slice(0,10)}`;
+ if(['study_2weeks','fortnight_diary'].includes(layout.id)&&!undated)dateLabel=`${week()[0].toISOString().slice(0,10)} — ${new Date(week()[0].getTime()+13*86400000).toISOString().slice(0,10)}`;
  text(dateLabel,12,39,2.7,soft);
  const id=layout.id;
- if(id==='goal_steps') {
+ if(id==='sleep_log') {
+  text('涂色标记睡眠 · 每行从当天18点至次日17点',12,51,2.5,soft);
+  for(let h=0;h<24;h++)text(String((h+18)%24).padStart(2,'0'),25+h*4.6,59,2);
+  for(let d=0;d<count;d++)text(d+1,13,66+d*4,2.3);
+  for(let d=0;d<=count;d++)line(24,65+d*4,110.4);
+  for(let h=0;h<=24;h++)line(24+h*4.6,65,.12,count*4);
+  text('备注：',12,196,2.6);line(27,200,109);
+ } else if(id==='fortnight_diary') {
+  for(let i=0;i<14;i++){
+   const x=12+Math.floor(i/7)*65,y=51+(i%7)*21;
+   const d=new Date(week()[0].getTime()+i*86400000);
+   box(x,y,59,6);text(undated?`第 ${i+1} 天`:`${short(d)}  ${days[d.getUTCDay()]}`,x+2,y+1,2.7);rule(x,y+13,59,2,7);
+  }
+ } else if(id==='weekly_dual') {
+  text('日程 A',39,51,3);text('日程 B',94,51,3);
+  for(let i=0;i<7;i++){
+   const y=63+i*19;box(12,y,18,17);text(labels[i],14,y+2,2.5);if(!undated)text(short(week()[i]),14,y+9,2.4);
+   rule(34,y+7,47,2,8);rule(89,y+7,47,2,8);
+  }
+ } else if(id==='dual_month') {
+  for(let i=0;i<2;i++){
+   const x=12+i*65;section(i?'日程 B':'日程 A',x,51,59);miniCalendar(monthKey,x,61,59,93);
+   for(let r=0;r<=6;r++)line(x,75+r*(79/6),59);
+   for(let c=0;c<=7;c++)line(x+c*59/7,75,.12,79);
+   section('本月重点',x,164,59);rule(x,180,59,3,9);
+  }
+ } else if(id==='three_year'||id==='ten_year') {
+  const n=id==='three_year'?3:10,rh=n===3?49:14.7;
+  if(!undated&&year+n-1>2199)throw new Error(`起始年份不能晚于 ${2200-n} 年`);
+  for(let i=0;i<n;i++){
+   const y=51+i*rh,yr=year+i;
+   const leap=undated||focus.getUTCMonth()!==1||focus.getUTCDate()!==29||new Date(Date.UTC(yr,1,29)).getUTCMonth()===1;
+   text(undated?`第 ${i+1} 年：____`:`${yr} 年`,12,y,2.8);
+   if(!leap)text('本年无2月29日',49,y,2.6,soft);
+   if(n===3)rule(12,y+16,124,4,8);else line(49,y+10,87);
+  }
+ } else if(id==='eight_blocks') {
+  for(let i=0;i<8;i++){
+   const x=12+i%2*65,y=51+Math.floor(i/2)*38;
+   section(i<7?['周一','周二','周三','周四','周五','周六','周日'][i]:'自由随记',x,y,59);rule(x,y+16,59,3,8);
+  }
+ } else if(id==='monthly_dimensions') {
+  table(['维度','本月目标 / 行动','月底回看'],[20,64,40],{rows:7,rh:18,prefill:['学业','专注','社团','运动','饮食','睡眠','花销'].map(s=>[s])});
+  text('可以改成适合自己的七个方面',12,196,2.7,soft);
+ } else if(id==='wellbeing_day') {
+  section('今天的24小时',12,51,57);
+  for(let h=0;h<24;h++){text(String(h).padStart(2,'0')+':00',12,63+h*5.5,2.4);line(24,67+h*5.5,45);}
+  ['早餐 / 午餐 / 晚餐','饮水 / 运动','昨夜睡眠 / 起床状态','今天的感受 / 明日调整'].forEach((s,i)=>{const y=51+i*37;section(s,79,y,57);rule(79,y+16,57,3,8);});
+ } else if(id==='semester_review') {
+  ['学业与知识','新学会的技能','关系与合作','习惯与身体','值得记住的经历','下学期要改变的事'].forEach((s,i)=>{const x=12+i%2*65,y=51+Math.floor(i/2)*43;section(s,x,y,59);rule(x,y+16,59,3,9);});
+  section('下一步 / 开始日期',12,184,124);line(12,200,124);
+ } else if(id==='meeting_notes') {
+  section('会议 / 参与人 / 议题',12,51,124);line(12,68,124);
+  section('讨论与结论',12,79,124);rule(12,95,124,5,8);
+  table(['后续行动','负责人','完成期限'],[72,26,26],{y:143,rows:4,rh:12});
+ } else if(id==='todo_priority') {
+  section('今天最重要的三件事',12,51,124);
+  for(let i=0;i<3;i++){checkbox(12,67+i*11);line(20,72+i*11,116);}
+  table(['','其他待办','期限 / 备注'],[8,78,38],{y:106,rows:8,rh:10});
+  for(let i=0;i<8;i++)checkbox(15,118+i*10);
+ } else if(id==='goal_steps') {
   section('我想实现的一个愿望',12,51,124);line(12,68,124);
   section('为什么值得做 / 怎样算完成',12,78,124);rule(12,94,124,2,8);
   table(['行动步骤','完成期限','检查结果'],[72,26,26],{y:113,rows:3,rh:16,prefill:[['01'],['02'],['03']]});

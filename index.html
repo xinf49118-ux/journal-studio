@@ -18,6 +18,7 @@
     <button class="tab-btn active" data-tab="library">素材库</button>
     <button class="tab-btn" data-tab="works">模板与作品</button>
     <button class="tab-btn" data-tab="reference">系列参考</button>
+    <button class="tab-btn" data-tab="coverage">覆盖核查</button>
     <button class="tab-btn" data-tab="recreate">复刻页面</button>
     <button class="tab-btn" data-tab="editor">编辑器</button>
     <button class="tab-btn" data-tab="print">打印</button>
@@ -66,9 +67,23 @@
     <div class="works-page reference-page">
       <p class="eyebrow">JOURNAL REFERENCES / 手账研究</p><h1>从一本手账，找到适合自己的记录方式。</h1>
       <p id="reference-summary" class="muted"></p><p id="reference-limit" class="muted small"></p>
-      <div class="reference-tools"><label>品牌<select id="reference-brand" class="input"><option value="">全部品牌</option></select></label><label>系列分类<select id="reference-family" class="input"><option value="">全部系列</option></select></label><label>搜索系列或用途<input id="reference-search" type="search" class="input" placeholder="例如：LIFE / 学习 / 纪念日"></label><a class="btn" href="docs/brands-guide.html" target="_blank" rel="noopener">打开完整整理 ↗</a></div>
+      <div class="reference-tools"><label>品牌<select id="reference-brand" class="input"><option value="">全部品牌</option></select></label><label>系列分类<select id="reference-family" class="input"><option value="">全部系列</option></select></label><label>搜索系列或用途<input id="reference-search" type="search" class="input" placeholder="例如：LIFE / 学习 / 纪念日"></label><a class="btn" href="docs/brands-guide.html" target="_blank" rel="noopener">打开系列概览 ↗</a></div>
       <p id="reference-count" class="muted small" role="status"></p><p id="reference-adaptation" class="muted small"></p>
+      <p><a href="?tab=coverage">逐项查看已加入、缺口与资料依据 →</a></p>
       <div id="reference-grid" class="reference-grid"></div>
+    </div>
+  </section>
+  <section class="tab-panel" id="tab-coverage">
+    <div class="works-page coverage-page">
+      <p class="eyebrow">COVERAGE / 逐项核查</p><h1>哪些能用，哪些还缺，一眼看清。</h1>
+      <p id="coverage-scope" class="muted"></p>
+      <p class="small">功能已加入＝有可用的原创中文内页；部分覆盖＝只实现一部分用途；待补充＝已确认功能但尚未实现；资料不足＝缺少可靠规格；仅资料收录＝图案或实体配件尚未加入。</p>
+      <div id="coverage-stats" class="coverage-stats"></div>
+      <div class="reference-tools"><label>品牌<select id="coverage-brand" class="input"><option value="">全部品牌</option></select></label><label>实现状态<select id="coverage-status" class="input"><option value="">全部状态</option></select></label><label>核查对象<select id="coverage-kind" class="input"><option value="">全部对象</option></select></label><label>关键词<input id="coverage-search" type="search" class="input" placeholder="例如：睡眠 / MO / 井田志"></label></div>
+      <div class="coverage-actions"><button id="coverage-clear" class="btn ghost">清空筛选</button><button id="coverage-export" class="btn">下载核查数据</button><a class="btn" href="docs/coverage.html" target="_blank" rel="noopener">打开可打印核查表 ↗</a></div>
+      <details class="coverage-limit-box"><summary>各品牌核查范围与尚缺资料</summary><div id="coverage-limits" class="muted small"></div></details>
+      <p id="coverage-count" class="muted small" role="status" aria-live="polite"></p>
+      <div id="coverage-grid" class="reference-grid"></div>
     </div>
   </section>
   <!-- ================= 素材库 ================= -->

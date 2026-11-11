@@ -53,7 +53,7 @@ const C='https://www.kokuyo.com/stationery/series/campus-diary/';
 const S='https://www.kokuyo.com/stationery/series/campus/study-planner/';
 export const researchScope={checked:'2026-11-11',title:'国誉手账系列与内页参考目录',
  summary:'覆盖官网可核实的日程本、学习计划、生活记录及配套纸张，并收录找到的历史系列与中国市场 MO。按系列和内页功能整理，封面配色、联名图案和尺寸不重复算作新格式。',
- limit:'这是可核实范围的完整整理，不等于全球历年全部 SKU。Jibun 主系列页已展示 2027 款，详细规格表仍载 2026 内容；历史信息和地区信息分别标注，未确认的在售情况不作推断。',
+ limit:'这是已找到并核实的系列整理，不等于全球历年全部 SKU；逐项缺口请查看覆盖核查表。Jibun 主系列页已展示 2027 款，详细规格表仍载 2026 内容；历史信息和地区信息分别标注，未确认的在售情况不作推断。',
  adaptation:'工坊内页是独立绘制的中文功能版本，可编辑、加贴纸和打印；不含国誉原版图片、标志、专有印刷图形或实体装订结构。'};
 export const kokuyoSeries=[
  {id:'standard',family:'Jibun Techo',name:'Standard / DIARY',status:'官网系列',description:'月历、24小时纵向周计划和项目管理，附生活清单与年度回顾。',variants:'A5 slim、B6 slim mini；封套／替芯版本。年度附页以对应年份为准。',url:J+'standard/',layouts:['monthly','weekly_vertical','monthly_project','annual_plan','goals','budget','reading','movies','gifts','promises','year_review']},

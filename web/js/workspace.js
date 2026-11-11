@@ -6,6 +6,7 @@ import {plannerLayouts,plannerProject,todayString} from './planner.js';
 import {plannerGroups,kokuyoSeries} from './planner-catalog.js';
 import {otherSeries,brandScope as researchScope} from './brand-catalog.js';
 import {chinaSeries} from './china-catalog.js';
+import {initCoverage} from './coverage.js';
 const referenceSeries=[...kokuyoSeries.map(s=>({...s,brand:'KOKUYO'})),...otherSeries,...chinaSeries];
 import {loadLibrary} from './library.js';
 import {renderToPngBlob} from './render.js';
@@ -103,7 +104,7 @@ function initPlanner() {
   apply.disabled=true;preview.hidden=true;
   if(!layout){$('#planner-companion').hidden=true;status.textContent='没有匹配的内页，试试其他关键词';$('#planner-description').textContent='';return;}
   $('#planner-month-field').hidden=layout.period!=='month';$('#planner-date-field').hidden=!['week','day'].includes(layout.period);$('#planner-year-field').hidden=layout.period!=='year';
-  $('#planner-week-field').hidden=!(layout.period==='week'||['monthly','monthly_grid','monthly_log','annual_calendar'].includes(o.layout));
+  $('#planner-week-field').hidden=!(layout.period==='week'||['monthly','monthly_grid','monthly_log','annual_calendar','dual_month'].includes(o.layout));
   $('#planner-undated-choice').hidden=layout.period==='none';
   $('#planner-month').disabled=o.undated;$('#planner-date').disabled=o.undated;$('#planner-year').disabled=o.undated;
   $('#planner-date-label').textContent=layout.period==='week'?'起始周中的任意一天':'记录日期';
@@ -143,8 +144,10 @@ function initPlanner() {
  };
  refresh();
  initReference(choose);
+ initCoverage(choose);
  const requested=new URLSearchParams(location.search).get('layout');
  if(plannerLayouts.some(l=>l.id===requested))choose(requested);
+ else if(new URLSearchParams(location.search).get('tab')==='coverage')document.querySelector('[data-tab="coverage"]').click();
  $('#planner-total').textContent=`${plannerLayouts.length} 种内页`;
 }
 function initReference(choose) {

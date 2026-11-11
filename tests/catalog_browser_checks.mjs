@@ -38,7 +38,7 @@ export async function catalogChecks(cdp,check,art){
   })()`);
   writeFileSync(join(art,'catalog-'+layout.id+'.png'),Buffer.from(r.image,'base64'));delete r.image;results.push(r);
  }
- check('69种内页全部实际渲染，文字未超出纸张安全区',results.every(r=>r.bytes>3000&&r.layers<1000&&r.overflow.length===0),JSON.stringify(results.filter(r=>r.overflow.length)));
+ check('81种内页全部实际渲染，文字未超出纸张安全区',results.every(r=>r.bytes>3000&&r.layers<1000&&r.overflow.length===0),JSON.stringify(results.filter(r=>r.overflow.length)));
  writeFileSync(join(art,'catalog-render-results.json'),JSON.stringify(results,null,2));
  // Render contact sheets from the actual exported pages for visual review.
  for(const group of [...new Set(catalog.map(l=>l.group))]){
@@ -64,7 +64,7 @@ export async function catalogChecks(cdp,check,art){
  check('年度内页使用独立年份控件',await cdp.eval(`!document.querySelector('#planner-year-field').hidden && document.querySelector('#planner-date-field').hidden && !document.querySelector('#apply-planner').disabled`));
  const guide=await cdp.eval(`(async()=>{const text=await(await fetch('./docs/kokuyo-guide.html')).text();return text.includes('49种')&&text.includes('21项')&&text.includes('?layout=study_2weeks')&&text.includes('2026规格表');})()`);
  check('完整整理包含系列、49种内页及可点击入口',guide);
- check('多品牌整理包含69种内页与日系品牌',await cdp.eval(`(async()=>{const t=await(await fetch('./docs/brands-guide.html')).text();return t.includes('69种')&&t.includes('Hobonichi')&&t.includes('MIDORI')&&t.includes('TRAVELER')&&t.includes('?layout=tickets');})()`));
+ check('多品牌整理包含81种内页与日系品牌',await cdp.eval(`(async()=>{const t=await(await fetch('./docs/brands-guide.html')).text();return t.includes('81种')&&t.includes('Hobonichi')&&t.includes('MIDORI')&&t.includes('TRAVELER')&&t.includes('?layout=tickets');})()`));
  check('完整整理包含国产品牌与新内页入口',await cdp.eval(`(async()=>{const t=await(await fetch('./docs/brands-guide.html')).text();return ['kinbor','九口山','趁早','MOODTAPE','陌墨','?layout=plant_observation','?layout=goal_steps','613 件素材'].every(s=>t.includes(s));})()`));
  await cdp.eval(`history.replaceState(null,'',location.pathname);document.querySelector('#planner-layout').value='monthly';document.querySelector('#planner-layout').dispatchEvent(new Event('change',{bubbles:true}))`);await pause(250);
 }

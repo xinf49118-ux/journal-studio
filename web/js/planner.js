@@ -4,6 +4,7 @@ import {extraLayouts} from './planner-catalog.js';
 import {expandedPlannerProject} from './planner-extra.js';
 import {storyLayouts} from './brand-catalog.js';
 import {chinaLayouts} from './china-catalog.js';
+import {coverageLayouts} from './coverage-layouts.js';
 
 export const plannerLayouts = [
  {id:'monthly',name:'月计划',group:'日程安排',period:'month',subtitle:'看见整个月，为重要的日子留白'},
@@ -13,6 +14,7 @@ export const plannerLayouts = [
  ...extraLayouts,
  ...storyLayouts,
  ...chinaLayouts,
+ ...coverageLayouts,
 ];
 const DAY = 86400000;
 export function todayString(date=new Date()) {
@@ -36,7 +38,7 @@ export function weekDates(date,weekStart=1) {
 export function plannerProject(options={},materials=[]) {
  const t=templates.find(t=>t.id===options.theme)||templates[0];
  const layout=plannerLayouts.find(l=>l.id===options.layout)||plannerLayouts[0];
- if([...extraLayouts,...storyLayouts,...chinaLayouts].some(l=>l.id===layout.id))return expandedPlannerProject(options,materials,t,layout,{parseDate,monthCells,weekDates,todayString});
+ if([...extraLayouts,...storyLayouts,...chinaLayouts,...coverageLayouts].some(l=>l.id===layout.id))return expandedPlannerProject(options,materials,t,layout,{parseDate,monthCells,weekDates,todayString});
  const undated=!!options.undated,weekStart=Number(options.weekStart)===0?0:1;
  const date=undated?'2026-01-01':(options.date??todayString());
  const month=undated?'2026-01':(options.month??date.slice(0,7));

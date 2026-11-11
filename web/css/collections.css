@@ -139,3 +139,15 @@
  #stage-hint {display:none}
  #tab-editor .sidebar {max-height:330px;overflow:auto}
 }
+[data-tab="coverage"]{white-space:nowrap}
+.coverage-page{max-width:1300px}
+.coverage-stats,.coverage-actions{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}
+.coverage-card{border:1px solid #dfd7cb;border-radius:14px;background:#fffdf9;padding:22px;min-width:0;overflow-wrap:anywhere}
+.coverage-card h2{font-size:18px;line-height:1.5;margin:8px 0 12px}
+.coverage-card p{line-height:1.7}.coverage-card a{color:#67563f}
+.coverage-badge{display:inline-block;border-radius:5px;padding:4px 8px;font-size:12px;background:#eee9df;color:#554c3f}
+.coverage-badge.ready{background:#deecdf;color:#315739}.coverage-badge.partial{background:#e0e8ef;color:#3b556a}
+.coverage-badge.unknown{background:#f4e7cb;color:#6b5421}.coverage-badge.missing{background:#f0ded8;color:#804b3c}
+.coverage-limit-box{padding:15px 18px;border:1px solid #dcd4c6;border-radius:8px;margin:16px 0}.coverage-limit-box summary{cursor:pointer}
+.coverage-page .reference-tools{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media(max-width:650px){.coverage-page .reference-tools{grid-template-columns:1fr 1fr}.coverage-card{padding:18px}.coverage-page h1{font-size:25px}}
