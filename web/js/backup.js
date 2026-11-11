@@ -72,3 +72,12 @@ export async function shelf(action, value) {
     transaction.onerror = transaction.onabort = () => reject(new Error('作品库保存失败，请检查空间并导出备份'));
   });
 }
+
+// One transaction compares the saved revision and commits document + history together.
+export async function commitBook(record,expectedRevision){
+ const db=await database();return new Promise((resolve,reject)=>{
+  const tx=db.transaction('works','readwrite'),store=tx.objectStore('works');let error;
+  const request=store.get(record.id);request.onsuccess=()=>{if((request.result?.revision||0)!==expectedRevision){error=new Error('这本手账已在其他窗口更新，请重新打开后再修改');tx.abort();return;}store.put(record);};
+  tx.oncomplete=()=>resolve(record);tx.onerror=tx.onabort=()=>reject(error||new Error('整册保存失败，原版本保留；请检查空间并导出备份'));
+ });
+}
