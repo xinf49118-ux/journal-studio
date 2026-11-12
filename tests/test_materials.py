@@ -212,8 +212,8 @@ class TestMaterials(unittest.TestCase):
                 # Later original packs intentionally use compact cut-out formats.
                 # Keep their exact size contracts separate from the initial pack.
                 pack=it.get('pack')
-                if pack in ('story-travel','chinese-original','craft-original'):
-                    allowed={'story-travel': {(760,240),(760,500)}, 'chinese-original': {(760,230),(640,640)}, 'craft-original': {(480,320)} if cat=='stamp' else {(640,640)}}
+                if pack in ('story-travel','chinese-original','craft-original','motif-original'):
+                    allowed={'motif-original': {(480,480)} if cat=='stamp' else {(640,640)}, 'story-travel': {(760,240),(760,500)}, 'chinese-original': {(760,230),(640,640)}, 'craft-original': {(480,320)} if cat=='stamp' else {(640,640)}}
                     self.assertIn((w,h),allowed[pack],it['id'])
                     continue
                 if it.get('usage') == 'functional':

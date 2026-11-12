@@ -1,0 +1,326 @@
+{
+  "checked": "2026-11-12",
+  "scope": "已核对的4个品牌的部分产品分类，不是商品或SKU全集；其余品牌仍见参考概览",
+  "rows": [
+    {
+      "brand": "MIDORI",
+      "type": "回转图案章",
+      "status": "部分可做",
+      "available": "选择不同原创图案、换墨色",
+      "missing": "实体回转机构与原版章面",
+      "source": "https://www.midori-store.net/SHOP/183572/list.html",
+      "checked": "2026-11-12",
+      "brand_artwork_included": false
+    },
+    {
+      "brand": "MIDORI",
+      "type": "日期章",
+      "status": "部分可做",
+      "available": "自填日期与文字章",
+      "missing": "品牌日期章面与拨轮",
+      "source": "https://www.midori-store.net/SHOP/183572/list.html",
+      "checked": "2026-11-12",
+      "brand_artwork_included": false
+    },
+    {
+      "brand": "MIDORI",
+      "type": "连续滚轮章",
+      "status": "部分可做",
+      "available": "图案重复花边",
+      "missing": "连续滚动盖章与原版画面",
+      "source": "https://www.midori-store.net/SHOP/183572/list.html",
+      "checked": "2026-11-12",
+      "brand_artwork_included": false
+    },
+    {
+      "brand": "MIDORI",
+      "type": "浸透线稿章",
+      "status": "部分可做",
+      "available": "原创线稿、墨色与缺墨",
+      "missing": "实体补墨、原版图案",
+      "source": "https://www.midori-store.net/SHOP/183572/list.html",
+      "checked": "2026-11-12",
+      "brand_artwork_included": false
+    },
+    {
+      "brand": "MIDORI",
+      "type": "习惯／月历功能章",
+      "status": "部分可做",
+      "available": "习惯矩阵与内页结构",
+      "missing": "品牌原版印面",
+      "source": "https://www.midori-store.net/SHOP/183572/list.html",
+      "checked": "2026-11-12",
+      "brand_artwork_included": false
+    },
+    {
+      "brand": "MIDORI",
+      "type": "多色印泥与补充墨",
+      "status": "部分可做",
+      "available": "数字颜色选择",
+      "missing": "实体油墨与纸张渗透",
+      "source": "https://www.midori-store.net/SHOP/183572/list.html",
+      "checked": "2026-11-12",
+      "brand_artwork_included": false
+    },
+    {
+      "brand": "BGM",
+      "type": "碎片贴",
+      "status": "部分可做",
+      "available": "独立彩色贴纸与裁切",
+      "missing": "品牌原图",
+      "source": "https://www.bgmlife.jp/products/",
+      "checked": "2026-11-12",
+      "brand_artwork_included": false
+    },
+    {
+      "brand": "BGM",
+      "type": "透明贴",
+      "status": "部分可做",
+      "available": "半透明叠贴",
+      "missing": "真实薄膜触感",
+      "source": "https://www.bgmlife.jp/products/",
+      "checked": "2026-11-12",
+      "brand_artwork_included": false
+    },
+    {
+      "brand": "BGM",
+      "type": "装饰贴",
+      "status": "部分可做",
+      "available": "六套新主题图案",
+      "missing": "品牌原图",
+      "source": "https://www.bgmlife.jp/products/",
+      "checked": "2026-11-12",
+      "brand_artwork_included": false
+    },
+    {
+      "brand": "BGM",
+      "type": "便签贴",
+      "status": "部分可做",
+      "available": "已有便签、表格素材",
+      "missing": "品牌原图",
+      "source": "https://www.bgmlife.jp/products/",
+      "checked": "2026-11-12",
+      "brand_artwork_included": false
+    },
+    {
+      "brand": "BGM",
+      "type": "透明印章",
+      "status": "部分可做",
+      "available": "原创线稿章与叠印",
+      "missing": "实体透明章、品牌原图",
+      "source": "https://www.bgmlife.jp/products/",
+      "checked": "2026-11-12",
+      "brand_artwork_included": false
+    },
+    {
+      "brand": "BGM",
+      "type": "卷装贴",
+      "status": "部分可做",
+      "available": "图案重复花边",
+      "missing": "实体卷装与剥取",
+      "source": "https://www.bgmlife.jp/products/",
+      "checked": "2026-11-12",
+      "brand_artwork_included": false
+    },
+    {
+      "brand": "BGM",
+      "type": "和纸胶带",
+      "status": "部分可做",
+      "available": "柔和透底与花边",
+      "missing": "真实纸纤维",
+      "source": "https://www.bgmlife.jp/products/",
+      "checked": "2026-11-12",
+      "brand_artwork_included": false
+    },
+    {
+      "brand": "BGM",
+      "type": "透明胶带",
+      "status": "部分可做",
+      "available": "透明叠贴与图案条",
+      "missing": "真实薄膜",
+      "source": "https://www.bgmlife.jp/products/",
+      "checked": "2026-11-12",
+      "brand_artwork_included": false
+    },
+    {
+      "brand": "BGM",
+      "type": "2.5D贴",
+      "status": "尚未支持",
+      "available": "仅整理官方分类",
+      "missing": "立体层次",
+      "source": "https://www.bgmlife.jp/products/",
+      "checked": "2026-11-12",
+      "brand_artwork_included": false
+    },
+    {
+      "brand": "BGM",
+      "type": "绒面贴",
+      "status": "尚未支持",
+      "available": "仅整理官方分类",
+      "missing": "绒毛触感",
+      "source": "https://www.bgmlife.jp/products/",
+      "checked": "2026-11-12",
+      "brand_artwork_included": false
+    },
+    {
+      "brand": "BGM",
+      "type": "立体透明贴",
+      "status": "尚未支持",
+      "available": "仅整理官方分类",
+      "missing": "凸起与折射",
+      "source": "https://www.bgmlife.jp/products/",
+      "checked": "2026-11-12",
+      "brand_artwork_included": false
+    },
+    {
+      "brand": "BGM",
+      "type": "水贴",
+      "status": "尚未支持",
+      "available": "仅整理官方分类",
+      "missing": "液体流动",
+      "source": "https://www.bgmlife.jp/products/",
+      "checked": "2026-11-12",
+      "brand_artwork_included": false
+    },
+    {
+      "brand": "BGM",
+      "type": "糖果贴",
+      "status": "尚未支持",
+      "available": "仅整理官方分类",
+      "missing": "透明凸面",
+      "source": "https://www.bgmlife.jp/products/",
+      "checked": "2026-11-12",
+      "brand_artwork_included": false
+    },
+    {
+      "brand": "BGM",
+      "type": "水晶贴",
+      "status": "尚未支持",
+      "available": "仅整理官方分类",
+      "missing": "棱面折射",
+      "source": "https://www.bgmlife.jp/products/",
+      "checked": "2026-11-12",
+      "brand_artwork_included": false
+    },
+    {
+      "brand": "BGM",
+      "type": "糖霜贴",
+      "status": "尚未支持",
+      "available": "仅整理官方分类",
+      "missing": "凸起糖霜质感",
+      "source": "https://www.bgmlife.jp/products/",
+      "checked": "2026-11-12",
+      "brand_artwork_included": false
+    },
+    {
+      "brand": "BGM",
+      "type": "柔软贴",
+      "status": "尚未支持",
+      "available": "仅整理官方分类",
+      "missing": "按压形变",
+      "source": "https://www.bgmlife.jp/products/",
+      "checked": "2026-11-12",
+      "brand_artwork_included": false
+    },
+    {
+      "brand": "BGM",
+      "type": "刺绣贴",
+      "status": "尚未支持",
+      "available": "仅整理官方分类",
+      "missing": "真实线迹触感",
+      "source": "https://www.bgmlife.jp/products/",
+      "checked": "2026-11-12",
+      "brand_artwork_included": false
+    },
+    {
+      "brand": "BGM",
+      "type": "贴纸工具",
+      "status": "尚未支持",
+      "available": "仅整理官方分类",
+      "missing": "实体工具",
+      "source": "https://www.bgmlife.jp/products/",
+      "checked": "2026-11-12",
+      "brand_artwork_included": false
+    },
+    {
+      "brand": "KING JIM / KITTA",
+      "type": "BASIC",
+      "status": "部分可做",
+      "available": "胶带图案与局部裁切",
+      "missing": "实体预切背纸",
+      "source": "https://www.kingjim.co.jp/hitotoki/sp/kitta/lineup.html",
+      "checked": "2026-11-12",
+      "brand_artwork_included": false
+    },
+    {
+      "brand": "KING JIM / KITTA",
+      "type": "CLEAR",
+      "status": "部分可做",
+      "available": "半透明叠贴",
+      "missing": "原版图案、薄膜",
+      "source": "https://www.kingjim.co.jp/hitotoki/sp/kitta/lineup.html",
+      "checked": "2026-11-12",
+      "brand_artwork_included": false
+    },
+    {
+      "brand": "KING JIM / KITTA",
+      "type": "WIDE",
+      "status": "部分可做",
+      "available": "自调图案宽度",
+      "missing": "实体宽幅纸带",
+      "source": "https://www.kingjim.co.jp/hitotoki/sp/kitta/lineup.html",
+      "checked": "2026-11-12",
+      "brand_artwork_included": false
+    },
+    {
+      "brand": "KING JIM / KITTA",
+      "type": "FLAKE",
+      "status": "部分可做",
+      "available": "独立碎片贴",
+      "missing": "原版图案",
+      "source": "https://www.kingjim.co.jp/hitotoki/sp/kitta/lineup.html",
+      "checked": "2026-11-12",
+      "brand_artwork_included": false
+    },
+    {
+      "brand": "KING JIM / KITTA",
+      "type": "COLLAGE",
+      "status": "部分可做",
+      "available": "透明素材叠贴",
+      "missing": "真实烫金反光",
+      "source": "https://www.kingjim.co.jp/hitotoki/sp/kitta/lineup.html",
+      "checked": "2026-11-12",
+      "brand_artwork_included": false
+    },
+    {
+      "brand": "KING JIM / KITTA",
+      "type": "JABARA",
+      "status": "部分可做",
+      "available": "连续花边与排列",
+      "missing": "实体折叠与撕线",
+      "source": "https://www.kingjim.co.jp/hitotoki/sp/kitta/lineup.html",
+      "checked": "2026-11-12",
+      "brand_artwork_included": false
+    },
+    {
+      "brand": "KING JIM / KITTA",
+      "type": "SPECIAL",
+      "status": "部分可做",
+      "available": "可自由组合的数字素材",
+      "missing": "特殊材质与原版设计",
+      "source": "https://www.kingjim.co.jp/hitotoki/sp/kitta/lineup.html",
+      "checked": "2026-11-12",
+      "brand_artwork_included": false
+    },
+    {
+      "brand": "古川纸工",
+      "type": "和纸碎片贴",
+      "status": "部分可做",
+      "available": "原创图案与和纸感透底",
+      "missing": "真实和纸、品牌角色与联名图案",
+      "source": "https://www.furukawashiko-online.shop/c/furukawa-product/item-fp/flakesticker-fp",
+      "checked": "2026-11-12",
+      "brand_artwork_included": false
+    }
+  ]
+}

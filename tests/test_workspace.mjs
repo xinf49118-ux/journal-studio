@@ -36,12 +36,16 @@ test('portable import remaps image references, preserves original and empty proj
  const empty=bundle();empty.project.layers=[];assert.equal((await restoreBundle(empty,()=>{},materials)).layers.length,0);
 });
 test('collections retain decorative art plus 32 functional stickers in each theme',()=>{
- assert.equal(manifest.items.length,685);
- for(const c of manifest.collections.filter(c=>!c.id.startsWith('cn_')&&!c.id.startsWith('craft_'))){const items=manifest.items.filter(m=>m.collection===c.id);assert.equal(items.length,64);assert.equal(items.filter(m=>m.usage==='functional').length,32);assert.equal(items.filter(m=>m.pack==='story-travel').length,16);assert.equal(new Set(items.map(m=>m.file)).size,64);for(const m of items)assert.ok(m.id.startsWith(m.cat+'_'));}
+ assert.equal(manifest.items.length,781);
+ for(const c of manifest.collections.filter(c=>!c.id.startsWith('cn_')&&!c.id.startsWith('craft_')&&!c.id.startsWith('motif_'))){const items=manifest.items.filter(m=>m.collection===c.id);assert.equal(items.length,64);assert.equal(items.filter(m=>m.usage==='functional').length,32);assert.equal(items.filter(m=>m.pack==='story-travel').length,16);assert.equal(new Set(items.map(m=>m.file)).size,64);for(const m of items)assert.ok(m.id.startsWith(m.cat+'_'));}
+});
+test('new motif pack keeps 48 paired color and line-art designs without duplicate ids',()=>{
+ const fresh=manifest.items.filter(m=>m.pack==='motif-original');assert.equal(fresh.length,96);for(const cat of ['stamp','sticker'])assert.equal(fresh.filter(m=>m.cat===cat).length,48);
+ const ids=new Set(fresh.map(m=>m.id));for(const i of fresh.filter(m=>m.cat==='sticker'))assert.ok(ids.has(i.id.replace('sticker_','stamp_')));for(const c of manifest.collections.filter(c=>c.id.startsWith('motif_')))assert.equal(fresh.filter(m=>m.collection===c.id).length,16);
 });
 test('Chinese original pack adds three complete collections without replacing older assets',()=>{
  const fresh=manifest.items.filter(m=>m.pack==='chinese-original');assert.equal(fresh.length,48);
- assert.equal(manifest.collections.length,11);assert.equal(new Set(manifest.items.map(m=>m.id)).size,685);
+ assert.equal(manifest.collections.length,17);assert.equal(new Set(manifest.items.map(m=>m.id)).size,781);
  for(const id of ['cn_botanical','cn_scene','cn_action']){
   assert.equal(fresh.filter(m=>m.collection===id).length,16);assert.equal(manifest.collections.find(c=>c.id===id).count,16);
  }
