@@ -43,6 +43,18 @@ def first_material(cat: str | None = None):
 
 
 class TestRenderGeometry(unittest.TestCase):
+    def test_multiply_preserves_opaque_paper_after_semitransparent_overprints(self):
+        paper = Image.new('RGBA', (20,20), (200,200,200,255))
+        stamp = Image.new('RGBA', (10,10), (100,100,100,128))
+        server._paste_centered(paper,stamp,10,10,1,'multiply')
+        self.assertEqual(paper.getpixel((10,10))[3],255)
+        self.assertLess(abs(paper.getpixel((10,10))[0]-139),2)
+        server._paste_centered(paper,stamp,10,10,1,'multiply')
+        self.assertEqual(paper.getpixel((10,10))[3],255)
+        self.assertLess(abs(paper.getpixel((10,10))[0]-97),2)
+        transparent = Image.new('RGBA',(20,20),(0,0,0,0))
+        server._paste_centered(transparent,stamp,10,10,1,'multiply')
+        self.assertEqual(transparent.getpixel((10,10)),(100,100,100,128))
     def test_a5_no_bleed_size(self):
         img = server.render_page(base_request())
         self.assertEqual(img.size, (px(148, 300), px(210, 300)))

@@ -65,6 +65,6 @@ export async function catalogChecks(cdp,check,art){
  const guide=await cdp.eval(`(async()=>{const text=await(await fetch('./docs/kokuyo-guide.html')).text();return text.includes('49种')&&text.includes('21项')&&text.includes('?layout=study_2weeks')&&text.includes('2026规格表');})()`);
  check('完整整理包含系列、49种内页及可点击入口',guide);
  check('多品牌整理包含87种内页与日系品牌',await cdp.eval(`(async()=>{const t=await(await fetch('./docs/brands-guide.html')).text();return t.includes('87种')&&t.includes('Hobonichi')&&t.includes('MIDORI')&&t.includes('TRAVELER')&&t.includes('?layout=tickets');})()`));
- check('完整整理包含国产品牌与新内页入口',await cdp.eval(`(async()=>{const t=await(await fetch('./docs/brands-guide.html')).text();return ['kinbor','九口山','趁早','MOODTAPE','陌墨','?layout=plant_observation','?layout=goal_steps','613 件素材'].every(s=>t.includes(s));})()`));
+ check('完整整理包含国产品牌与新内页入口',await cdp.eval(`(async()=>{const t=await(await fetch('./docs/brands-guide.html')).text();return ['kinbor','九口山','趁早','MOODTAPE','陌墨','?layout=plant_observation','?layout=goal_steps','685 件素材'].every(s=>t.includes(s));})()`));
  await cdp.eval(`history.replaceState(null,'',location.pathname);document.querySelector('#planner-layout').value='monthly';document.querySelector('#planner-layout').dispatchEvent(new Event('change',{bubbles:true}))`);await pause(250);
 }

@@ -249,6 +249,26 @@
           </div>
         </div>
 
+        <div class="side-block craft-panel">
+          <div class="side-title">印章与贴纸小工坊</div>
+          <p class="muted small">自制文字章，或选中画布上的图片做效果副本。<a href="docs/craft-guide.html" target="_blank" rel="noopener">素材与品牌参考 ↗</a></p>
+          <label>印章文字<textarea id="craft-text" class="input" rows="2" maxlength="80">今天也有小进步</textarea></label>
+          <label>日期／副标题（可清空）<input id="craft-date" class="input" maxlength="24"></label>
+          <label>章形<select id="craft-shape" class="input"><option value="rect">方框章</option><option value="round">圆形章</option><option value="ticket">票据章</option></select></label>
+          <label>宽度 mm<input id="craft-size" class="input" type="number" min="15" max="100" value="40"></label>
+          <label>印泥颜色<input id="craft-color" class="input" type="color" value="#855b53"></label>
+          <label>墨色浓度<input id="craft-density" class="input" type="range" min="0.1" max="1" step="0.05" value="0.85"></label>
+          <label>缺墨纹理<input id="craft-wear" class="input" type="range" min="0" max="0.8" step="0.05" value="0.2"></label>
+          <label>轻微重影<input id="craft-ghost" class="input" type="range" min="0" max="1" step="0.1" value="0"></label>
+          <label>纹理编号<input id="craft-seed" class="input" type="number" value="17" min="0" max="999999"></label>
+          <button id="craft-preview-stamp" class="btn ghost block mt6">预览自制印章</button>
+          <label>选中图片的效果<select id="craft-effect" class="input"><option value="paper">纸质贴纸 · 白边与阴影</option><option value="pet">透明贴纸 · 半透明叠贴</option><option value="washi">和纸感 · 柔和透底</option><option value="stamp">印章感 · 换印泥与缺墨</option></select></label>
+          <label class="check"><input id="craft-white" type="checkbox">去除与外边连通的白底</label>
+          <button id="craft-preview-effect" class="btn ghost block mt6">预览选中图片效果</button>
+          <canvas id="craft-preview" width="480" height="300" style="display:block;width:100%;height:auto;margin:10px 0;background:repeating-conic-gradient(#ebe7df 0% 25%,#fff 0% 50%) 0/16px 16px" aria-label="印章贴纸效果预览"></canvas>
+          <button id="craft-add" class="btn primary block">应用预览（生成新素材）</button>
+          <p class="muted small">图片效果会替换画布上的选中图层，可撤销，原素材保留。重叠印章使用正片叠底；半透明与白边可随作品备份和导出。金属、凹凸、绒面等真实触感无法由打印还原。</p>
+        </div>
         <div class="side-block design-panel">
           <div class="side-title">从空白规划内页</div><a href="docs/structures.html" target="_blank" rel="noopener noreferrer">浏览25种结构示例 ↗</a><button id="design-blank" class="btn primary">新建空白设计</button>
           <p class="muted small">原草稿会先保留。先划分区域，再添加文字、格线和自己的照片。</p>

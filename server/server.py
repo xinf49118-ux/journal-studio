@@ -237,9 +237,11 @@ def _paste_centered(canvas: Image.Image, layer_img: Image.Image, cx: float, cy: 
         region = canvas.crop((px, py, px + layer_img.width, py + layer_img.height))
         rgb_src = layer_img.convert("RGB")
         rgb_dst = region.convert("RGB")
-        mult = ImageChops.multiply(rgb_dst, rgb_src).convert("RGBA")
-        mult.putalpha(ImageChops.multiply(region.getchannel("A"), layer_img.getchannel("A")))
-        canvas.paste(mult, (px, py), mult)
+        # Blend only where the backdrop exists; source-over supplies final alpha.
+        # Masked paste would apply source alpha twice and punch holes in paper.
+        mult = Image.composite(ImageChops.multiply(rgb_dst, rgb_src), rgb_src, region.getchannel("A")).convert("RGBA")
+        mult.putalpha(layer_img.getchannel("A"))
+        canvas.alpha_composite(mult, (px, py))
     else:
         canvas.alpha_composite(layer_img, (int(round(cx - layer_img.width / 2)), int(round(cy - layer_img.height / 2))))
 

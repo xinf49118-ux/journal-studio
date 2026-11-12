@@ -110,6 +110,7 @@ function applyLayerToDom(layer) {
   } else {
     node.style.width = `${layer.w_mm}mm`;
     node.style.height = `${layer.h_mm}mm`;
+    node.style.mixBlendMode = layer.blend === 'multiply' ? 'multiply' : 'normal';
   }
 }
 
@@ -490,6 +491,12 @@ function renderProps() {
   op.addEventListener('input', () => updateLayer(layer.id, { opacity: parseFloat(op.value) }));
   op.addEventListener('change', () => pushHistory());
   box.appendChild(el('div', { class: 'prop-row' }, [el('label', { text: '透明' }), op]));
+  if(['image','material'].includes(layer.kind)){
+    const blend=el('select',{class:'input',id:'prop-blend'});
+    for(const [value,text] of [['normal','正常叠贴'],['multiply','正片叠底 · 透底叠印']])blend.append(el('option',{value,text,selected:(layer.blend||'normal')===value}));
+    blend.onchange=()=>{updateLayer(layer.id,{blend:blend.value});pushHistory();};
+    box.append(el('div',{class:'prop-row'},[el('label',{text:'叠放'}),blend]));
+  }
 
   if (layer.kind === 'text') {
     const ta = el('textarea', { class: 'input', rows: '2', style: 'resize:vertical;' });

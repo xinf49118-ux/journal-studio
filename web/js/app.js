@@ -9,6 +9,7 @@ import { initWorkspace } from './workspace.js';
 import { $, $$, ok, err, toast } from './ui.js';
 import { initLibrary, loadMaterials, loadLibrary } from './library.js';
 import { initEditor, render as renderEditor, zoomToFit } from './editor.js';
+import {initCraft} from './craft-ui.js';
 import { initRecreate } from './recreate.js';
 import { initPrint, refreshPrintPreview } from './print.js';
 
@@ -76,6 +77,7 @@ async function boot() {
   initTabs();
   initLibrary();
   initEditor();
+  initCraft();
   initRecreate();
   initPrint();
 

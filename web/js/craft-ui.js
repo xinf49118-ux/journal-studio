@@ -1,0 +1,18 @@
+import {state,makeImageLayer,layerSrc,uid,pushHistory,emit} from './core.js';
+import {api} from './api.js';import {addLayer,render} from './editor.js';import {loadLibrary} from './library.js';
+import {stampCanvas,effectCanvas,pngBlob} from './craft.js';import {$,err,ok} from './ui.js';
+export function initCraft(){
+ const o=()=>({text:$('#craft-text').value,date:$('#craft-date').value,shape:$('#craft-shape').value,sizeMm:Number($('#craft-size').value),color:$('#craft-color').value,density:Number($('#craft-density').value),wear:Number($('#craft-wear').value),ghost:Number($('#craft-ghost').value),seed:Number($('#craft-seed').value)});
+ $('#craft-date').value=new Date().toLocaleDateString('sv-SE');let preview=null,selection=null,previewOptions=null,adding=false;
+ const show=c=>{const target=$('#craft-preview');target.width=c.width;target.height=c.height;target.getContext('2d').drawImage(c,0,0);preview=c;};
+ const run=fn=>async()=>{try{await fn();}catch(e){err(e.message);}};
+ $('#craft-preview-stamp').onclick=run(()=>{const options=o();show(stampCanvas(options));previewOptions=options;selection=null;});
+ $('#craft-preview-effect').onclick=run(async()=>{const layer=state.layers.find(l=>l.id===state.selection);if(!layer||!['material','image'].includes(layer.kind))throw new Error('请先在画布选中一张贴纸、印章或导入图片');const url=layerSrc(layer);if(!url)throw new Error('原图片暂不可用');const page=state.layers,id=layer.id,source=structuredClone(layer),image=new Image();image.src=url;await image.decode();if(state.layers!==page||state.selection!==id)throw new Error('选择已变化，请重新预览');const effect=$('#craft-effect').value,result=effectCanvas(image,{...o(),effect,removeWhite:$('#craft-white').checked});show(result.canvas);selection={page,id,source,result,effect};});
+ $('#craft-add').onclick=run(async()=>{if(adding)return;if(!preview)throw new Error('请先生成效果预览');if(state.layers.length>=1000&&!selection)throw new Error('本页已达到1000个图层');adding=true;$('#craft-add').disabled=true;try{const c=preview,page=state.layers,selected=selection,options=previewOptions;if(selected&&(page!==selected.page||!page.some(l=>l.id===selected.id)))throw new Error('原页面已切换，请重新预览');if(selected&&page.find(l=>l.id===selected.id).locked)throw new Error('请先解锁选中的素材');const blob=await pngBlob(c),name=selected?'效果副本 · '+(selected.source.name||'贴纸'):'自制印章 · '+options.text.replace(/\n/g,' ').slice(0,24);const item=(await api.importBlob(blob,name+'.png')).item;
+  if(state.layers!==page){await api.deleteLibraryItem(item.id);throw new Error('页面已切换，请在目标页面重新生成');}await loadLibrary();if(state.layers!==page){await api.deleteLibraryItem(item.id);throw new Error('页面已切换，请重新生成');}
+  let layer=makeImageLayer(item);if(selected){const {source:s,result:r}=selected,sx=s.w_mm/r.sourceWidth,sy=s.h_mm/r.sourceHeight;Object.assign(layer,{x_mm:s.x_mm-r.pad*sx,y_mm:s.y_mm-r.pad*sy,w_mm:c.width*sx,h_mm:c.height*sy,rotate:s.rotate||0,flip_x:!!s.flip_x,flip_y:!!s.flip_y,opacity:s.opacity??1});if(selected.effect==='stamp'||selected.effect==='pet'||selected.effect==='washi')layer.blend='multiply';}
+  else Object.assign(layer,{w_mm:options.sizeMm,h_mm:options.sizeMm*c.height/c.width,x_mm:12,y_mm:45,blend:'multiply'});
+  layer.name=name;layer.id=uid('I');if(selected){const index=state.layers.findIndex(l=>l.id===selected.id);if(index<0){await api.deleteLibraryItem(item.id);throw new Error('选中素材已被删除，请重新预览');}layer.group_id=selected.source.group_id;state.layers.splice(index,1,layer);state.selection=layer.id;pushHistory();render();emit('changed');ok('效果已应用，可撤销；原素材保留，新素材也可重复使用');}else {if(state.layers.length>=1000){await api.deleteLibraryItem(item.id);throw new Error('页面已达到图层上限');}addLayer(layer);}
+  }finally{adding=false;$('#craft-add').disabled=false;}
+ });
+}

@@ -209,6 +209,13 @@ class TestMaterials(unittest.TestCase):
             for it in self.by_cat.get(cat, []):
                 w, h = it["w"], it["h"]
                 long_side, short_side = max(w, h), min(w, h)
+                # Later original packs intentionally use compact cut-out formats.
+                # Keep their exact size contracts separate from the initial pack.
+                pack=it.get('pack')
+                if pack in ('story-travel','chinese-original','craft-original'):
+                    allowed={'story-travel': {(760,240),(760,500)}, 'chinese-original': {(760,230),(640,640)}, 'craft-original': {(480,320)} if cat=='stamp' else {(640,640)}}
+                    self.assertIn((w,h),allowed[pack],it['id'])
+                    continue
                 if it.get('usage') == 'functional':
                     # Compact planner labels at 300dpi: 50.8mm strips,
                     # 30.48mm status stickers, and 60.96mm writing cards.
@@ -232,6 +239,10 @@ class TestMaterials(unittest.TestCase):
 
     def test_paper_is_a5_150dpi(self):
         for it in self.by_cat.get("paper", []):
+            if it['id']=='paper_cn_scene_scrap':
+                self.assertEqual((it['w'],it['h']),(640,640))
+                self.assertTrue(it['alpha'])
+                continue
             self.assertEqual((it["w"], it["h"]), (1240, 1748), it["id"])
             self.assertFalse(it["alpha"], it["id"])
 

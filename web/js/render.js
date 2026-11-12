@@ -320,6 +320,7 @@ export async function renderToCanvas(req, preloaded = null) {
     const opacity = _f(layer.opacity, 1, 0, 1);
     if (opacity <= 0.001) continue;
     ctx.globalAlpha = opacity;
+    ctx.globalCompositeOperation = layer.blend === 'multiply' ? 'multiply' : 'source-over';
     try {
       if (kind === 'material' || kind === 'image') {
         let img = null;
@@ -359,6 +360,7 @@ export async function renderToCanvas(req, preloaded = null) {
       }
     } finally {
       ctx.globalAlpha = 1;
+      ctx.globalCompositeOperation = 'source-over';
     }
   }
 
