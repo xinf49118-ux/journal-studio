@@ -16,6 +16,8 @@ export async function loadMaterials() {
     const select = $('#collection-filter');
     if (select) { select.replaceChildren(el('option', {value:'',text:'全部主题'}));
       for (const c of data.collections || []) select.append(el('option',{value:c.id,text:`${c.name} · ${c.count}件`})); }
+    const requested=new URLSearchParams(location.search).get('sticker'),item=data.items?.find(m=>m.id===requested&&m.cat==='sticker');
+    if(item){view.source='builtin';view.cat='sticker';view.usage='stickers';view.q=item.name;$('#mat-search').value=item.name;$('#usage-filter').value='stickers';}
     emit('materials');
     renderCatList();
     renderGrid();
@@ -98,6 +100,8 @@ export function renderGrid() {
     if (view.usage==='functional' && it.usage!=='functional') return false;
     if (view.usage==='story' && it.pack!=='story-travel') return false;
     if (view.usage==='cn' && it.pack!=='chinese-original') return false;
+    if (view.usage==='stickers' && it.cat!=='sticker') return false;
+    if (view.usage==='daily' && it.pack!=='daily-stickers') return false;
     if (view.usage==='decorative' && it.usage==='functional') return false;
     if (view.favoritesOnly && !favorites.has(it.id)) return false;
     if (view.source === 'web' || view.cat === 'all') return true;
@@ -273,7 +277,7 @@ async function doWebSearch() {
 /* ---------------------------------------------------------------- 初始化 */
 
 export function initLibrary() {
-  $('#usage-filter').onchange=e=>{view.usage=e.target.value;renderGrid();};
+  $('#usage-filter').onchange=e=>{view.usage=e.target.value;if(['stickers','daily'].includes(view.usage)){view.source='builtin';view.cat='sticker';syncSourceChips();renderCatList();}renderGrid();};
   $('#collection-filter').onchange=e=>{view.collection=e.target.value;renderGrid();};
   $('#favorites-filter').onclick=e=>{view.favoritesOnly=!view.favoritesOnly;e.currentTarget.setAttribute('aria-pressed',String(view.favoritesOnly));renderGrid();};
   $('#browse-templates').onclick=()=>document.querySelector('[data-tab="works"]').click();

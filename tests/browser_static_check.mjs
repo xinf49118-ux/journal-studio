@@ -29,6 +29,7 @@ import {advancedChecks} from './advanced_browser_checks.mjs';
 import {craftChecks} from './craft_browser_checks.mjs';
 import {craftLayoutChecks} from './craft_layout_browser_checks.mjs';
 import {planningChecks} from './planning_browser_checks.mjs';
+import {stickerChecks} from './stickers_browser_checks.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, '..');
@@ -141,7 +142,7 @@ async function main() {
       return JSON.stringify({ items: core.state.materials.items.length, cats: core.state.materials.categories.length });
     })()`);
     const mi = JSON.parse(mat);
-    check('素材清单加载成功', mi.items === 781, `${mi.items} 件 / ${mi.cats} 类`);
+    check('素材清单加载成功', mi.items === 877, `${mi.items} 件 / ${mi.cats} 类`);
     const grid = await cdp.eval(`(async () => {
       // 等第一张缩略图真的加载出来（慢网络下要给足时间）
       const t0 = Date.now();
@@ -170,6 +171,7 @@ async function main() {
 
     if(process.argv.includes('--craft-layout-only'))await craftLayoutChecks(cdp,check,ART);
     else if(process.argv.includes('--craft-only'))await craftChecks(cdp,check,ART);
+    else if(process.argv.includes('--stickers-only'))await stickerChecks(cdp,check,ART);
     else if(process.argv.includes('--planning-only'))await planningChecks(cdp,check,ART);
     else if(process.argv.includes('--advanced-only'))await advancedChecks(cdp,check,ART);
     else if(process.argv.includes('--designer-only'))await designerChecks(cdp,check,ART);

@@ -1,6 +1,8 @@
 # 手账工坊 Journal Studio —— 交接文档
 
-> **2026-11-12 接续更新**：现有781件素材、87种内页、72种设计结构。新增47种规划组件见[本轮说明](docs/PLANNING-COMPONENTS-2026-11-12.md)，源码`web/js/planning-elements.js`，测试`tests/test_planning_elements.mjs`与`tests/planning_browser_checks.mjs`。后文旧数量与旧测试结果不代表当前版本。
+> **2026-11-12 贴纸更新**：现有369张贴纸。新增96张生活贴纸及可筛选总览，见[使用说明](docs/STICKERS-2026-11-12.md)。生成脚本`tools/daily_stickers.py`，总览脚本`tools/build_sticker_guide.py`，浏览器专项检查`--stickers-only`。
+
+> **2026-11-12 接续更新**：现有877件素材、87种内页、72种设计结构。新增47种规划组件见[本轮说明](docs/PLANNING-COMPONENTS-2026-11-12.md)，源码`web/js/planning-elements.js`，测试`tests/test_planning_elements.mjs`与`tests/planning_browser_checks.mjs`。后文旧数量与旧测试结果不代表当前版本。
 
 > **2026-11-11 接续更新**：优先阅读 [本次更新](docs/UPDATE-2026-11-11.md)。当前素材为 277 件，已加入六套模板、作品库、备份恢复、保存状态与手机布局。下文为旧版交接记录，其中素材数量、手机布局待办和测试数量不再代表当前版本。
 
