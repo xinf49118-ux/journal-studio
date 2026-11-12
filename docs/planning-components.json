@@ -1,0 +1,349 @@
+{
+  "new_components": 47,
+  "total_structures": 72,
+  "categories": [
+    "项目推进",
+    "目标拆解",
+    "时间安排",
+    "习惯养成",
+    "学习复习",
+    "状态记录",
+    "生活平衡",
+    "选择与决策",
+    "思考复盘",
+    "财务储蓄",
+    "阅读创作",
+    "人际活动"
+  ],
+  "components": [
+    {
+      "id": "milestones",
+      "name": "里程碑图",
+      "category": "项目推进",
+      "family": "timeline",
+      "help": "按开始日期和跨度标出节点；数值每行填写一天偏移。"
+    },
+    {
+      "id": "roadmap",
+      "name": "项目路线图",
+      "category": "项目推进",
+      "family": "roadmap",
+      "help": "阶段卡片与推进箭头，节点名称、日期跨度可改。"
+    },
+    {
+      "id": "dependencies",
+      "name": "任务依赖图",
+      "category": "项目推进",
+      "family": "tree",
+      "help": "节点名称一行一个；连接填“起点编号,终点编号”，不允许循环依赖。"
+    },
+    {
+      "id": "phase_progress",
+      "name": "阶段进度条",
+      "category": "项目推进",
+      "family": "bars",
+      "help": "每行一个阶段，数值填写已完成量；按目标值计算进度。"
+    },
+    {
+      "id": "goal_tree",
+      "name": "目标树",
+      "category": "目标拆解",
+      "family": "tree",
+      "help": "从根目标拆成分支；可自填节点与连接，切换横向／纵向。"
+    },
+    {
+      "id": "mandala",
+      "name": "九宫格目标表",
+      "category": "目标拆解",
+      "family": "mandala",
+      "help": "中心目标与周边行动；可改为3—6行列的目标宫格。"
+    },
+    {
+      "id": "goal_steps",
+      "name": "目标阶梯",
+      "category": "目标拆解",
+      "family": "steps",
+      "help": "一行一个步骤，按完成比例给阶梯填色。"
+    },
+    {
+      "id": "goal_breakdown",
+      "name": "年季月目标拆解",
+      "category": "目标拆解",
+      "family": "tree",
+      "help": "年度→季度→月度→行动；可改节点及层级连接。"
+    },
+    {
+      "id": "dual_timeline",
+      "name": "双时间轴",
+      "category": "时间安排",
+      "family": "dual",
+      "help": "两条轨道比较计划和实际；数值第1、2行分别填各节点的天偏移。"
+    },
+    {
+      "id": "countdown",
+      "name": "倒计时日历",
+      "category": "时间安排",
+      "family": "countdown",
+      "help": "从开始日期逐日倒排至D0；天数可调。"
+    },
+    {
+      "id": "pomodoro",
+      "name": "番茄钟记录",
+      "category": "时间安排",
+      "family": "pomodoro",
+      "help": "任务按行，每格一个番茄钟；数值每行填写已完成个数。"
+    },
+    {
+      "id": "plan_actual",
+      "name": "计划与实际对照图",
+      "category": "时间安排",
+      "family": "compare",
+      "help": "数值每行填写“计划,实际”；目标值为共同坐标上限。"
+    },
+    {
+      "id": "habit_chain",
+      "name": "连续打卡链",
+      "category": "习惯养成",
+      "family": "chain",
+      "help": "连续日期蛇形排列；填色记录，不把空白当成失败。"
+    },
+    {
+      "id": "habit_wheel",
+      "name": "周期习惯轮盘",
+      "category": "习惯养成",
+      "family": "wheel",
+      "help": "周期天数与环数可改，每个扇区可单独填色。"
+    },
+    {
+      "id": "habit_points",
+      "name": "习惯积分表",
+      "category": "习惯养成",
+      "family": "points",
+      "help": "数值每行填“完成次数,每次积分”，有数据时计算总分。"
+    },
+    {
+      "id": "habit_loop",
+      "name": "触发行动奖励循环",
+      "category": "习惯养成",
+      "family": "cycle",
+      "help": "用循环箭头连接触发、行动与奖励；节点可改。"
+    },
+    {
+      "id": "spaced_review",
+      "name": "间隔复习表",
+      "category": "学习复习",
+      "family": "review",
+      "help": "按开始日期和所填间隔排复习日；数值第一行是各次间隔天数。"
+    },
+    {
+      "id": "knowledge_tree",
+      "name": "知识树",
+      "category": "学习复习",
+      "family": "tree",
+      "help": "把知识点与子主题连接，所有节点文字可编辑。"
+    },
+    {
+      "id": "exam_countdown",
+      "name": "考试倒排表",
+      "category": "学习复习",
+      "family": "countdown",
+      "help": "逐日倒计时并保留阶段备注；调整开始日期和周期。"
+    },
+    {
+      "id": "error_matrix",
+      "name": "错题复盘矩阵",
+      "category": "学习复习",
+      "family": "table",
+      "help": "按题目记录原因、改进与复测；表内文字生成后可继续填写。"
+    },
+    {
+      "id": "mood_curve",
+      "name": "情绪曲线",
+      "category": "状态记录",
+      "family": "curve",
+      "help": "每个时点填一个0到目标值之间的分数；留空处不连线。"
+    },
+    {
+      "id": "sleep_band",
+      "name": "睡眠时间带",
+      "category": "状态记录",
+      "family": "sleep",
+      "help": "每行填“入睡小时,睡眠时长”，例如23,8；自动拆分跨午夜区段。"
+    },
+    {
+      "id": "energy_map",
+      "name": "精力热力图",
+      "category": "状态记录",
+      "family": "heatmap",
+      "help": "每行填各时段的分数；空白格保留未知，0分仍是有效记录。"
+    },
+    {
+      "id": "event_correlation",
+      "name": "事件与状态对照表",
+      "category": "状态记录",
+      "family": "table",
+      "help": "把日期、事件与状态并列记录，不自动推断因果。"
+    },
+    {
+      "id": "life_wheel",
+      "name": "生活之轮",
+      "category": "生活平衡",
+      "family": "life-wheel",
+      "help": "列标题为生活维度，数值第一行填各维度分数；目标值是满分。"
+    },
+    {
+      "id": "time_ring",
+      "name": "时间分配圆环",
+      "category": "生活平衡",
+      "family": "time-ring",
+      "help": "列标题为活动，数值第一行填时长，按比例分区；留空生成等分底图。"
+    },
+    {
+      "id": "life_scores",
+      "name": "生活领域评分表",
+      "category": "生活平衡",
+      "family": "bars",
+      "help": "每行一个生活领域，数值填写评分；目标值为满分。"
+    },
+    {
+      "id": "pros_cons",
+      "name": "优缺点对照表",
+      "category": "选择与决策",
+      "family": "table",
+      "help": "左右并列记录好处、代价与待确认事项。"
+    },
+    {
+      "id": "decision_matrix",
+      "name": "加权决策矩阵",
+      "category": "选择与决策",
+      "family": "decision",
+      "help": "每行一个指标，数值填“权重,方案1评分,方案2评分…”；计算加权均分。"
+    },
+    {
+      "id": "effort_return",
+      "name": "投入产出矩阵",
+      "category": "选择与决策",
+      "family": "scatter",
+      "help": "每行一个方案，数值填“投入,收益”；目标值为坐标上限。"
+    },
+    {
+      "id": "decision_tree",
+      "name": "决策树",
+      "category": "选择与决策",
+      "family": "tree",
+      "help": "条件与分支可自定，连接使用节点编号，不允许环路。"
+    },
+    {
+      "id": "mind_map",
+      "name": "思维导图",
+      "category": "思考复盘",
+      "family": "radial-map",
+      "help": "中心主题与周边分支，可用连接编号增加交叉联系。"
+    },
+    {
+      "id": "fishbone",
+      "name": "鱼骨图",
+      "category": "思考复盘",
+      "family": "fishbone",
+      "help": "把原因写在分支上，标题作为待分析的问题。"
+    },
+    {
+      "id": "cause_chain",
+      "name": "事件因果链",
+      "category": "思考复盘",
+      "family": "chain-nodes",
+      "help": "顺序节点与箭头，可修改为自己的事件链；不自动判断因果。"
+    },
+    {
+      "id": "retro",
+      "name": "开始停止继续复盘",
+      "category": "思考复盘",
+      "family": "table",
+      "help": "三个分区记录开始、停止与继续的行动。"
+    },
+    {
+      "id": "savings_grid",
+      "name": "储蓄进度格",
+      "category": "财务储蓄",
+      "family": "savings",
+      "help": "目标金额平均分到每格，按完成比例填色；单位可改。"
+    },
+    {
+      "id": "debt_plan",
+      "name": "债务偿还表",
+      "category": "财务储蓄",
+      "family": "debt",
+      "help": "数值每行填“期初欠款,已还金额”，计算剩余金额。"
+    },
+    {
+      "id": "bill_calendar",
+      "name": "账单日历",
+      "category": "财务储蓄",
+      "family": "calendar",
+      "help": "使用月份生成真实日期；行标题可填“日:账单内容”。"
+    },
+    {
+      "id": "budget_actual",
+      "name": "预算与实际对照表",
+      "category": "财务储蓄",
+      "family": "budget",
+      "help": "数值每行填“预算,实际”，计算差额及合计。"
+    },
+    {
+      "id": "reading_progress",
+      "name": "阅读进度条",
+      "category": "阅读创作",
+      "family": "bars",
+      "help": "每行一本书，填写已读页数与共同目标页数；也可改用百分比。"
+    },
+    {
+      "id": "reading_map",
+      "name": "读书地图",
+      "category": "阅读创作",
+      "family": "radial-map",
+      "help": "中心书名、人物、观点与疑问可自由连结。"
+    },
+    {
+      "id": "story_timeline",
+      "name": "故事时间线",
+      "category": "阅读创作",
+      "family": "timeline",
+      "help": "按事件和日期偏移排列情节节点，可切换横竖方向。"
+    },
+    {
+      "id": "publish_calendar",
+      "name": "创作发布日历",
+      "category": "阅读创作",
+      "family": "calendar",
+      "help": "使用月份生成日历；行标题填“日:发布内容”。"
+    },
+    {
+      "id": "relationship_map",
+      "name": "关系地图",
+      "category": "人际活动",
+      "family": "radial-map",
+      "help": "中心人物与周边关系，可自定义交叉连接。"
+    },
+    {
+      "id": "contact_tracker",
+      "name": "联系频率表",
+      "category": "人际活动",
+      "family": "contacts",
+      "help": "联系人按行、日期按列；每格独立填写或填色。"
+    },
+    {
+      "id": "event_plan",
+      "name": "活动筹备表",
+      "category": "人际活动",
+      "family": "table",
+      "help": "任务、负责人、截止时间与状态并列记录。"
+    },
+    {
+      "id": "travel_timeline",
+      "name": "旅行行程时间带",
+      "category": "人际活动",
+      "family": "travel",
+      "help": "行标题写地点活动，起始小时与步长控制时刻；可横向或纵向。"
+    }
+  ]
+}

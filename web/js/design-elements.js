@@ -1,6 +1,7 @@
 import {advancedTypes,advancedPresets,advancedElement} from './advanced-elements.js';
+import {planningTypes,planningPresets,planningElement} from './planning-elements.js';
 import {makeShapeLayer,makeTextLayer,uid} from './core.js';
-export const elementTypes={...advancedTypes,hline:'横线',vline:'竖线',frame:'分区框',ellipse:'椭圆框',rules:'横线书写区',grid:'方格区',dots:'点阵区',table:'表格',checklist:'待办清单',timeline:'时间轴',text:'标题文字'};
+export const elementTypes={...planningTypes,...advancedTypes,hline:'横线',vline:'竖线',frame:'分区框',ellipse:'椭圆框',rules:'横线书写区',grid:'方格区',dots:'点阵区',table:'表格',checklist:'待办清单',timeline:'时间轴',text:'标题文字'};
 const finite=(n,name,min,max)=>{n=Number(n);if(!Number.isFinite(n)||n<min||n>max)throw new Error(`${name}需在${min}—${max}之间`);return n;};
 export function designLine(x1,y1,x2,y2,{color='#7d8980',stroke=.25,dashed=false}={}){
  if(![x1,y1,x2,y2].every(Number.isFinite)||!/^#[0-9a-f]{6}$/i.test(color))throw new Error('线条位置或颜色无效');stroke=finite(stroke,'线宽',.1,2);
@@ -11,6 +12,7 @@ export function designLine(x1,y1,x2,y2,{color='#7d8980',stroke=.25,dashed=false}
  return layers;
 }
 export function designElement(o={}){
+ if(planningTypes[o.type]){const options={...planningPresets[o.type],...o};return configured(planningElement(options,{line:designLine}),options);}
  if(advancedTypes[o.type]){const options={...advancedPresets[o.type],...o};return configured(advancedElement(options,{line:designLine}),options);}
  const {type='frame',color='#7d8980',dashed=false,text='我的标题'}=o;if(!elementTypes[type])throw new Error('请选择可用的设计元素');if(!/^#[0-9a-f]{6}$/i.test(color))throw new Error('请选择有效颜色');
  const x=finite(o.x??12,'横向位置',0,420),y=finite(o.y??45,'纵向位置',0,420),w=finite(o.w??100,'宽度',1,400),h=finite(o.h??60,'高度',1,400),stroke=finite(o.stroke??.25,'线宽',.1,2),gap=finite(o.gap??7,'间距',1,40),rows=finite(o.rows??7,'行数',1,40),cols=finite(o.cols??3,'列数',1,20);

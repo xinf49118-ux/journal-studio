@@ -1,7 +1,7 @@
 import test from 'node:test';import assert from 'node:assert/strict';
 import {designElement,designBox,elementTypes} from '../web/js/design-elements.js';import {tableMerges,advancedTypes} from '../web/js/advanced-elements.js';import {sectorPoints} from '../web/js/radial-geometry.js';import {validateBundle} from '../web/js/backup.js';
 test('radial timelines contain exact independent cells with configurable clock, spacing and rotation',()=>{
- assert.equal(Object.keys(elementTypes).length,25);assert.equal(Object.keys(advancedTypes).length,14);
+ assert.equal(Object.keys(elementTypes).length,72);assert.equal(Object.keys(advancedTypes).length,14);
  for(const cycleHours of [12,24])for(const stepMinutes of [15,30,60,120]){const layers=designElement({type:'radial',cycleHours,stepMinutes,rotationOffset:45,startHour:6}),cells=layers.filter(l=>l.shape==='sector');assert.equal(cells.length,cycleHours*60/stepMinutes);assert.equal(cells[0].start_deg,45);assert.equal(cells.at(-1).end_deg,405);assert.equal(cells[0].name,'06:00');assert.ok(cells.every(l=>l.inner_ratio>0&&l.fill==='#ffffff00'));}
  assert.throws(()=>designElement({type:'radial',stepMinutes:70}));
  const timeline=designElement({type:'timeline',startHour:23.5,stepMinutes:30,rows:3});assert.deepEqual(timeline.filter(l=>l.kind==='text').map(l=>l.text),['23:30','00:00','00:30']);assert.equal(timeline[0].design_config.options.startHour,23.5);assert.equal(timeline[0].design_config.options.stepMinutes,30);assert.throws(()=>designElement({type:'timeline',startHour:'invalid'}));

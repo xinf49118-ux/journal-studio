@@ -1,0 +1,33 @@
+import {writeFileSync} from 'node:fs';import {join} from 'node:path';
+const pause=ms=>new Promise(r=>setTimeout(r,ms));
+export async function planningChecks(cdp,check,art){
+ const click=async id=>{await cdp.eval(`document.querySelector('#design-${id}').click()`);await pause(200);};
+ const choose=async type=>{await cdp.eval(`document.querySelector('#design-type').value=${JSON.stringify(type)};document.querySelector('#design-type').dispatchEvent(new Event('change'))`);};
+ const set=async fields=>cdp.eval(`for(const [k,v] of Object.entries(${JSON.stringify(fields)}))document.querySelector('#design-'+k).value=v`);
+ await cdp.eval(`document.querySelector('[data-tab="editor"]').click()`);await click('blank');await pause(1000);
+ check('72种结构按用途分组，47种新规划组件已接入',await cdp.eval(`document.querySelector('#design-type').options.length===72&&document.querySelectorAll('#design-type optgroup').length>=12`));
+ await cdp.eval(`document.querySelector('#design-search').value='睡眠';document.querySelector('#design-search').dispatchEvent(new Event('input'))`);
+ check('搜索组件会切换至匹配项并展示填写说明',await cdp.eval(`document.querySelector('#design-type').value==='sleep_band'&&!document.querySelector('#design-planning').hidden&&document.querySelector('#design-structure-help').textContent.includes('入睡小时')`));
+ await cdp.eval(`document.querySelector('#design-search').value='不存在的类型';document.querySelector('#design-search').dispatchEvent(new Event('input'))`);
+ check('无匹配时禁止误加隐藏的旧结构',await cdp.eval(`document.querySelector('#design-insert').disabled`));
+ await cdp.eval(`document.querySelector('#design-search').value='';document.querySelector('#design-search').dispatchEvent(new Event('input'))`);
+ await choose('goal_tree');await set({rowLabels:'我的目标\n行动甲\n行动乙',links:'1,2\n1,3',direction:'vertical'});await click('insert');
+ check('自定目标树节点与纵向连接可生成独立图层',await cdp.eval(`(async()=>{const c=await import('./web/js/core.js');return c.state.layers.some(l=>l.text==='行动甲')&&c.state.layers[0].design_config.options.direction==='vertical'&&new Set(c.state.layers.map(l=>l.group_id)).size===1})()`));
+ await click('read-params');check('节点连接及方向可完整读回参数',await cdp.eval(`document.querySelector('#design-links').value===${JSON.stringify('1,2\n1,3')}&&document.querySelector('#design-direction').value==='vertical'`));
+ await cdp.eval(`window.confirm=()=>true`);await set({direction:'horizontal'});await click('regenerate');
+ check('修改方向后重新生成可撤销恢复',await cdp.eval(`(async()=>{const c=await import('./web/js/core.js');if(c.state.layers[0].design_config.options.direction!=='horizontal')return false;document.querySelector('#btn-undo').click();return c.state.layers[0].design_config.options.direction==='vertical'})()`));
+ await click('all');await set({'module-name':'我的目标树'});await click('save-module');await pause(350);await click('blank');await pause(900);await click('insert-module');await pause(400);
+ check('新组件能保存为个人模块再插入',await cdp.eval(`(async()=>{const c=await import('./web/js/core.js');return c.state.layers.some(l=>l.text==='行动乙')&&c.state.layers.some(l=>l.design_config?.options.links===${JSON.stringify('1,2\n1,3')})})()`));
+ await click('blank');await pause(900);await choose('decision_matrix');await set({rowLabels:'成本\n质量',colLabels:'A\nB',values:'2,6,9\n3,9,6'});await click('insert');
+ check('加权决策矩阵在实际编辑器显示正确均分',await cdp.eval(`(async()=>{const c=await import('./web/js/core.js');return c.state.layers.some(l=>l.text==='7.8')&&c.state.layers.some(l=>l.text==='7.2')})()`));
+ const output=await cdp.eval(`(async()=>{const c=await import('./web/js/core.js'),r=await import('./web/js/render.js'),pdf=await import('./web/js/pdf.js'),b=await import('./web/js/backup.js'),p=c.serializeProject();b.validateBundle(await b.makeBundle(p,[],()=>{}));const png=await r.renderToPngBlob(p),jpeg=await r.renderToJpeg(p),bytes=pdf.buildPdf([jpeg],{pageWmm:148,pageHmm:210});return {png:png.size,pdf:bytes.length,image:await new Promise(resolve=>{const f=new FileReader();f.onload=()=>resolve(f.result.split(',')[1]);f.readAsDataURL(png)})}})()`);
+ check('新图表可导出真实PNG、PDF及便携备份',output.png>1000&&output.pdf>10000);writeFileSync(join(art,'planning-decision-export.png'),Buffer.from(output.image,'base64'));
+ await click('blank');await pause(900);await choose('sleep_band');await set({rows:'2',values:'23,8\n0,7'});await click('insert');
+ check('实际编辑器中的跨午夜睡眠分成两段',await cdp.eval(`(async()=>{const c=await import('./web/js/core.js');return c.state.layers.filter(l=>l.design_label?.startsWith('睡眠1 ·')).length===2})()`));
+ await click('all');await click('read-params');check('数据和日期可保存及读回',await cdp.eval(`document.querySelector('#design-values').value===${JSON.stringify('23,8\n0,7')}&&/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(document.querySelector('#design-startDate').value)`));
+ const images=await cdp.eval(`(async()=>{const {planningTypes,planningExample}=await import('./web/js/planning-elements.js'),{designElement}=await import('./web/js/design-elements.js'),{renderToPngBlob}=await import('./web/js/render.js');const out=[];for(const type of Object.keys(planningTypes)){const p={version:1,page:{size:'A5',orientation:'portrait',dpi:96,bleed_mm:0,crop_marks:false},background:{type:'color',value:'#ffffff'},layers:designElement({...planningExample(type),color:'#537558'})},blob=await renderToPngBlob(p);out.push({type,image:await new Promise(resolve=>{const f=new FileReader();f.onload=()=>resolve(f.result.split(',')[1]);f.readAsDataURL(blob)})});}return out;})()`);
+ check('47种新组件均完成浏览器PNG实际渲染',images.length===47);for(const r of images)writeFileSync(join(art,'planning-'+r.type+'.png'),Buffer.from(r.image,'base64'));
+ const guide=await cdp.eval(`(async()=>{const frame=document.createElement('iframe');frame.src='./docs/structures.html';document.body.append(frame);await new Promise(resolve=>frame.onload=resolve);const d=frame.contentDocument,q=d.querySelector('#search');q.value='鱼骨';q.dispatchEvent(new frame.contentWindow.Event('input'));const result=d.querySelectorAll('article').length===72&&[...d.querySelectorAll('article')].filter(a=>!a.hidden).length===1&&d.querySelector('a[href*="element=fishbone"]');frame.remove();return !!result})()`);
+ check('72种图表预览支持实际搜索和编辑器入口',guide);
+ await cdp.send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});await pause(200);check('新增参数在手机宽度没有整页横向溢出',await cdp.eval('document.documentElement.scrollWidth<=innerWidth+1'));await cdp.send('Emulation.clearDeviceMetricsOverride');
+}
