@@ -63,6 +63,12 @@ class TestRenderGeometry(unittest.TestCase):
             img=server.render_page(base_request(page={**page,"dpi":150,"bleed_mm":0,"crop_marks":False}))
             self.assertEqual(img.size,(px(dims[0],150),px(dims[1],150)))
 
+    def test_transparent_ellipse_keeps_background_visible(self):
+        req=base_request(background={"type":"color","value":"#123456"},layers=[{"kind":"shape","shape":"ellipse","x_mm":12,"y_mm":20,"w_mm":40,"h_mm":30,"fill":"#ffffff00","stroke":"#ff0000","stroke_mm":0.5}])
+        image=server.render_page(req)
+        self.assertEqual(image.getpixel((px(32,300),px(35,300))),(18,52,86))
+        self.assertTrue(any(image.getpixel((px(32,300),yy))[0]>200 for yy in range(px(19,300),px(22,300))))
+
     def test_landscape_swaps(self):
         req = base_request(page={"size": "A5", "dpi": 150, "bleed_mm": 0, "crop_marks": False, "orientation": "landscape"})
         img = server.render_page(req)

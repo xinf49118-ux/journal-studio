@@ -58,7 +58,7 @@ async function openBundle(bundle,title) {
 }
 async function renderWorks() {
  const box=$('#works-grid');box.replaceChildren();
- const records=(await shelf('list')).filter(r=>r.kind!=='book').sort((a,b)=>b.updatedAt.localeCompare(a.updatedAt));
+ const records=(await shelf('list')).filter(r=>r.kind!=='book'&&r.kind!=='component').sort((a,b)=>b.updatedAt.localeCompare(a.updatedAt));
  if(!records.length){box.append(el('p',{class:'muted',text:'还没有收藏作品。完成一页后，点击「存为新作品」。作品保存在这台设备，换电脑前请导出备份。'}));return;}
  for(const record of records){
   const card=el('article',{class:'work-card'});
@@ -190,6 +190,8 @@ export function initWorkspace(flushDraft) {
   const file=e.target.files[0];e.target.value='';if(!file)return;
   await run(async()=>{if(file.size>100_000_000)throw new Error('备份超过 100MB，请拆分作品');const b=JSON.parse(await file.text());await openBundle(b,b.name);await renderWorks();});
  };
+ $('#open-free-design').onclick=()=>document.dispatchEvent(new CustomEvent('design-new-blank'));
+ document.addEventListener('design-new-blank',()=>run(async()=>{const page={...state.page,bleed_mm:0,crop_marks:false};delete page.diy_session;await protectDraft();loadProject({version:1,page,background:{type:'color',value:'#ffffff',tile:false},layers:[]});$('#work-name').value='我的空白设计';activeWork=null;emit('changed');document.querySelector('[data-tab="editor"]').click();ok('空白设计已新建，原草稿已保留在作品库');}));
  document.querySelector('[data-tab="works"]').addEventListener('click',()=>renderWorks().catch(e=>err(e.message)));
  initDiy({capture:make,open:openBundle});initPlanner();initFold();initBook((p,title)=>run(async()=>{await protectDraft();loadProject(p);$('#work-name').value=title;activeWork=null;emit('changed');await renderWorks();document.querySelector('[data-tab="editor"]').click();ok('这一页已作为独立作品打开，可改字与添加贴纸');}));renderTemplates();renderWorks().catch(e=>err(e.message));
 }

@@ -1,3 +1,4 @@
+import {initDesigner} from './designer-ui.js';
 import {fitProject} from './page-fit.js';
 /* 可视化编辑器：毫米坐标画布 + 拖拽/缩放/旋转/吸附 + 图层管理 + 撤销重做 */
 
@@ -11,6 +12,7 @@ import { $, el, ok, err, toast } from './ui.js';
 
 let ctx = { stageEl: null, layerEls: new Map(), pxPerMm: PX_PER_MM, totalW: 0, totalH: 0, bleed: 0, pw: 0, ph: 0 };
 let drag = null;
+let designer=null;
 
 /* ---------------------------------------------------------------- 尺寸计算 */
 
@@ -69,6 +71,7 @@ export function render() {
   renderProps();
   updateZoomLabel();
   updateSummary();
+  designer?.update();
 }
 
 /** 只更新单个图层的 DOM（避免重建导致输入框失焦） */
@@ -100,6 +103,7 @@ function applyLayerToDom(layer) {
       node.style.backgroundImage = `linear-gradient(to bottom, transparent calc(50% - ${t / 2}mm), ${c} calc(50% - ${t / 2}mm), ${c} calc(50% + ${t / 2}mm), transparent calc(50% + ${t / 2}mm))`;
     } else {
       node.style.background = layer.fill || '#f6dfe3';
+      node.style.border=layer.stroke?`${layer.stroke_mm||.25}mm solid ${layer.stroke}`:'';node.style.borderRadius=layer.shape==='ellipse'?'50%':'0';
     }
   } else {
     node.style.width = `${layer.w_mm}mm`;
@@ -255,7 +259,7 @@ function onPointerMove(e) {
   if (drag.mode === 'move') {
     let nx = drag.start[0] + dx;
     let ny = drag.start[1] + dy;
-    const [w, h] = layerBoxMm(layer);
+    const [,,w, h] = layerBoxMm(layer);
     const lines = [];
     const sxL = snapValue(nx, cand.xs, tol); if (sxL !== null) { nx = sxL; lines.push({ axis: 'x', at: sxL + ctx.bleed }); }
     const sxC = snapValue(nx + w / 2, cand.xs, tol); if (sxC !== null) { nx = sxC - w / 2; lines.push({ axis: 'x', at: sxC + ctx.bleed }); }
@@ -338,6 +342,7 @@ export function select(id) {
   drawSelection();
   renderLayerList();
   renderProps();
+  designer?.update();
 }
 
 export function addLayer(layer, { silent = false } = {}) {
@@ -434,6 +439,7 @@ function renderLayerList() {
       const icon = layer.kind === 'text' ? 'T' : (layer.kind === 'image' ? '🖼' : '▢');
       row.appendChild(el('span', { class: 'li-thumb', style: 'display:flex;align-items:center;justify-content:center;font-size:12px;', text: icon }));
     }
+    const check=el('input',{type:'checkbox','aria-label':'多选 '+layerLabel(layer),onclick:ev=>{ev.stopPropagation();designer?.toggle(layer.id);}});check.checked=!!designer?.has(layer.id);row.appendChild(check);
     row.appendChild(el('span', { class: 'li-name', text: layerLabel(layer) }));
     row.appendChild(el('button', {
       class: 'btn tiny', text: layer.locked ? '🔒' : '👁', title: layer.locked ? '已锁定' : '锁定',
@@ -465,6 +471,7 @@ function renderProps() {
     box.appendChild(el('div', { class: 'muted small', text: '未选中任何图层' }));
     return;
   }
+  if(designer?.count()>1){box.appendChild(el('p',{class:'muted small',text:'已多选，使用上方「多选、组合与精确摆放」整体调整；Alt点击可单独调整组合内元素。'}));return;}
   box.appendChild(numberInput('X', layer.x_mm, 0.5, (v) => updateLayer(layer.id, { x_mm: round(v) })));
   box.appendChild(numberInput('Y', layer.y_mm, 0.5, (v) => updateLayer(layer.id, { y_mm: round(v) })));
 
@@ -587,6 +594,7 @@ export function zoomToFit() {
 /* ---------------------------------------------------------------- 初始化 */
 
 export function initEditor() {
+  designer=initDesigner({render,select,measure:measureTextMm,context:()=>ctx});
   $('#page-size')?.addEventListener('change', (e) => setPageSize(e.target.value));
   $('#btn-orient')?.addEventListener('click', () => setOrientation(state.page.orientation === 'landscape' ? 'portrait' : 'landscape'));
   $('#chk-grid')?.addEventListener('change', () => render());
@@ -618,6 +626,7 @@ export function initEditor() {
   document.addEventListener('keydown', (e) => {
     const tag = (e.target.tagName || '').toLowerCase();
     if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
+    if(!$('#tab-editor').classList.contains('active'))return;
     const mod = e.ctrlKey || e.metaKey;
     if (mod && e.key.toLowerCase() === 'z') { e.preventDefault(); if (e.shiftKey ? redo() : undo()) { render(); emit('changed'); } return; }
     if (mod && e.key.toLowerCase() === 'y') { e.preventDefault(); if (redo()) { render(); emit('changed'); } return; }

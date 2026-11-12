@@ -24,6 +24,7 @@ import {sizeChecks} from './size_browser_checks.mjs';
 import {diyChecks} from './diy_browser_checks.mjs';
 import {bindingChecks} from './binding_browser_checks.mjs';
 import {managerChecks,managerVisual} from './manager_browser_checks.mjs';
+import {designerChecks} from './designer_browser_checks.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, '..');
@@ -163,7 +164,8 @@ async function main() {
     check('网格加载的是缩略图而不是原图', gi.allThumbs === true,
       gi.allThumbs ? `全部走 /thumbs/（已排队 ${gi.withSrc} 张）` : `混进了原图：${gi.offenders.join(', ')}`);
 
-    if(process.argv.includes('--manager-visual'))await managerVisual(cdp,check,ART);
+    if(process.argv.includes('--designer-only'))await designerChecks(cdp,check,ART);
+    else if(process.argv.includes('--manager-visual'))await managerVisual(cdp,check,ART);
     else if(process.argv.includes('--manager-only'))await managerChecks(cdp,check,ART);
     else if(process.argv.includes('--binding-only'))await bindingChecks(cdp,check,ART);
     else if(process.argv.includes('--diy-only'))await diyChecks(cdp,check,ART);

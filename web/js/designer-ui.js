@@ -1,0 +1,69 @@
+import {state,pageDims,makeTextLayer,uid,pushHistory,emit,libraryUrl} from './core.js';
+import {elementTypes,designElement,designLine,designBounds,designBox,alignDesign} from './design-elements.js';
+import {makeBundle,restoreBundle,shelf} from './backup.js';
+import {downloadBlob,api} from './api.js';
+import {$,el,err,ok} from './ui.js';
+export function initDesigner(editor){
+ let selected=[],tool='select',gesture=null,overlay=null;
+ const chosen=()=>state.layers.filter(l=>selected.includes(l.id));
+ const measure=editor.measure;
+ const opts=()=>Object.fromEntries(['x','y','w','h','stroke','gap','rows','cols','color','text','fontSize'].map(k=>[k,$('#design-'+k).value]).concat([['dashed',$('#design-dashed').checked]]));
+ const announce=()=>$('#design-selection-status').textContent=`已选 ${selected.length} 个图层；Shift点击或框选可多选`;
+ const sync=()=>{if(state.selection&&!state.layers.some(l=>l.id===state.selection))state.selection=null;selected=selected.filter(id=>state.layers.some(l=>l.id===id));if(!state.selection)selected=[];else if(!selected.includes(state.selection))selected=[state.selection];announce();const b=designBounds(chosen(),measure),[pw,ph]=pageDims();if(b&&(b.x<-.2||b.y<-.2||b.x+b.w>pw+.2||b.y+b.h>ph+.2))$('#design-selection-status').textContent+=' · 部分超出纸面，请调整位置或大小';for(const [id,v] of [['move-x',b?.x],['move-y',b?.y]])if(document.activeElement!==$('#design-'+id))$('#design-'+id).value=v===undefined?'':v.toFixed(2);drawSelection();};
+ const setSelection=ids=>{selected=[...new Set(ids)];state.selection=selected.at(-1)||null;editor.select(state.selection);sync();};
+ function drawSelection(){const ctx=editor.context();ctx.stageEl?.querySelectorAll('.design-selection').forEach(n=>n.remove());if(selected.length<=1)return;ctx.stageEl?.querySelectorAll('.sel-outline').forEach(n=>n.remove());const b=designBounds(chosen(),measure);if(!b)return;const node=el('div',{class:'design-selection'});node.style.cssText=`position:absolute;pointer-events:none;border:.3mm dashed #ac7183;left:${b.x+ctx.bleed}mm;top:${b.y+ctx.bleed}mm;width:${b.w}mm;height:${b.h}mm`;ctx.stageEl?.append(node);}
+ function finish(){pushHistory();emit('changed');editor.render();}
+ function safe(fn){try{fn();}catch(e){err(e.message);}}
+ function add(layers){if(state.layers.length+layers.length>1000)throw new Error('本页最多1000个图层，请减少行列或间距密度');state.layers.push(...layers);selected=layers.map(l=>l.id);state.selection=selected.at(-1);finish();}
+ function editable(){const layers=chosen();if(!layers.length)throw new Error('先选择要操作的元素');if(layers.some(l=>l.locked))throw new Error('请先解锁选中的元素');return layers;}
+ for(const [value,text] of Object.entries(elementTypes))$('#design-type').append(el('option',{value,text}));$('#design-type').value='frame';
+ $('#design-insert').onclick=()=>safe(()=>add(designElement({...opts(),type:$('#design-type').value})));
+ $('#design-blank').onclick=()=>document.dispatchEvent(new CustomEvent('design-new-blank'));
+ $('#design-tool').onchange=()=>{tool=$('#design-tool').value;$('#stage-viewport').classList.toggle('design-drawing',tool!=='select');};
+ $('#design-all').onclick=()=>setSelection(state.layers.map(l=>l.id));$('#design-clear').onclick=()=>setSelection([]);
+ $('#design-group').onclick=()=>safe(()=>{const layers=editable(),id=uid('G');for(const l of layers)l.group_id=id;finish();});
+ $('#design-ungroup').onclick=()=>safe(()=>{for(const l of editable())delete l.group_id;finish();});
+ $('#design-lock').onclick=()=>safe(()=>{if(!chosen().length)throw new Error('先选择元素');const lock=!chosen().every(l=>l.locked);for(const l of chosen())l.locked=lock;finish();});
+ $('#design-copy').onclick=()=>safe(()=>{const groups=new Map(),copies=chosen().map(l=>{const c=structuredClone(l);c.id=uid(c.kind[0]);c.x_mm+=4;c.y_mm+=4;c.locked=false;if(c.group_id){if(!groups.has(c.group_id))groups.set(c.group_id,uid('G'));c.group_id=groups.get(c.group_id);}return c;});if(!copies.length)throw new Error('先选择元素');add(copies);});
+ $('#design-delete').onclick=()=>safe(()=>{const ids=new Set(editable().map(l=>l.id));state.layers=state.layers.filter(l=>!ids.has(l.id));selected=[];state.selection=null;finish();});
+ for(const button of document.querySelectorAll('[data-design-align]'))button.onclick=()=>safe(()=>{alignDesign(editable(),button.dataset.designAlign,{page:pageDims(),measure});finish();});
+ $('#design-place').onclick=()=>safe(()=>{const layers=editable(),b=designBounds(layers,measure),x=Number($('#design-move-x').value),y=Number($('#design-move-y').value);if(!Number.isFinite(x+y))throw new Error('位置需要有效数字');for(const l of layers){l.x_mm+=x-b.x;l.y_mm+=y-b.y;}finish();});
+ $('#design-scale').onclick=()=>safe(()=>{const layers=editable(),b=designBounds(layers,measure),scale=Number($('#design-scale-value').value)/100;if(!Number.isFinite(scale)||scale<.1||scale>5)throw new Error('缩放需在10%—500%之间');for(const l of layers){l.x_mm=b.x+(l.x_mm-b.x)*scale;l.y_mm=b.y+(l.y_mm-b.y)*scale;for(const k of ['w_mm','h_mm','size_mm','stroke_mm'])if(typeof l[k]==='number')l[k]*=scale;}finish();});
+ $('#design-apply-style').onclick=()=>safe(()=>{const color=$('#design-color').value,stroke=Number($('#design-stroke').value);if(!Number.isFinite(stroke)||stroke<.1||stroke>2)throw new Error('线宽需在0.1—2mm');for(const l of editable()){if(l.kind==='text')l.color=color;if(l.kind==='shape'){if(l.stroke){l.stroke=color;l.stroke_mm=stroke;}else {l.fill=color;if(l.design_role==='stroke'){l.y_mm+=(l.h_mm-stroke)/2;l.h_mm=stroke;}}}}finish();});
+ // Pointer drawing uses paper millimetres, so zoom and bleed never change the design.
+ const point=e=>{const ctx=editor.context(),rect=ctx.stageEl.getBoundingClientRect(),[w,h]=pageDims(),step=$('#design-snap').checked?Number($('#design-step').value):0,x=(e.clientX-rect.left)/rect.width*ctx.totalW-ctx.bleed,y=(e.clientY-rect.top)/rect.height*ctx.totalH-ctx.bleed;return [Math.max(0,Math.min(w,step?Math.round(x/step)*step:x)),Math.max(0,Math.min(h,step?Math.round(y/step)*step:y))];};
+ function preview(a,b){const ctx=editor.context();if(!overlay){overlay=el('div',{class:'design-gesture'});ctx.stageEl.append(overlay);}overlay.style.cssText=`position:absolute;pointer-events:none;border:.25mm dashed #ac7183;background:#cda3ad22;left:${Math.min(a[0],b[0])+ctx.bleed}mm;top:${Math.min(a[1],b[1])+ctx.bleed}mm;width:${Math.max(.4,Math.abs(b[0]-a[0]))}mm;height:${Math.max(.4,Math.abs(b[1]-a[1]))}mm`;}
+ function cancel(){if(gesture?.mode==='move')for(const original of gesture.originals)Object.assign(state.layers.find(l=>l.id===original.id)||{},original);gesture=null;overlay?.remove();overlay=null;window.removeEventListener('pointermove',move);window.removeEventListener('pointerup',up);window.removeEventListener('pointercancel',cancel);editor.render();}
+ function move(e){if(!gesture)return;e.preventDefault();let b=point(e);if(e.shiftKey&&gesture.mode==='line'){if(Math.abs(b[0]-gesture.a[0])>=Math.abs(b[1]-gesture.a[1]))b[1]=gesture.a[1];else b[0]=gesture.a[0];}gesture.b=b;
+  if(gesture.mode==='move'){const dx=b[0]-gesture.a[0],dy=b[1]-gesture.a[1];for(const original of gesture.originals){const layer=state.layers.find(l=>l.id===original.id);layer.x_mm=original.x_mm+dx;layer.y_mm=original.y_mm+dy;const node=editor.context().layerEls.get(layer.id);if(node){node.style.left=`${layer.x_mm+editor.context().bleed}mm`;node.style.top=`${layer.y_mm+editor.context().bleed}mm`;}}drawSelection();}else preview(gesture.a,b);
+ }
+ function up(){const g=gesture;gesture=null;overlay?.remove();overlay=null;window.removeEventListener('pointermove',move);window.removeEventListener('pointerup',up);window.removeEventListener('pointercancel',cancel);if(!g)return;
+  safe(()=>{const b=g.b||g.a;if(g.mode==='move'){if(Math.hypot(b[0]-g.a[0],b[1]-g.a[1])>.1)finish();return;}
+   if(g.mode==='marquee'){const x=Math.min(g.a[0],b[0]),y=Math.min(g.a[1],b[1]),r=Math.max(g.a[0],b[0]),bottom=Math.max(g.a[1],b[1]);setSelection(state.layers.filter(l=>{const box=designBox(l,measure);return box.x>=x&&box.y>=y&&box.x+box.w<=r&&box.y+box.h<=bottom;}).map(l=>l.id));return;}
+   const options=opts();if(g.mode==='line'){const layers=designLine(...g.a,...b,{color:options.color,stroke:Number(options.stroke),dashed:options.dashed}),group=uid('G');add(layers.map(l=>({...l,group_id:group})));}
+   else {const w=Math.abs(b[0]-g.a[0]),h=Math.abs(b[1]-g.a[1]);if(w<1||h<1)throw new Error('拖动范围太小');add(designElement({...options,type:g.mode==='ellipse'?'ellipse':'frame',x:Math.min(g.a[0],b[0]),y:Math.min(g.a[1],b[1]),w,h}));}
+  });tool='select';$('#design-tool').value=tool;$('#stage-viewport').classList.remove('design-drawing');
+ }
+ $('#stage-scaler').addEventListener('pointerdown',e=>{if(e.button!==0||!e.target.closest('.stage'))return;const node=e.target.closest('.layer-el');if(e.target.closest('.handle'))return;
+  if(tool==='select'&&node){const layer=state.layers.find(l=>l.id===node.dataset.layerId);if(!layer)return;const ids=layer.group_id&&!e.altKey?state.layers.filter(l=>l.group_id===layer.group_id).map(l=>l.id):[layer.id];if(e.shiftKey)setSelection(selected.includes(layer.id)?selected.filter(id=>!ids.includes(id)):[...selected,...ids]);else if(!selected.includes(layer.id)||selected.length===1)setSelection(ids);
+   if(e.shiftKey){e.preventDefault();e.stopPropagation();return;}if(selected.length<=1)return;e.preventDefault();e.stopPropagation();if(chosen().some(l=>l.locked))return;gesture={mode:'move',a:point(e),originals:chosen().map(l=>({id:l.id,x_mm:l.x_mm,y_mm:l.y_mm}))};
+  }else if(tool!=='select'){e.preventDefault();e.stopPropagation();gesture={mode:tool,a:point(e)};}else return;
+  window.addEventListener('pointermove',move,{passive:false});window.addEventListener('pointerup',up,{once:true});window.addEventListener('pointercancel',cancel,{once:true});
+ },true);
+ document.addEventListener('keydown',e=>{if(selected.length>1&&document.querySelector('#tab-editor').classList.contains('active')&&!['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName)){const mod=e.ctrlKey||e.metaKey;if(e.key==='Delete'||e.key==='Backspace'||(mod&&e.key.toLowerCase()==='d')){e.preventDefault();e.stopImmediatePropagation();$('#design-'+(mod?'copy':'delete')).click();return;}if(e.key.startsWith('Arrow')){e.preventDefault();e.stopImmediatePropagation();safe(()=>{const step=e.shiftKey?5:.5;for(const l of editable()){if(e.key==='ArrowLeft')l.x_mm-=step;if(e.key==='ArrowRight')l.x_mm+=step;if(e.key==='ArrowUp')l.y_mm-=step;if(e.key==='ArrowDown')l.y_mm+=step;}finish();});return;}}if(e.key==='Escape'&&gesture){e.preventDefault();e.stopImmediatePropagation();cancel();}} ,true);
+ async function modules(preferred=$('#design-modules').value){const rows=(await shelf('list')).filter(r=>r.kind==='component');$('#design-modules').replaceChildren(...rows.map(r=>el('option',{value:r.id,text:r.name})));if([...$('#design-modules').options].some(o=>o.value===preferred))$('#design-modules').value=preferred;}
+ const capture=project=>makeBundle(project,state.library,async item=>{const response=await fetch(libraryUrl(item));if(!response.ok)throw new Error('图片读取失败');return response.blob();});
+ const project=()=>({version:1,page:structuredClone(state.page),background:{type:'color',value:'#ffffff',tile:false},layers:structuredClone(chosen())});
+ $('#design-save-module').onclick=async()=>{try{if(!chosen().length)throw new Error('先选择要保存的模块');const name=$('#design-module-name').value.trim()||'我的模块',id='component-'+uid('C');await shelf('put',{id,kind:'component',name,updatedAt:new Date().toISOString(),bundle:await capture(project())});await modules(id);ok('模块已保存，包含使用的图片');}catch(e){err(e.message);}};
+ async function insertModule(bundle){
+  const target=state.layers,created=[],options=opts();if(!bundle?.project?.layers?.length)throw new Error('模块中没有元素');if(target.length+bundle.project.layers.length>1000)throw new Error('插入后将超过1000个图层');
+  try{const p=await restoreBundle(bundle,async a=>{const blob=await(await fetch(a.data)).blob(),bitmap=await createImageBitmap(blob);bitmap.close();const item=(await api.importBlob(blob,a.name||'模块图片')).item;created.push(item.id);return item.id;},new Set(state.materials.items.map(m=>m.id)));
+   if(state.layers!==target)throw new Error('页面已切换，请在目标页面重新插入');await(await import('./library.js')).loadLibrary();if(state.layers!==target)throw new Error('页面已切换，请重新插入模块');const b=designBounds(p.layers,measure),group=uid('G');
+   for(const l of p.layers){l.id=uid(l.kind[0]);l.x_mm+=Number(options.x)-b.x;l.y_mm+=Number(options.y)-b.y;l.group_id=group;l.locked=false;}add(p.layers);
+  }catch(e){for(const id of created)if(!state.layers.some(l=>l.kind==='image'&&l.ref===id))await api.deleteLibraryItem(id).catch(()=>{});throw e;}
+ }
+ $('#design-insert-module').onclick=async()=>{try{const r=(await shelf('list')).find(r=>r.id===$('#design-modules').value);if(!r)throw new Error('先选择一个模块');await insertModule(r.bundle);}catch(e){err(e.message);}};
+ $('#design-export-module').onclick=async()=>{try{if(!chosen().length)throw new Error('先选择模块中的元素');downloadBlob(new Blob([JSON.stringify(await capture(project()))],{type:'application/json'}),'我的模块.journal.json');}catch(e){err(e.message);}};
+ $('#design-import-module').onclick=()=>$('#design-module-file').click();$('#design-module-file').onchange=async e=>{const file=e.target.files[0];e.target.value='';if(!file)return;try{if(file.size>100_000_000)throw new Error('模块文件过大');await insertModule(JSON.parse(await file.text()));}catch(e){err(e.message);}};
+ modules().catch(e=>err(e.message));return {update:sync,count:()=>selected.length,has:id=>selected.includes(id),toggle:id=>setSelection(selected.includes(id)?selected.filter(x=>x!==id):[...selected,id])};
+}

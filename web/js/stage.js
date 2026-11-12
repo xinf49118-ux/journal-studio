@@ -82,6 +82,7 @@ export function buildLayerEl(layer, bleed) {
     if (layer.shape === 'ellipse') {
       node.style.background = layer.fill || '#f6dfe3';
       node.style.borderRadius = '50%';
+      if(layer.stroke)node.style.border=`${layer.stroke_mm||.25}mm solid ${layer.stroke}`;
     } else if (layer.shape === 'line') {
       // 与服务端一致：线画在 h_mm 盒子的垂直中线上
       const t = Math.max(0.2, layer.stroke_mm || 0.4);
