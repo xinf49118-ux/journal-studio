@@ -1,3 +1,4 @@
+import {sectorPoints} from './radial-geometry.js';
 /**
  * 纯浏览器渲染引擎：把渲染请求合成成 300dpi（或指定 dpi）的 canvas。
  *
@@ -222,13 +223,15 @@ function drawShapeLayer(ctx, layer, ppm, ox, oy) {
   t.strokeStyle = stroke || 'transparent';
   t.lineWidth = stroke ? lw : 0;
   // Pillow 的 rectangle/ellipse 以像素边界为准，canvas 以中心线为准，这里做半像素补偿
-  if (shape === 'ellipse') {
+  if(shape==='sector'){
+    const points=sectorPoints(layer);t.beginPath();points.forEach(([px,py],i)=>i?t.lineTo(bx+px*aw,by+py*ah):t.moveTo(bx+px*aw,by+py*ah));t.closePath();t.fill('evenodd');if(stroke)t.stroke();
+  } else if (shape === 'ellipse') {
     t.beginPath();
     t.ellipse(bx + aw / 2, by + ah / 2, aw / 2, ah / 2, 0, 0, Math.PI * 2);
     if (stroke) t.stroke();
     t.fill();
   } else if (shape === 'line') {
-    t.fillRect(bx, by + Math.round(ah / 2) - Math.floor(lw / 2), aw, lw);
+    const yy=by+Math.round(ah/2)-Math.floor(lw/2);if(layer.dash_mm){const dash=_f(layer.dash_mm,2,.1,20)*ppm,gap=_f(layer.gap_mm,2,.1,20)*ppm;for(let dx=0;dx<aw;dx+=dash+gap)t.fillRect(bx+dx,yy,Math.min(dash,aw-dx),lw);}else t.fillRect(bx,yy,aw,lw);
   } else {
     t.fillRect(bx, by, aw, ah);
     if (stroke) t.strokeRect(bx + lw / 2, by + lw / 2, aw - lw, ah - lw);

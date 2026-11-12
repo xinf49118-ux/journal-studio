@@ -7,7 +7,7 @@ import {
   makeMaterialLayer, makeImageLayer, pushHistory, undo, redo, canUndo, canRedo,
   clamp, round, materialThumbUrl, naturalMm, emit, on,
 } from './core.js';
-import { buildStage, elementSizeMm, div, transformOf, PX_PER_MM, measureTextMm, cssFontFamily, TEXT_LINE_HEIGHT } from './stage.js';
+import { buildLayerEl, buildStage, elementSizeMm, div, transformOf, PX_PER_MM, measureTextMm, cssFontFamily, TEXT_LINE_HEIGHT } from './stage.js';
 import { $, el, ok, err, toast } from './ui.js';
 
 let ctx = { stageEl: null, layerEls: new Map(), pxPerMm: PX_PER_MM, totalW: 0, totalH: 0, bleed: 0, pw: 0, ph: 0 };
@@ -78,6 +78,7 @@ export function render() {
 function applyLayerToDom(layer) {
   const node = ctx.layerEls.get(layer.id);
   if (!node) return;
+  if(layer.kind==='shape'&&layer.shape==='sector'){const replacement=buildLayerEl(layer,ctx.bleed);node.replaceWith(replacement);ctx.layerEls.set(layer.id,replacement);return;}
   node.style.left = `${layer.x_mm + ctx.bleed}mm`;
   node.style.top = `${layer.y_mm + ctx.bleed}mm`;
   node.style.opacity = layer.opacity ?? 1;
@@ -101,6 +102,7 @@ function applyLayerToDom(layer) {
       const c = layer.fill || '#c9b8aa';
       node.style.background = 'none';
       node.style.backgroundImage = `linear-gradient(to bottom, transparent calc(50% - ${t / 2}mm), ${c} calc(50% - ${t / 2}mm), ${c} calc(50% + ${t / 2}mm), transparent calc(50% + ${t / 2}mm))`;
+      if(layer.dash_mm){node.style.backgroundImage=`repeating-linear-gradient(to right, ${c} 0mm, ${c} ${layer.dash_mm}mm, transparent ${layer.dash_mm}mm, transparent ${layer.dash_mm+(layer.gap_mm||2)}mm)`;node.style.backgroundSize=`100% ${t}mm`;node.style.backgroundRepeat='no-repeat';node.style.backgroundPosition='center';}
     } else {
       node.style.background = layer.fill || '#f6dfe3';
       node.style.border=layer.stroke?`${layer.stroke_mm||.25}mm solid ${layer.stroke}`:'';node.style.borderRadius=layer.shape==='ellipse'?'50%':'0';

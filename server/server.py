@@ -15,6 +15,7 @@ import argparse
 import io
 import json
 import mimetypes
+import math
 import os
 import socket
 import sys
@@ -303,11 +304,28 @@ def _draw_shape_layer(canvas: Image.Image, layer: dict[str, Any], ppm: float, bl
     tmp = Image.new("RGBA", (max(1, int(abs(w)) + width * 2 + 2), max(1, int(abs(h)) + width * 2 + 2)), (0, 0, 0, 0))
     draw = ImageDraw.Draw(tmp)
     box = (width + 1, width + 1, width + 1 + int(abs(w)), width + 1 + int(abs(h)))
-    if shape == "ellipse":
+    if shape == "sector":
+        start=float(layer.get("start_deg",0));end=float(layer.get("end_deg",15));inner=float(layer.get("inner_ratio",0))
+        if not (0 < end-start <= 360.001 and 0 <= inner < 1):
+            raise ValueError("Invalid sector geometry")
+        steps=max(1,math.ceil((end-start)/2))
+        def point(degree,radius):
+            angle=math.radians(degree-90)
+            return (width+1+abs(w)*(0.5+math.cos(angle)*radius),width+1+abs(h)*(0.5+math.sin(angle)*radius))
+        points=[point(start+(end-start)*i/steps,0.5) for i in range(steps+1)]
+        points+=([point(start+(end-start)*i/steps,inner/2) for i in range(steps,-1,-1)] if inner else [point(0,0)])
+        draw.polygon(points,fill=fill)
+        if stroke: draw.line(points+[points[0]],fill=stroke,width=width,joint="curve")
+    elif shape == "ellipse":
         draw.ellipse(box, fill=fill, outline=stroke, width=width if stroke else 0)
     elif shape == "line":
         # 与前端一致：线画在 h_mm 盒子的垂直中线上
-        draw.line([box[0], (box[1] + box[3]) // 2, box[2], (box[1] + box[3]) // 2], fill=fill, width=max(1, width))
+        yy=(box[1]+box[3])//2
+        if layer.get("dash_mm"):
+            dash=_f(layer.get("dash_mm"),2,0.1,20)*ppm;gap=_f(layer.get("gap_mm"),2,0.1,20)*ppm;dx=box[0]
+            while dx < box[2]:
+                draw.line([dx,yy,min(dx+dash,box[2]),yy],fill=fill,width=max(1,width));dx+=dash+gap
+        else: draw.line([box[0],yy,box[2],yy],fill=fill,width=max(1,width))
     else:
         draw.rectangle(box, fill=fill, outline=stroke, width=width if stroke else 0)
     if bool(layer.get("flip_x")):

@@ -1,14 +1,17 @@
+import {advancedTypes,advancedPresets,advancedElement} from './advanced-elements.js';
 import {makeShapeLayer,makeTextLayer,uid} from './core.js';
-export const elementTypes={hline:'横线',vline:'竖线',frame:'分区框',ellipse:'椭圆框',rules:'横线书写区',grid:'方格区',dots:'点阵区',table:'表格',checklist:'待办清单',timeline:'时间轴',text:'标题文字'};
+export const elementTypes={...advancedTypes,hline:'横线',vline:'竖线',frame:'分区框',ellipse:'椭圆框',rules:'横线书写区',grid:'方格区',dots:'点阵区',table:'表格',checklist:'待办清单',timeline:'时间轴',text:'标题文字'};
 const finite=(n,name,min,max)=>{n=Number(n);if(!Number.isFinite(n)||n<min||n>max)throw new Error(`${name}需在${min}—${max}之间`);return n;};
 export function designLine(x1,y1,x2,y2,{color='#7d8980',stroke=.25,dashed=false}={}){
  if(![x1,y1,x2,y2].every(Number.isFinite)||!/^#[0-9a-f]{6}$/i.test(color))throw new Error('线条位置或颜色无效');stroke=finite(stroke,'线宽',.1,2);
  const length=Math.hypot(x2-x1,y2-y1);if(length<.3)throw new Error('线条太短，请拖动更远一点');
- const angle=Math.atan2(y2-y1,x2-x1),layers=[],step=dashed?4:length;
+ const angle=Math.atan2(y2-y1,x2-x1),layers=[],step=length;
+ if(dashed){const cx=(x1+x2)/2,cy=(y1+y2)/2;return [{...makeShapeLayer({shape:'line',x_mm:cx-length/2,y_mm:cy-stroke/2,w_mm:length,h_mm:stroke,fill:color,stroke_mm:stroke}),rotate:-angle*180/Math.PI,dash_mm:2,gap_mm:2,design_role:'stroke',name:'虚线'}];}
  for(let d=0;d<length;d+=step){const len=Math.min(dashed?2:length,length-d),cx=x1+Math.cos(angle)*(d+len/2),cy=y1+Math.sin(angle)*(d+len/2);layers.push({...makeShapeLayer({x_mm:cx-len/2,y_mm:cy-stroke/2,w_mm:len,h_mm:stroke,fill:color}),rotate:-angle*180/Math.PI,design_role:'stroke',name:'线条'});}
  return layers;
 }
 export function designElement(o={}){
+ if(advancedTypes[o.type]){const options={...advancedPresets[o.type],...o};return configured(advancedElement(options,{line:designLine}),options);}
  const {type='frame',color='#7d8980',dashed=false,text='我的标题'}=o;if(!elementTypes[type])throw new Error('请选择可用的设计元素');if(!/^#[0-9a-f]{6}$/i.test(color))throw new Error('请选择有效颜色');
  const x=finite(o.x??12,'横向位置',0,420),y=finite(o.y??45,'纵向位置',0,420),w=finite(o.w??100,'宽度',1,400),h=finite(o.h??60,'高度',1,400),stroke=finite(o.stroke??.25,'线宽',.1,2),gap=finite(o.gap??7,'间距',1,40),rows=finite(o.rows??7,'行数',1,40),cols=finite(o.cols??3,'列数',1,20);
  if(!Number.isInteger(rows)||!Number.isInteger(cols))throw new Error('行列数需要整数');
@@ -26,10 +29,11 @@ export function designElement(o={}){
  }else if(type==='checklist'){
   for(let r=0;r<rows;r++){const yy=y+r*h/rows;frame(x,yy,2.5,2.5);line(x+6,yy+3,x+w,yy+3);}
  }else if(type==='timeline'){
-  line(x+12,y,x+12,y+h);for(let r=0;r<rows;r++){const yy=y+r*h/rows;layers.push(makeTextLayer({text:String((8+r)%24).padStart(2,'0')+':00',x_mm:x,y_mm:yy,size_mm:2.5,color}));line(x+15,yy+4,x+w,yy+4);}
+  const start=finite(o.startHour??8,'起始小时',0,23.75),step=finite(o.stepMinutes??60,'时间步长分钟',15,180);
+  line(x+12,y,x+12,y+h);for(let r=0;r<rows;r++){const yy=y+r*h/rows,minutes=Math.round(start*60+r*step)%1440;layers.push(makeTextLayer({text:String(Math.floor(minutes/60)).padStart(2,'0')+':'+String(minutes%60).padStart(2,'0'),x_mm:x,y_mm:yy,size_mm:2.5,color}));line(x+15,yy+4,x+w,yy+4);}
  }
  if(layers.length>900)throw new Error('元素太密，请减小行列数或增大间距');
- const group=uid('G');return layers.map(l=>({...l,group_id:group,name:elementTypes[type]}));
+ const group=uid('G');return configured(layers.map(l=>({...l,group_id:group,name:elementTypes[type]})),{type,x,y,w,h,stroke,gap,rows,cols,color,dashed,text,fontSize:o.fontSize??5,...(type==='timeline'?{startHour:Number(o.startHour??8),stepMinutes:Number(o.stepMinutes??60)}:{})});
 }
 export function designBox(layer,measure=l=>[Math.max(1,String(l.text||'').length*l.size_mm),l.size_mm*1.35]){
  const [w,h]=layer.kind==='text'?measure(layer):[layer.w_mm,layer.h_mm],a=(layer.rotate||0)*Math.PI/180,cx=layer.x_mm+w/2,cy=layer.y_mm+h/2,bw=Math.abs(w*Math.cos(a))+Math.abs(h*Math.sin(a)),bh=Math.abs(w*Math.sin(a))+Math.abs(h*Math.cos(a));return {x:cx-bw/2,y:cy-bh/2,w:bw,h:bh};
@@ -48,3 +52,5 @@ export function alignDesign(layers,mode,{page=[148,210],measure}={}){
   for(const l of items){l.x_mm+=dx;l.y_mm+=dy;}
  }
 }
+
+function configured(layers,options){if(layers.length)layers[0].design_config={options:structuredClone(options),bounds:designBounds(layers.some(l=>l.kind==='shape')?layers.filter(l=>l.kind==='shape'):layers),count:layers.length};return layers;}

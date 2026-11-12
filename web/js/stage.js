@@ -1,3 +1,4 @@
+import {sectorPoints} from './radial-geometry.js';
 /* 舞台构建：把工程状态渲染成真实毫米单位的 DOM（屏幕预览与打印共用） */
 
 import { state, pageDims, layerSrc, materialById, materialUrl, naturalMm } from './core.js';
@@ -79,7 +80,9 @@ export function buildLayerEl(layer, bleed) {
     node.classList.add('shape-el');
     node.style.width = `${layer.w_mm}mm`;
     node.style.height = `${layer.h_mm}mm`;
-    if (layer.shape === 'ellipse') {
+    if(layer.shape==='sector'){
+      node.classList.add('sector-el');node.style.pointerEvents='none';const svg=document.createElementNS('http://www.w3.org/2000/svg','svg'),polygon=document.createElementNS('http://www.w3.org/2000/svg','polygon');svg.setAttribute('viewBox','0 0 1000 1000');svg.setAttribute('preserveAspectRatio','none');svg.style.cssText='width:100%;height:100%;overflow:visible;pointer-events:none';polygon.setAttribute('points',sectorPoints(layer).map(p=>p.map(v=>v*1000).join(',')).join(' '));polygon.setAttribute('fill',layer.fill||'#ffffff00');polygon.setAttribute('fill-rule','evenodd');polygon.setAttribute('stroke',layer.stroke||'none');polygon.setAttribute('stroke-width',String((layer.stroke_mm||.2)/Math.min(layer.w_mm,layer.h_mm)*1000));polygon.style.pointerEvents='visiblePainted';svg.append(polygon);node.append(svg);
+    } else if (layer.shape === 'ellipse') {
       node.style.background = layer.fill || '#f6dfe3';
       node.style.borderRadius = '50%';
       if(layer.stroke)node.style.border=`${layer.stroke_mm||.25}mm solid ${layer.stroke}`;
@@ -89,6 +92,7 @@ export function buildLayerEl(layer, bleed) {
       const c = layer.fill || '#c9b8aa';
       node.style.height = `${layer.h_mm}mm`;
       node.style.backgroundImage = `linear-gradient(to bottom, transparent calc(50% - ${t / 2}mm), ${c} calc(50% - ${t / 2}mm), ${c} calc(50% + ${t / 2}mm), transparent calc(50% + ${t / 2}mm))`;
+      if(layer.dash_mm){node.style.backgroundImage=`repeating-linear-gradient(to right, ${c} 0mm, ${c} ${layer.dash_mm}mm, transparent ${layer.dash_mm}mm, transparent ${layer.dash_mm+(layer.gap_mm||2)}mm)`;node.style.backgroundSize=`100% ${t}mm`;node.style.backgroundRepeat='no-repeat';node.style.backgroundPosition='center';}
     } else {
       node.style.background = layer.fill || '#f6dfe3';
       if (layer.stroke) node.style.border = `${Math.max(0.1, layer.stroke_mm || 0.4)}mm solid ${layer.stroke}`;

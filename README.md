@@ -1,6 +1,6 @@
 # 手账工坊 Journal Studio
 
-**2026-11-12 更新：从空白自由设计内页。** 支持直接拖画线条与分区、11种结构积木、精确摆放、多选组合和个人模块复用。[开始自由设计](https://xinf49118-ux.github.io/journal-studio/?tab=editor) · [使用说明与验证](docs/DESIGNER-2026-11-12.md)。
+**2026-11-12 更新：25种自由设计结构积木。** 新增圆盘时间轴、环形习惯追踪、年度像素、甘特、四象限、看板、滚动周、合并表格等14种结构，支持独立填色、读取参数重新生成、拆开重组和个人模块复用。[浏览25种结构示例](https://xinf49118-ux.github.io/journal-studio/docs/structures.html) · [从圆盘开始](https://xinf49118-ux.github.io/journal-studio/?tab=editor&element=radial) · [使用说明与验证](docs/STRUCTURES-2026-11-12.md)。从空白拖画线条、精确摆放和多选组合继续可用。[基础自由设计说明](docs/DESIGNER-2026-11-12.md)。
 **2026-11-11 更新：新增整册撤销与历史恢复、缩略图拖排及批量操作、完整跨页和正反面预览。** [本轮使用说明](docs/MANAGER-2026-11-11.md)。自定义尺寸、孔位、双面裁切和对折拼版继续可用。 [装订打印说明](docs/BINDING-2026-11-11.md)。DIY整册支持自由组页、逐页编辑回写、备份恢复、导出和打印。 [打开DIY工作台](https://xinf49118-ux.github.io/journal-studio/?tool=diy) · [DIY使用说明](docs/DIY-2026-11-11.md)。支持全年／自选时段成册，A5、A6、B6（JIS）、Weeks 风格四种尺寸。 [开始制作整本手账](https://xinf49118-ux.github.io/journal-studio/?tool=book) · [使用说明与验证](docs/BOOK-2026-11-11.md)。现有 87 种可编辑内页、613 件素材和两种实际尺寸的连续折页继续可用。[覆盖核查表](docs/coverage.html) 包含原 9 个品牌及单列的 MD PRODUCT，共 211 项系列、功能、配件和资料线索，分别标注实现状态；不是全品牌商品总数。内页支持 6 套配色，素材可按 9 套主题筛选。
 
 点击「模板与作品」开始：使用模板、命名并存为作品；换电脑前导出备份，在新设备导入。在线版保存于当前浏览器，并非账户云同步。

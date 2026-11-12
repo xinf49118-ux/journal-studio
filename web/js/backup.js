@@ -19,6 +19,8 @@ export function validateBundle(bundle, materialIds = null) {
     if (!number(l.x_mm) || !number(l.y_mm) || !number(l.rotate ?? 0) || !number(l.opacity ?? 1, 1)) throw new Error('备份坐标无效');
     if (l.kind === 'text' && (typeof l.text !== 'string' || l.text.length > 20000 || !number(l.size_mm, 200) || l.size_mm <= 0)) throw new Error('备份文字无效');
     if (l.kind !== 'text' && (!number(l.w_mm) || !number(l.h_mm) || l.w_mm <= 0 || l.h_mm <= 0)) throw new Error('备份尺寸无效');
+    if(l.kind==='shape'&&l.dash_mm!==undefined&&(!number(l.dash_mm,20)||l.dash_mm<=0||!number(l.gap_mm??2,20)||(l.gap_mm??2)<=0))throw new Error('虚线参数无效');
+    if(l.kind==='shape'&&l.shape==='sector'&&(!number(l.start_deg)||!number(l.end_deg)||l.end_deg<=l.start_deg||l.end_deg-l.start_deg>360.001||!number(l.inner_ratio??0,1)||(l.inner_ratio??0)<0||(l.inner_ratio??0)>=1))throw new Error('圆盘扇区参数无效');
     if (l.kind === 'image' && !refs.has(l.ref)) throw new Error('备份缺少图片，无法完整恢复');
     if (l.kind === 'material' && materialIds && !materialIds.has(l.ref)) throw new Error('备份使用了当前版本没有的内置素材，请先更新网站');
   }

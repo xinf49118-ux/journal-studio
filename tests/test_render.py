@@ -69,6 +69,19 @@ class TestRenderGeometry(unittest.TestCase):
         self.assertEqual(image.getpixel((px(32,300),px(35,300))),(18,52,86))
         self.assertTrue(any(image.getpixel((px(32,300),yy))[0]>200 for yy in range(px(19,300),px(22,300))))
 
+    def test_sector_ring_keeps_hole_and_fills_clockwise_quadrant(self):
+        req=base_request(background={"type":"color","value":"#123456"},layers=[{"kind":"shape","shape":"sector","x_mm":12,"y_mm":20,"w_mm":40,"h_mm":40,"fill":"#ff0000","start_deg":0,"end_deg":90,"inner_ratio":0.5}])
+        image=server.render_page(req)
+        self.assertEqual(image.getpixel((px(32,300),px(40,300))),(18,52,86))
+        self.assertGreater(image.getpixel((px(42.5,300),px(29.5,300)))[0],200)
+        self.assertEqual(image.getpixel((px(21.5,300),px(29.5,300))),(18,52,86))
+
+    def test_dashed_line_has_visible_strokes_and_transparent_gaps(self):
+        req=base_request(background={"type":"color","value":"#123456"},layers=[{"kind":"shape","shape":"line","x_mm":12,"y_mm":20,"w_mm":40,"h_mm":1,"fill":"#ff0000","stroke_mm":0.3,"dash_mm":2,"gap_mm":2}])
+        image=server.render_page(req)
+        self.assertGreater(image.getpixel((px(13,300),px(20.5,300)))[0],200)
+        self.assertEqual(image.getpixel((px(15,300),px(20.5,300))),(18,52,86))
+
     def test_landscape_swaps(self):
         req = base_request(page={"size": "A5", "dpi": 150, "bleed_mm": 0, "crop_marks": False, "orientation": "landscape"})
         img = server.render_page(req)
