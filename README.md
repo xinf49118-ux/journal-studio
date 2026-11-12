@@ -1,5 +1,7 @@
 # 手账工坊 Journal Studio
 
+**2026-11-12 更新：图案花边与贴纸打印排版。** 可裁取图案局部、调整白边阴影，生成连续花边／四周边框／花环，并按毫米尺寸复制成贴纸打印页。[使用说明](docs/CRAFT-LAYOUT-2026-11-12.md) · [打开工坊](https://xinf49118-ux.github.io/journal-studio/?tab=editor)。
+
 **2026-11-12 更新：印章与贴纸小工坊。** 新增36枚原创文字章、36张生活贴纸，支持自制日期文字章、墨色与缺墨、轻微重影、白边阴影、半透明叠贴和和纸感。[查看素材与品牌参考](https://xinf49118-ux.github.io/journal-studio/docs/craft-guide.html) · [进入小工坊](https://xinf49118-ux.github.io/journal-studio/?tab=editor) · [说明与验证](docs/CRAFT-2026-11-12.md)。
 
 **2026-11-12 更新：25种自由设计结构积木。** 新增圆盘时间轴、环形习惯追踪、年度像素、甘特、四象限、看板、滚动周、合并表格等14种结构，支持独立填色、读取参数重新生成、拆开重组和个人模块复用。[浏览25种结构示例](https://xinf49118-ux.github.io/journal-studio/docs/structures.html) · [从圆盘开始](https://xinf49118-ux.github.io/journal-studio/?tab=editor&element=radial) · [使用说明与验证](docs/STRUCTURES-2026-11-12.md)。从空白拖画线条、精确摆放和多选组合继续可用。[基础自由设计说明](docs/DESIGNER-2026-11-12.md)。

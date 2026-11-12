@@ -264,9 +264,36 @@
           <button id="craft-preview-stamp" class="btn ghost block mt6">预览自制印章</button>
           <label>选中图片的效果<select id="craft-effect" class="input"><option value="paper">纸质贴纸 · 白边与阴影</option><option value="pet">透明贴纸 · 半透明叠贴</option><option value="washi">和纸感 · 柔和透底</option><option value="stamp">印章感 · 换印泥与缺墨</option></select></label>
           <label class="check"><input id="craft-white" type="checkbox">去除与外边连通的白底</label>
+          <details><summary>裁切、白边与阴影</summary>
+            <p class="muted small">按原图百分比裁切，先调范围再预览。只影响选中图片的效果与图案花边。</p>
+            <label>裁切左侧 %<input id="craft-crop-x" class="input" type="number" min="0" max="99" value="0"></label>
+            <label>裁切顶部 %<input id="craft-crop-y" class="input" type="number" min="0" max="99" value="0"></label>
+            <label>裁切宽度 %<input id="craft-crop-w" class="input" type="number" min="1" max="100" value="100"></label>
+            <label>裁切高度 %<input id="craft-crop-h" class="input" type="number" min="1" max="100" value="100"></label>
+            <label>白边宽度 mm<input id="craft-outline" class="input" type="number" min="0" max="3" step="0.1" value="0.6"></label>
+            <label>阴影深浅<input id="craft-shadow" class="input" type="range" min="0" max="1" step="0.05" value="0.25"></label>
+          </details>
+          <details><summary>图案印章、连续花边</summary>
+            <p class="muted small">先选一件图案素材，可裁取局部，再重复排列成自己的花边或边框。</p>
+            <label>形式<select id="craft-pattern-layout" class="input"><option value="strip">连续花边</option><option value="frame">四周边框</option><option value="wreath">环形花环</option></select></label>
+            <label>整体宽度 mm<input id="craft-pattern-size" class="input" type="number" min="20" max="100" value="80"></label>
+            <label>重复数量<input id="craft-pattern-count" class="input" type="number" min="2" max="48" value="12"></label>
+            <label>单个图案旋转 °<input id="craft-pattern-rotation" class="input" type="number" min="-180" max="180" value="0"></label>
+            <label class="check"><input id="craft-pattern-ink" type="checkbox" checked>转成当前印泥颜色（取消则保留原色）</label>
+            <button id="craft-preview-pattern" class="btn ghost block mt6">预览图案花边</button>
+          </details>
           <button id="craft-preview-effect" class="btn ghost block mt6">预览选中图片效果</button>
           <canvas id="craft-preview" width="480" height="300" style="display:block;width:100%;height:auto;margin:10px 0;background:repeating-conic-gradient(#ebe7df 0% 25%,#fff 0% 50%) 0/16px 16px" aria-label="印章贴纸效果预览"></canvas>
           <button id="craft-add" class="btn primary block">应用预览（生成新素材）</button>
+          <details><summary>排成贴纸打印页</summary>
+            <p class="muted small">先建空白页、选好纸张、加入一件素材。此操作在当前页替换选中图层，其他内容保留，可撤销。复制后均为正向排列。</p>
+            <label>单张宽度 mm<input id="craft-sheet-width" class="input" type="number" min="2" max="200" value="30"></label>
+            <label>张数<input id="craft-sheet-count" class="input" type="number" min="1" max="100" value="12"></label>
+            <label>页边距 mm<input id="craft-sheet-margin" class="input" type="number" min="0" max="50" value="10"></label>
+            <label>间距 mm<input id="craft-sheet-gap" class="input" type="number" min="0" max="30" value="4"></label>
+            <label class="check"><input id="craft-sheet-cut" type="checkbox">添加矩形剪裁参考线</label>
+            <button id="craft-sheet" class="btn ghost block mt6">在当前纸张复制排布</button>
+          </details>
           <p class="muted small">图片效果会替换画布上的选中图层，可撤销，原素材保留。重叠印章使用正片叠底；半透明与白边可随作品备份和导出。金属、凹凸、绒面等真实触感无法由打印还原。</p>
         </div>
         <div class="side-block design-panel">
