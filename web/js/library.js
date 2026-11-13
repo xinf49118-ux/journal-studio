@@ -16,8 +16,8 @@ export async function loadMaterials() {
     const select = $('#collection-filter');
     if (select) { select.replaceChildren(el('option', {value:'',text:'全部主题'}));
       for (const c of data.collections || []) select.append(el('option',{value:c.id,text:`${c.name} · ${c.count}件`})); }
-    const requested=new URLSearchParams(location.search).get('sticker'),item=data.items?.find(m=>m.id===requested&&m.cat==='sticker');
-    if(item){view.source='builtin';view.cat='sticker';view.usage='stickers';view.q=item.name;$('#mat-search').value=item.name;$('#usage-filter').value='stickers';}
+    const params=new URLSearchParams(location.search),requested=params.get('material')||params.get('sticker'),item=data.items?.find(m=>m.id===requested&&(['sticker','stamp'].includes(m.cat)));
+    if(item){view.source='builtin';view.cat=item.cat;view.usage=item.cat==='sticker'?'stickers':'';view.q=item.name;$('#mat-search').value=item.name;$('#usage-filter').value=view.usage;}
     emit('materials');
     renderCatList();
     renderGrid();

@@ -1,0 +1,17 @@
+{
+  "mode": "built-in imagegen",
+  "prompts": [
+    {
+      "id": "calm",
+      "prompt": "Create one original planner sticker illustration: an airy miniature desk vignette, pale paper planner with blank pages, small teal task cards, cobalt pencil, clear glass of water, a gentle sunbeam represented by sparse geometric marks. Contemporary editorial gouache and fine pencil, sophisticated simple forms, balanced asymmetrical composition, quiet teal, cobalt, cream palette. Single cohesive cutout scene, centered with ample transparent margin. No writing, no logos, no border, no background rectangle. Actual transparent background. Intended for a printable personal journal; clean silhouette and crisp details at small size. Original composition, no branded characters."
+    },
+    {
+      "id": "collect",
+      "prompt": "Create one original planner sticker illustration: a small travel specimen gathering, folded blank route paper tied with thread, a fern frond and delicate seed head, smooth pebble and a tiny amber field bottle. An intimate unified still life, airy botanical gouache with fine ink detail, muted olive, clay, warm cream and charcoal. One cohesive cutout scene centered with generous transparent margin. No lettering, no logo, no brand character, no white rectangle or environment background. Actual transparent background; crisp shapes suitable for a printable journal sticker."
+    },
+    {
+      "id": "home",
+      "prompt": "Create one original planner sticker illustration: a quiet cozy reading nook, low sage armchair with a casually folded terracotta blanket, a small side table carrying a tea cup, a slender warm reading lamp and a sleeping curled cream cat at the foot. A single compact unified scene, warm contemporary gouache with delicate pencil texture, pale terracotta, sage, oat and dark cocoa, airy and restrained, charming without a face mascot. Centered cutout with generous transparent margin, no room/background rectangle, no words or logos, no branded characters. Actual transparent background; crisp silhouette for printing a journal sticker."
+    }
+  ]
+}

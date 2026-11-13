@@ -1,3 +1,4 @@
+import {atelierThemes} from './atelier.js';
 import {initDiy} from './diy-ui.js';
 import {state,serializeProject,loadProject,emit,libraryUrl} from './core.js';
 import {api,downloadBlob} from './api.js';
@@ -113,7 +114,8 @@ function initPlanner() {
   $('#planner-month').disabled=o.undated;$('#planner-date').disabled=o.undated;$('#planner-year').disabled=o.undated;
   $('#planner-date-label').textContent=layout.period==='week'?'起始周中的任意一天':'记录日期';
   apply.disabled=true;preview.hidden=true;status.textContent='正在排好这一页…';
-  $('#planner-description').textContent=layout.subtitle;
+  $('#planner-themes').hidden=!!layout.atelier;
+  $('#planner-description').textContent=layout.subtitle+(layout.atelier?' · 使用系列专属配色，应用后可逐层改色':'');
   const companion=$('#planner-companion');companion.hidden=!layout.companion;
   companion.onclick=()=>choose(layout.companion);
   try {
@@ -121,7 +123,7 @@ function initPlanner() {
    const blob=await renderToPngBlob({...p,page:{...p.page,dpi:100}});
    if(ticket!==revision)return;
    const url=URL.createObjectURL(blob);if(previewUrl)URL.revokeObjectURL(previewUrl);previewUrl=url;
-   preview.src=url;preview.hidden=false;preview.alt=`${templates.find(t=>t.id===theme).name} · ${plannerLayouts.find(l=>l.id===o.layout).name}内页预览`;
+   preview.src=url;preview.hidden=false;preview.alt=`${atelierThemes.find(t=>t.id===layout.atelier)?.name??templates.find(t=>t.id===theme).name} · ${layout.name}内页预览`;
    status.textContent=`${o.size} · 等比适配 · 文字与格线可编辑，小尺寸建议先试印`; apply.disabled=working;
   } catch(e) {if(ticket===revision){status.textContent=e.message;apply.disabled=true;}}
  }
@@ -138,7 +140,7 @@ function initPlanner() {
   await protectDraft();loadProject(project);
   const layout=plannerLayouts.find(l=>l.id===o.layout);
   const suffix=layout.period==='none'?'':o.undated?' · 无日期':' · '+({month:o.month,year:o.year,day:o.date,week:o.date}[layout.period]);
-  $('#work-name').value=`${templates.find(t=>t.id===o.theme).name} · ${layout.name}${suffix}`;
+  $('#work-name').value=`${atelierThemes.find(t=>t.id===layout.atelier)?.name??templates.find(t=>t.id===o.theme).name} · ${layout.name}${suffix}`;
   activeWork=null;emit('changed');await renderWorks();document.querySelector('[data-tab="editor"]').click();
   ok('内页已创建，可以改字、添加贴纸或导出打印');
  }).finally(()=>{apply.disabled=preview.hidden;});

@@ -30,6 +30,7 @@ import {craftChecks} from './craft_browser_checks.mjs';
 import {craftLayoutChecks} from './craft_layout_browser_checks.mjs';
 import {planningChecks} from './planning_browser_checks.mjs';
 import {stickerChecks} from './stickers_browser_checks.mjs';
+import {atelierChecks} from './atelier_browser_checks.mjs';
 import {brandOriginalChecks} from './brand_original_browser_checks.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -37,7 +38,7 @@ const ROOT = join(HERE, '..');
 const ART = join(HERE, '_artifacts');
 const positional = process.argv.slice(2).filter(a=>!a.startsWith('--'));
 const argUrl = positional[0] && positional[0].startsWith('http') ? positional[0].replace(/\/$/, '') : null;
-const STATIC_PORT = Number(argUrl ? 0 : (positional[0] || 8770));
+const STATIC_PORT = Number(argUrl ? 0 : (positional[0] || 9070));
 const PY_BASE = positional[1] || 'http://127.0.0.1:8765';
 const CDP_PORT = 9355;
 const PY = 'C:\\Users\\AT1556\\.dsh\\dsh-runtimes\\dsh-primary-runtime\\dependencies\\python\\python.exe';
@@ -143,7 +144,7 @@ async function main() {
       return JSON.stringify({ items: core.state.materials.items.length, cats: core.state.materials.categories.length });
     })()`);
     const mi = JSON.parse(mat);
-    check('素材清单加载成功', mi.items === 877, `${mi.items} 件 / ${mi.cats} 类`);
+    check('素材清单加载成功', mi.items === 907, `${mi.items} 件 / ${mi.cats} 类`);
     const grid = await cdp.eval(`(async () => {
       // 等第一张缩略图真的加载出来（慢网络下要给足时间）
       const t0 = Date.now();
@@ -170,7 +171,8 @@ async function main() {
     check('网格加载的是缩略图而不是原图', gi.allThumbs === true,
       gi.allThumbs ? `全部走 /thumbs/（已排队 ${gi.withSrc} 张）` : `混进了原图：${gi.offenders.join(', ')}`);
 
-    if(process.argv.includes('--craft-layout-only'))await craftLayoutChecks(cdp,check,ART);
+    if(process.argv.includes('--atelier-only'))await atelierChecks(cdp,check,ART);
+    else if(process.argv.includes('--craft-layout-only'))await craftLayoutChecks(cdp,check,ART);
     else if(process.argv.includes('--craft-only'))await craftChecks(cdp,check,ART);
     else if(process.argv.includes('--brand-only'))await brandOriginalChecks(cdp,check,ART);
     else if(process.argv.includes('--stickers-only'))await stickerChecks(cdp,check,ART);
