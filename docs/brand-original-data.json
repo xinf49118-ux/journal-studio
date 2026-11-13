@@ -1,0 +1,96 @@
+{
+  "checked": "2026-11-13",
+  "personal_download_sheets_verified": 3,
+  "publicly_bundled_brand_artwork": 0,
+  "included_original_stamp_files": 0,
+  "entries": [
+    {
+      "brand": "KING JIM / HITOTOKI",
+      "name": "设计纸①",
+      "kind": "剪贴设计纸",
+      "status": "个人下载已核实",
+      "source": "https://www.kingjim.co.jp/download/other/hitotoki/",
+      "note": "官方A4设计纸，可用标签纸打印；限个人使用，禁止擅自转载。"
+    },
+    {
+      "brand": "KING JIM / HITOTOKI",
+      "name": "设计纸②",
+      "kind": "剪贴设计纸",
+      "status": "个人下载已核实",
+      "source": "https://www.kingjim.co.jp/download/other/hitotoki/",
+      "note": "官方A4设计纸，搭配KITTA使用；不是KITTA全部商品图案。"
+    },
+    {
+      "brand": "KING JIM / KITTA",
+      "name": "moogy×KITTA",
+      "kind": "剪贴设计纸",
+      "status": "个人下载已核实",
+      "source": "https://www.kingjim.co.jp/download/other/kitta/",
+      "note": "官方提供手账剪贴的PDF文件；内容是联名特别下载设计，不代表当前所有在售款。"
+    },
+    {
+      "brand": "MIDORI",
+      "name": "贴纸与印章",
+      "kind": "贴纸／印章",
+      "status": "未确认原版电子文件",
+      "source": "https://www.midori-store.net/SHOP/183572/list.html",
+      "note": "已核对官方实物印章目录，尚未取得可导入的原版电子印面。"
+    },
+    {
+      "brand": "BGM",
+      "name": "贴纸、胶带、透明印章",
+      "kind": "贴纸／印章",
+      "status": "未确认原版电子文件",
+      "source": "https://www.bgmlife.jp/products/",
+      "note": "官网有碎片贴、透明贴和透明印章等分类，商品展示未计为已加入素材。"
+    },
+    {
+      "brand": "Mind Wave",
+      "name": "角色与主题贴纸",
+      "kind": "贴纸",
+      "status": "未确认原版电子文件",
+      "source": "https://www.mindwave-store.com/c/all/seal",
+      "note": "官方贴纸目录；未把角色商品图片作为可下载贴纸包。"
+    },
+    {
+      "brand": "KODOMO NO KAO",
+      "name": "手账用印章",
+      "kind": "印章",
+      "status": "未确认原版电子文件",
+      "source": "https://www.kodomonokao.com/",
+      "note": "已核对品牌与官方商店介绍；未取得原版印面下载文件。"
+    },
+    {
+      "brand": "Shachihata",
+      "name": "装饰印章与印台",
+      "kind": "印章",
+      "status": "未确认原版电子文件",
+      "source": "https://www.shachihata.jp/products/list.php?category_id=11480",
+      "note": "已核对官方商品入口；数字集章服务不等同可导出的手账印章图。"
+    },
+    {
+      "brand": "bande",
+      "name": "逐枚剥取卷装贴纸",
+      "kind": "贴纸",
+      "status": "未确认原版电子文件",
+      "source": "https://bande.ne.jp/?mode=f3",
+      "note": "官方目录有花、动物、食物、人物等；未取得整套电子贴纸。"
+    },
+    {
+      "brand": "古川纸工",
+      "name": "和纸碎片贴纸",
+      "kind": "贴纸",
+      "status": "未确认原版电子文件",
+      "source": "https://www.furukawashiko-online.shop/c/furukawa-product/item-fp/flakesticker-fp",
+      "note": "已核对官方碎片贴纸目录，未取得原版电子图案包。"
+    },
+    {
+      "brand": "mt / KAMOI",
+      "name": "纸胶带",
+      "kind": "胶带",
+      "status": "本轮连接超时",
+      "source": "https://shop.masking-tape.jp/",
+      "note": "保留此前官方入口，本轮页面连接超时，不推定电子素材可取得。"
+    }
+  ]
+}
