@@ -1,9 +1,60 @@
 {
   "checked": "2026-11-13",
-  "personal_download_sheets_verified": 3,
+  "personal_download_sheets_verified": 5,
+  "official_stamp_pattern_files_verified": 6,
+  "private_stamp_regions_prepared": 26,
+  "personal_assets_available": 31,
   "publicly_bundled_brand_artwork": 0,
-  "included_original_stamp_files": 0,
+  "retail_digital_stamp_packs_verified": 0,
   "entries": [
+    {
+      "brand": "Shachihata / miyako",
+      "name": "银莲花与生日文字模板",
+      "kind": "官方合作雕章图案",
+      "status": "个人下载已核实",
+      "source": "https://www.shachihata.jp/media/article/craft0047/",
+      "note": "miyako创作，Shachihata官方发布PDF，限个人使用；不是零售套章的数码包。"
+    },
+    {
+      "brand": "Shachihata / miyako",
+      "name": "山茶花与信封模板",
+      "kind": "官方合作雕章图案",
+      "status": "个人下载已核实",
+      "source": "https://www.shachihata.jp/media/article/craft0046/",
+      "note": "miyako创作，Shachihata官方发布PDF，限个人使用；不是零售套章的数码包。"
+    },
+    {
+      "brand": "Shachihata / miyako",
+      "name": "花叶与礼盒模板",
+      "kind": "官方合作雕章图案",
+      "status": "个人下载已核实",
+      "source": "https://www.shachihata.jp/media/article/craft0045/",
+      "note": "miyako创作，Shachihata官方发布PDF，限个人使用；不是零售套章的数码包。"
+    },
+    {
+      "brand": "Shachihata / miyako",
+      "name": "几何圆形图案",
+      "kind": "官方合作雕章图案",
+      "status": "个人下载已核实",
+      "source": "https://www.shachihata.jp/media/article/craft0043/",
+      "note": "miyako创作，Shachihata官方发布PDF，限个人使用；不是零售套章的数码包。"
+    },
+    {
+      "brand": "Shachihata / TAM’S WORKS",
+      "name": "花叶围边图案",
+      "kind": "官方合作雕章图案",
+      "status": "个人下载已核实",
+      "source": "https://www.shachihata.jp/media/article/craft0020/",
+      "note": "TAM’S WORKS创作，Shachihata官方发布PDF，限个人使用；不是零售套章的数码包。"
+    },
+    {
+      "brand": "Shachihata / TAM’S WORKS",
+      "name": "文字雕章图案",
+      "kind": "官方合作雕章图案",
+      "status": "个人下载已核实",
+      "source": "https://www.shachihata.jp/media/article/craft0014/",
+      "note": "TAM’S WORKS创作，Shachihata官方发布PDF，限个人使用；不是零售套章的数码包。"
+    },
     {
       "brand": "KING JIM / HITOTOKI",
       "name": "设计纸①",
@@ -27,6 +78,22 @@
       "status": "个人下载已核实",
       "source": "https://www.kingjim.co.jp/download/other/kitta/",
       "note": "官方提供手账剪贴的PDF文件；内容是联名特别下载设计，不代表当前所有在售款。"
+    },
+    {
+      "brand": "KING JIM / HITOTOKI",
+      "name": "日期剪贴纸①",
+      "kind": "日期贴纸",
+      "status": "个人下载已核实",
+      "source": "https://www.kingjim.co.jp/download/other/hitotokinote/",
+      "note": "官方原版日期纸，已实际下载并核对。"
+    },
+    {
+      "brand": "KING JIM / HITOTOKI",
+      "name": "日期剪贴纸②",
+      "kind": "日期贴纸",
+      "status": "个人下载已核实",
+      "source": "https://www.kingjim.co.jp/download/other/hitotokinote/",
+      "note": "官方原版日期纸，已实际下载并核对。"
     },
     {
       "brand": "MIDORI",
@@ -59,14 +126,6 @@
       "status": "未确认原版电子文件",
       "source": "https://www.kodomonokao.com/",
       "note": "已核对品牌与官方商店介绍；未取得原版印面下载文件。"
-    },
-    {
-      "brand": "Shachihata",
-      "name": "装饰印章与印台",
-      "kind": "印章",
-      "status": "未确认原版电子文件",
-      "source": "https://www.shachihata.jp/products/list.php?category_id=11480",
-      "note": "已核对官方商品入口；数字集章服务不等同可导出的手账印章图。"
     },
     {
       "brand": "bande",
